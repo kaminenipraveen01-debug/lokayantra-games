@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 1. Brand Identity & Color Palette (CrazyGames Engine) */
+:root {
+  --bg-main: #1e222b;         /* 👈 పాత #05060b కి బదులుగా ప్రీమియం స్టీల్ గ్రే */
+  --bg-card: #0c0e17;         /* ప్రీమియం కార్డ్స్ */
+  --bg-card-hover: #141727;   /* హూవర్ కార్డ్స్ */
+  --accent-primary: #ff003c;  /* నియాన్ రెడ్ (Play/Hot) */
+  --accent-secondary: #00f0ff;/* నియాన్ సయాన్ (New/Trending) */
+  --accent-gold: #ffb800;     /* రేటింగ్ స్టార్స్ */
+  
+  /* Text Hierarchy */
+  --text-main: #ffffff;
+  --text-muted: #8e94a6;
+  --text-dark: #434756;
+  
+  /* Spacing System (8px Grid) */
+  --r-card: 12px;
+  --r-btn: 8px;
+}
+
+html, body {
+  background-color: var(--bg-main) !important; /* Forcefully applying background */
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 18. Micro-Interactions & Hidden Professional Details */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, #cc0030 100%);
+  box-shadow: 0 4px 15px rgba(255, 0, 60, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255, 0, 60, 0.5);
+}
+.btn-primary:active {
+  transform: scale(0.96); /* Button Press Effect */
+}
+
+/* Glassmorphic Sticky Header */
+.crazy-header {
+  background: rgba(30, 34, 43, 0.75) !important; /* Header background synced with gray */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Badges Glow */
+.badge-hot {
+  background: var(--accent-primary);
+  box-shadow: 0 0 10px var(--accent-primary);
+}
+.badge-new {
+  background: var(--accent-secondary);
+  box-shadow: 0 0 10px var(--accent-secondary);
+}
+
+/* Custom Lean Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--text-dark);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+/* globals.css లో ఈ కింది keyframe add చేయండి */
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}

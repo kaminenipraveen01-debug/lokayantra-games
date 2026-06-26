@@ -1,0 +1,109 @@
+name: Deploy Games
+
+# Place this file at .github/workflows/deploy-games.yml
+# inside the `lokayantra-games` repository (NOT the Next.js app repo).
+#
+# Flow:
+# 1. Admin panel pushes a zip to uploads/{slug}.zip on `main`.
+# 2. This workflow extracts it into games/{slug}/, removes the zip,
+#    commits the extracted files back to `main`, then deploys the
+#    repo to GitHub Pages.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "uploads/*.zip"
+      - "games/**"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  extract-and-commit:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.extract.outputs.changed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract zips into games/{slug}/
+        id: extract
+        run: |
+          set -e
+          mkdir -p games
+          changed=false
+
+          for zip in uploads/*.zip; do
+            [ -e "$zip" ] || continue
+
+            slug=$(basename "$zip" .zip)
+            target="games/$slug"
+
+            echo "Extracting $zip -> $target"
+            rm -rf "$target"
+            mkdir -p "$target"
+
+            # Unzip, stripping a single wrapper folder if the zip
+            # contains one (handles "myGame/index.html" layouts).
+            tmpdir=$(mktemp -d)
+            unzip -q "$zip" -d "$tmpdir"
+
+            entries=$(find "$tmpdir" -mindepth 1 -maxdepth 1)
+            entry_count=$(echo "$entries" | wc -l)
+
+            if [ "$entry_count" -eq 1 ] && [ -d "$(echo "$entries")" ]; then
+              # Single top-level folder — flatten it
+              cp -r "$(echo "$entries")"/. "$target"/
+            else
+              cp -r "$tmpdir"/. "$target"/
+            fi
+
+            rm -rf "$tmpdir"
+            rm -f "$zip"
+            changed=true
+          done
+
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
+
+      - name: Commit extracted games
+        if: steps.extract.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add games uploads
+          git commit -m "Extract uploaded game(s) [skip ci]" || echo "Nothing to commit"
+          git push
+
+  deploy:
+    needs: extract-and-commit
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout (latest, post-extract)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
