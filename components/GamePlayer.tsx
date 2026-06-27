@@ -12,26 +12,23 @@ interface GameData {
   category?: string;
   thumbnail?: string;
   slug?: string;
-  gameUrl?: string;     // Manasontivi (zip/html)
-  embedUrl?: string;    // External games (itch.io/github pages)
+  gameUrl?: string;     
+  embedUrl?: string;    
   likes?: number;
   dislikes?: number;
   youtubeEmbedUrl?: string;
+  rotate?: boolean;     
 }
 
 export default function GamePlayer({ game }: { game: GameData }) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null); // fullscreen target (chrome bar + iframe box)
+  const stageRef = useRef<HTMLDivElement>(null); 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Logic: embedUrl unte adi, lekapothe gameUrl.
   const finalGameUrl = game.embedUrl || game.gameUrl;
 
   // ── CONTINUE PLAYING TRACKING ──
-  // User "PLAY NOW" nokkina prathi sari, ee game ni localStorage
-  // recently-played list lo top ki teskuntam. Home page "Continue
-  // Playing" row idi chadivi chupistundi.
   useEffect(() => {
     if (isPlaying) {
       addRecentlyPlayed({
@@ -42,26 +39,16 @@ export default function GamePlayer({ game }: { game: GameData }) {
         slug: game.slug,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPlaying]);
+  }, [isPlaying, game]);
 
-  // ── FULLSCREEN + AUTO-ROTATE (mobile-first, Poki-style) ──
-  // Fullscreen lo unnappudu, mobile lo automatic ga landscape ki
-  // rotate avvataniki try chestam (screen.orientation.lock).
-  // Browser/device support cheyakapothe silent ga fail avtundi, app break avvadu.
+  // ── FULLSCREEN + CONDITION-BASED AUTO-ROTATE ──
   useEffect(() => {
     function handleFullscreenChange() {
       const active = !!document.fullscreenElement;
       setIsFullscreen(active);
 
-      if (active) {
-        const orientation = (screen as any)?.orientation;
-        if (orientation?.lock) {
-          orientation.lock("landscape").catch(() => {
-            // Desktop/unsupported devices lo fail avvachu, pattinchukovaddu
-          });
-        }
-      } else {
+      if (!active) {
+        setIsPlaying(false);
         const orientation = (screen as any)?.orientation;
         if (orientation?.unlock) {
           try {
@@ -70,37 +57,34 @@ export default function GamePlayer({ game }: { game: GameData }) {
             // ignore
           }
         }
+      } else {
+        if (game.rotate) {
+          const orientation = (screen as any)?.orientation;
+          if (orientation?.lock) {
+            orientation.lock("landscape").catch(() => {});
+          }
+        }
       }
     }
 
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
-  }, []);
+  }, [game.rotate]);
 
   const isMobileViewport = () =>
     typeof window !== "undefined" && window.matchMedia("(max-width: 1024px)").matches;
 
-  // ── PLAY BUTTON CLICK ──
-  // Mobile lo: click cheyyagane game start avvadame kakunda, immediate ga
-  // fullscreen + landscape rotate kuda trigger avtundi (Poki/CrazyGames laga).
-  // Desktop lo: normal ga inline player start avtundi, fullscreen vaaru
-  // chrome-bar expand (⛶) button tho manual ga teskovachu.
   const handlePlayClick = () => {
     setIsPlaying(true);
     if (isMobileViewport() && stageRef.current) {
-      // User gesture (click) లోపలే call cheyyali, fullscreen API ki idi avasaram
-      stageRef.current.requestFullscreen?.().catch(() => {
-        // Fullscreen blocked ayyina, game ఇంకా normal inline view lo play avtundi
-      });
+      stageRef.current.requestFullscreen?.().catch(() => {});
     }
   };
 
   const toggleFullscreen = () => {
     if (!stageRef.current) return;
     if (!document.fullscreenElement) {
-      stageRef.current.requestFullscreen?.().catch(() => {
-        // Fullscreen blocked (rare) — game ఇంకా normal view lo work avtune untundi
-      });
+      stageRef.current.requestFullscreen?.().catch(() => {});
     } else {
       document.exitFullscreen?.().catch(() => {});
     }
@@ -130,14 +114,13 @@ export default function GamePlayer({ game }: { game: GameData }) {
         )}
       </div>
 
-      {/* GAME STAGE — fullscreen target */}
+      {/* GAME STAGE */}
       <div
         ref={stageRef}
         className={`relative w-full rounded-[20px] overflow-hidden bg-neutral-950 border border-black/20 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.4)] ${
           isFullscreen ? "h-screen rounded-none border-0" : ""
         }`}
       >
-        {/* Browser chrome bar — fullscreen lo hide chestam, full game screen kosam */}
         {!isFullscreen && (
           <div className="flex items-center gap-2.5 px-4 py-2.5 bg-[#1a1a1a] border-b border-white/5">
             <div className="flex items-center gap-1.5">
@@ -153,7 +136,6 @@ export default function GamePlayer({ game }: { game: GameData }) {
               <span className="text-[9px] text-white/25 font-mono truncate">lokayantra.com/games/{game.id}</span>
             </div>
 
-            {/* Expand / Fullscreen button — desktop kosam manual control */}
             {isPlaying && (
               <button
                 onClick={toggleFullscreen}
@@ -175,12 +157,12 @@ export default function GamePlayer({ game }: { game: GameData }) {
               : "relative w-full aspect-video max-h-[calc(100vh-220px)] bg-neutral-900"
           }
         >
-          {/* PANDA BACK BUTTON — fullscreen lో matrame kanipistundi, click chesthe normal view ki vastundi */}
+          {/* PANDA BACK BUTTON — అన్ని గేమ్‌లకూ ఫుల్ స్క్రీన్‌లో కుడి వైపు పై మూలన కనిపిస్తుంది */}
           {isFullscreen && (
             <button
               onClick={exitFullscreen}
               title="Exit Fullscreen"
-              className="absolute top-3 left-3 z-50 w-11 h-11 rounded-full bg-[#f0f0f0] border border-black/10 shadow-lg flex items-center justify-center active:scale-90 transition-transform"
+              className="fixed top-4 right-4 z-50 w-11 h-11 rounded-full bg-[#f0f0f0] border border-black/10 shadow-lg flex items-center justify-center active:scale-90 transition-transform"
             >
               <svg viewBox="0 0 100 100" className="w-8 h-8" fill="none">
                 <circle cx="50" cy="55" r="36" fill="#000000" />
@@ -216,11 +198,6 @@ export default function GamePlayer({ game }: { game: GameData }) {
                 className="absolute inset-0 w-full h-full border-0 bg-neutral-900"
                 allow="fullscreen; gamepad; autoplay; keyboard-images"
                 scrolling="no"
-                // Ee sandbox settings ni konchem tagginchi chudu oka vela load avvakapothe
-                // "allow-popups" thీసేశా — third-party game iframes lo deceptive popup/redirect
-                // ads వస్తే అది AdSense policy violation అవ్వొచ్చు. Konni legit games popup
-                // (e.g. leaderboard window) వాడితే అవి pనిచేయకపోవచ్చు, kani majority games ki
-                // ee restriction safe.
                 sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-forms allow-presentation"
               />
             ) : (
