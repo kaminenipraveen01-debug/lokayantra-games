@@ -1,24 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 1. క్లౌడినరీ మరియు ఫైర్‌బేస్ ఇమేజ్ హోస్టింగ్ పర్మిషన్లు
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.firebaseimg.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.firebaseusercontent.com',
-      },
+      { protocol: 'https', hostname: 'res.cloudinary.com' },
+      { protocol: 'https', hostname: '*.firebaseimg.com' },
+      { protocol: 'https', hostname: '*.firebaseusercontent.com' },
+      { protocol: 'https', hostname: 'img.gamepix.com' },
+      { protocol: 'https', hostname: 'images.gamepix.com' },
     ],
   },
 
-  // 2. ఫైర్‌బేస్ అథెంటికేషన్ క్రాష్ అవ్వకుండా CSP ని అడ్జస్ట్ చేశాం
   async headers() {
     const cspHeader = `
       default-src 'self';
@@ -40,7 +31,9 @@ const nextConfig = {
         https://*.firebaseimg.com 
         https://*.firebaseusercontent.com 
         https://*.disquscdn.com 
-        https://pagead2.googlesyndication.com;
+        https://pagead2.googlesyndication.com
+        https://img.gamepix.com
+        https://images.gamepix.com;
         
       frame-src 'self' blob: data: https: 
         https://*.firebaseapp.com 
@@ -73,24 +66,18 @@ const nextConfig = {
       {
         source: '/(.*)',
         headers: [
-          // Content Security Policy (CSP)
           {
             key: 'Content-Security-Policy',
             value: cspHeader,
           },
-          // క్లిక్‌జాకింగ్ ప్రొటెక్షన్ (ఫైర్‌బేస్ అథెంటికేషన్ ఐఫ్రేమ్స్ పని చేయడానికి దీన్ని కామెంట్ చేయడమే బెస్ట్)
-          // { key: 'X-Frame-Options', value: 'DENY' },
-          // బ్రౌజర్ XSS ప్రొటెక్షన్
           {
             key: 'X-XSS-Protection',
             value: '1; mode=block',
           },
-          // MIME-Type స్నిఫింగ్ ప్రొటెక్షన్
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
           },
-          // సెక్యూర్ రెఫరర్ పాలసీ
           {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',

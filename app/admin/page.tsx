@@ -2,12 +2,113 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/lib/auth-context";
-import { adminFetch } from "@/lib/admin-fetch";
+import { adminFetch, adminPostJSON } from "@/lib/admin-fetch";
 import { Game } from "@/types/game";
+
+interface ImportResult {
+  ok: boolean;
+  imported: number;
+  skipped: number;
+  total: number;
+  errors: string[];
+}
+
+function GamePixImport() {
+  const [feedUrl, setFeedUrl] = useState(
+    "https://feeds.gamepix.com/v2/json/?sid=A3ALT&pagination=12&page=1"
+  );
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<ImportResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleImport = async () => {
+    if (!feedUrl.trim()) return;
+    setLoading(true);
+    setResult(null);
+    setError(null);
+
+    try {
+      const data = await adminPostJSON<ImportResult>(
+        "/api/admin/import-gamepix",
+        { feedUrl: feedUrl.trim() }
+      );
+      setResult(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Import failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-8 p-5 rounded-xl border border-[var(--b)] bg-[var(--bg2)] space-y-4 max-w-xl">
+      <h2 className="text-lg font-semibold">Import Games from GamePix</h2>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">GamePix RSS Feed URL</label>
+        <input
+          type="text"
+          value={feedUrl}
+          onChange={(e) => setFeedUrl(e.target.value)}
+          disabled={loading}
+          className="w-full px-3 py-2 rounded bg-[var(--bg3)] border border-[var(--b)] text-sm disabled:opacity-60"
+          placeholder="https://feeds.gamepix.com/v2/json/?sid=..."
+        />
+        <p className="text-xs text-[var(--t3)] mt-1">
+          మీ GamePix dashboard లో Games Catalog → RSS Feed URL copy చేసి paste చేయండి.
+        </p>
+      </div>
+
+      <button
+        onClick={handleImport}
+        disabled={loading || !feedUrl.trim()}
+        className="px-4 py-2 bg-[var(--red)] text-white rounded text-sm font-medium disabled:opacity-50 hover:opacity-90 transition"
+      >
+        {loading ? "Importing... (కొంత సేపు పడుతుంది)" : "Import All Games"}
+      </button>
+
+      {loading && (
+        <p className="text-sm text-[var(--t3)] animate-pulse">
+          GamePix నుండి games fetch చేస్తున్నాం, Firestore లో save చేస్తున్నాం...
+        </p>
+      )}
+
+      {error && <p className="text-sm text-[var(--red)]">⚠ {error}</p>}
+
+      {result && (
+        <div className="space-y-2 text-sm">
+          <p className="text-green-400 font-semibold">✓ Import పూర్తైంది!</p>
+          <div className="grid grid-cols-3 gap-3">
+            <div className="p-3 rounded bg-[var(--bg3)] text-center">
+              <p className="text-xl font-bold text-green-400">{result.imported}</p>
+              <p className="text-xs text-[var(--t3)]">Imported</p>
+            </div>
+            <div className="p-3 rounded bg-[var(--bg3)] text-center">
+              <p className="text-xl font-bold text-[var(--t3)]">{result.skipped}</p>
+              <p className="text-xs text-[var(--t3)]">Skipped</p>
+            </div>
+            <div className="p-3 rounded bg-[var(--bg3)] text-center">
+              <p className="text-xl font-bold">{result.total}</p>
+              <p className="text-xs text-[var(--t3)]">Total</p>
+            </div>
+          </div>
+
+          {result.errors.length > 0 && (
+            <div className="p-3 rounded bg-[var(--bg3)] space-y-1">
+              <p className="text-xs font-semibold text-[var(--red)]">కొన్ని games import కాలేదు:</p>
+              {result.errors.map((e, i) => (
+                <p key={i} className="text-xs text-[var(--t3)]">• {e}</p>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
@@ -39,21 +140,22 @@ export default function AdminDashboard() {
   }, [loadGames]);
 
   const handleDelete = async (gameId: string) => {
-    if (!confirm(`Delete "${gameId}" permanently? This removes its Firestore entry and all files from the games repo. This cannot be undone.`)) {
+    if (
+      !confirm(
+        `Delete "${gameId}" permanently? This removes its Firestore entry and all files from the games repo. This cannot be undone.`
+      )
+    )
       return;
-    }
 
     setDeletingId(gameId);
     setError(null);
 
     try {
       const res = await adminFetch(`/api/games/${gameId}`, { method: "DELETE" });
-
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.message ?? `Delete failed (${res.status})`);
       }
-
       setGames((prev) => prev.filter((g) => g.id !== gameId));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to delete game.");
@@ -84,21 +186,20 @@ export default function AdminDashboard() {
         + Upload New Game
       </Link>
 
-      {/* Games list */}
+      <GamePixImport />
+
       <div className="mt-8">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-semibold">
-            All Games {!loading && <span className="text-[var(--t3)] font-normal">({games.length})</span>}
+            All Games{" "}
+            {!loading && (
+              <span className="text-[var(--t3)] font-normal">({games.length})</span>
+            )}
           </h2>
         </div>
 
-        {error && (
-          <p className="text-sm text-[var(--red)] mb-3">⚠ {error}</p>
-        )}
-
-        {loading && (
-          <p className="text-sm text-[var(--t3)]">Loading games...</p>
-        )}
+        {error && <p className="text-sm text-[var(--red)] mb-3">⚠ {error}</p>}
+        {loading && <p className="text-sm text-[var(--t3)]">Loading games...</p>}
 
         {!loading && games.length === 0 && !error && (
           <p className="text-sm text-[var(--t3)]">No games uploaded yet.</p>
@@ -106,7 +207,6 @@ export default function AdminDashboard() {
 
         {!loading && games.length > 0 && (
           <div className="rounded-xl border border-[var(--b)] bg-[var(--bg2)] overflow-hidden">
-            {/* Header row — desktop only */}
             <div className="hidden sm:grid grid-cols-[64px_1fr_140px_110px_110px_150px] gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-[var(--t3)] border-b border-[var(--b)]">
               <span></span>
               <span>Title</span>
@@ -122,24 +222,21 @@ export default function AdminDashboard() {
                   key={game.id}
                   className="grid grid-cols-[64px_1fr] sm:grid-cols-[64px_1fr_140px_110px_110px_150px] gap-3 items-center px-4 py-3"
                 >
-                  {/* Thumbnail */}
-                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-md overflow-hidden bg-[var(--bg3)] flex-shrink-0">
+                  {/* Thumbnail — plain img tag వాడాం, ఏ domain అయినా పని చేస్తుంది */}
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-md overflow-hidden bg-[var(--bg3)] flex-shrink-0">
                     {game.thumbnail ? (
-                      <Image
+                      <img
                         src={game.thumbnail}
                         alt={game.title}
-                        fill
-                        className="object-cover"
-                        sizes="56px"
+                        className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center text-[10px] text-[var(--t3)]">
+                      <div className="w-full h-full flex items-center justify-center text-[10px] text-[var(--t3)]">
                         N/A
                       </div>
                     )}
                   </div>
 
-                  {/* Title + mobile meta */}
                   <div className="min-w-0">
                     <p className="text-sm font-semibold truncate">{game.title || game.id}</p>
                     <p className="text-xs text-[var(--t3)] truncate">{game.id}</p>
@@ -150,24 +247,20 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
-                  {/* Category — desktop */}
                   <div className="hidden sm:block">
                     <span className="px-2 py-0.5 rounded-md bg-[var(--bg3)] text-xs text-[var(--t2)]">
                       {game.category || "Uncategorized"}
                     </span>
                   </div>
 
-                  {/* Plays — desktop */}
                   <div className="hidden sm:block text-sm text-[var(--t2)]">
                     {game.playCount ?? 0}
                   </div>
 
-                  {/* Likes — desktop */}
                   <div className="hidden sm:block text-sm text-[var(--t2)]">
                     {game.likes ?? 0}
                   </div>
 
-                  {/* Actions */}
                   <div className="col-span-2 sm:col-span-1 flex items-center justify-start sm:justify-end gap-2 mt-2 sm:mt-0">
                     <Link
                       href={`/admin/upload?edit=${game.id}`}
