@@ -12,18 +12,27 @@ export async function GET(req: NextRequest) {
   const offset = (page - 1) * limit;
 
   try {
-    let queryRef = adminDb.collection("games").orderBy("playCount", "desc");
+    let snap;
 
     if (category && category !== "all") {
-      queryRef = adminDb
+      // category filter — orderBy లేకుండా
+      snap = await adminDb
         .collection("games")
         .where("category", "==", category)
-        .orderBy("playCount", "desc") as any;
+        .offset(offset)
+        .limit(limit)
+        .get();
+    } else {
+      // all games — playCount order లో
+      snap = await adminDb
+        .collection("games")
+        .orderBy("playCount", "desc")
+        .offset(offset)
+        .limit(limit)
+        .get();
     }
 
-    const snap = await (queryRef as any).offset(offset).limit(limit).get();
-
-    const games = snap.docs.map((d: any) => {
+    const games = snap.docs.map((d) => {
       const data = d.data();
       return {
         id: d.id,
