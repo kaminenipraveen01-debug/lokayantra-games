@@ -2,20 +2,50 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { getRecentlyPlayed, RecentGame } from "@/lib/recentlyPlayed";
+import { getRecentlyPlayed, removeRecentlyPlayed, RecentGame } from "@/lib/recentlyPlayed";
 import { GameSummary } from "@/lib/games-admin";
 
-const finalCategories = [
-  { id: "all", name: "All Games", path: "/" },
-  { id: "action", name: "Action", path: "/action" },
-  { id: "racing", name: "Racing", path: "/racing" },
-  { id: "puzzle", name: "Puzzle", path: "/puzzle" },
-  { id: "brain", name: "Brain", path: "/brain" },
-  { id: "2-player", name: "2 Player", path: "/2-player" },
-  { id: "shooting", name: "Shooting", path: "/shooting" },
-  { id: "sports", name: "Sports", path: "/sports" },
-  { id: "girls", name: "Girls", path: "/girls" },
+const CATEGORIES = [
+  { id: "all", name: "All Games" },
+  { id: "action", name: "Action" },
+  { id: "racing", name: "Racing" },
+  { id: "puzzle", name: "Puzzle" },
+  { id: "brain", name: "Brain" },
+  { id: "2-player", name: "2 Player" },
+  { id: "shooting", name: "Shooting" },
+  { id: "sports", name: "Sports" },
+  { id: "girls", name: "Girls" },
+  { id: "arcade", name: "Arcade" },
+  { id: "adventure", name: "Adventure" },
+  { id: "simulation", name: "Simulation" },
+  { id: "strategy", name: "Strategy" },
+  { id: "match-3", name: "Match 3" },
+  { id: "ball", name: "Ball" },
+  { id: "kids", name: "Kids" },
+  { id: "memory", name: "Memory" },
+  { id: "stickman", name: "Stickman" },
+  { id: "drawing", name: "Drawing" },
+  { id: "battle", name: "Battle" },
+  { id: "2048", name: "2048" },
+  { id: "card", name: "Card" },
+  { id: "clicker", name: "Clicker" },
+  { id: "cooking", name: "Cooking" },
+  { id: "dress-up", name: "Dress Up" },
+  { id: "escape", name: "Escape" },
+  { id: "fighting", name: "Fighting" },
+  { id: "horror", name: "Horror" },
+  { id: "idle", name: "Idle" },
+  { id: "io", name: "IO" },
+  { id: "mahjong", name: "Mahjong" },
+  { id: "merge", name: "Merge" },
+  { id: "minecraft", name: "Minecraft" },
+  { id: "motorbike", name: "Motorbike" },
+  { id: "parkour", name: "Parkour" },
+  { id: "runner", name: "Runner" },
+  { id: "soccer", name: "Soccer" },
+  { id: "tower-defense", name: "Tower Defense" },
+  { id: "typing", name: "Typing" },
+  { id: "word", name: "Word" },
 ];
 
 const pokiGridStyles = [
@@ -36,18 +66,53 @@ interface Props {
 export default function HomepageClient({ initialGames }: Props) {
   const [recentGames, setRecentGames] = useState<RecentGame[]>([]);
   const [games, setGames] = useState<GameSummary[]>(initialGames);
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [loadingMore, setLoadingMore] = useState(false);
+  const [categoryLoading, setCategoryLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(initialGames.length >= 48);
 
   useEffect(() => {
     setRecentGames(getRecentlyPlayed());
   }, []);
 
+  const handleCategoryChange = async (catId: string) => {
+    setSelectedCategory(catId);
+    setPage(1);
+    setHasMore(true);
+    setCategoryLoading(true);
+    setGames([]);
+
+    try {
+      const url = catId === "all"
+        ? `/api/games?page=1&limit=48`
+        : `/api/games?page=1&limit=48&category=${catId}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      setGames(data.games ?? []);
+      setHasMore((data.games ?? []).length >= 48);
+    } catch {
+      setGames([]);
+    } finally {
+      setCategoryLoading(false);
+    }
+  };
+
+  const handleRemoveRecent = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    removeRecentlyPlayed(id);
+    setRecentGames(getRecentlyPlayed());
+  };
+
   const loadMore = async () => {
+    if (loadingMore) return;
     setLoadingMore(true);
     try {
-      const res = await fetch(`/api/games?page=${page + 1}&limit=48`);
+      const url = selectedCategory === "all"
+        ? `/api/games?page=${page + 1}&limit=48`
+        : `/api/games?page=${page + 1}&limit=48&category=${selectedCategory}`;
+      const res = await fetch(url);
       const data = await res.json();
       if (data.games?.length > 0) {
         setGames((prev) => [...prev, ...data.games]);
@@ -66,7 +131,7 @@ export default function HomepageClient({ initialGames }: Props) {
   return (
     <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
 
-      {/* BLACK BUBBLES BACKGROUND */}
+      {/* BLACK BUBBLES */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-black/95" />
         <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-black/90" />
@@ -90,22 +155,22 @@ export default function HomepageClient({ initialGames }: Props) {
 
       {/* CATEGORIES */}
       <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-[105px] sm:mt-[115px] relative z-10">
-        <div className="flex flex-nowrap sm:flex-wrap overflow-x-auto sm:overflow-visible justify-start gap-2 sm:gap-2.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-3 px-3 sm:mx-0 sm:px-0">
-          {finalCategories.map((cat) => (
-            <Link
-              href={cat.path}
+        <div className="flex flex-nowrap overflow-x-auto gap-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-3 px-3">
+          {CATEGORIES.map((cat) => (
+            <button
               key={cat.id}
+              onClick={() => handleCategoryChange(cat.id)}
               className={`
                 flex items-center justify-center font-bold uppercase tracking-wider whitespace-nowrap shrink-0
                 px-4 sm:px-5 h-[36px] sm:h-[42px] text-[10px] sm:text-[12px] rounded-full border
                 transition-colors duration-150 outline-none
-                ${cat.id === "all"
+                ${selectedCategory === cat.id
                   ? "bg-[#161920] text-white border-black shadow-md"
                   : "bg-white/60 text-black border-black/10 hover:bg-[#161920] hover:text-white"}
               `}
             >
               {cat.name}
-            </Link>
+            </button>
           ))}
         </div>
       </div>
@@ -123,33 +188,50 @@ export default function HomepageClient({ initialGames }: Props) {
           </div>
           <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {recentGames.map((rg) => (
-              <Link
-                href={`/games/${rg.slug || rg.id}`}
-                key={rg.id}
-                className="group relative shrink-0 w-[110px] sm:w-[130px] aspect-square overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white/40 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-all duration-200"
-              >
-                {rg.thumbnail ? (
-                  <img
-                    src={rg.thumbnail}
-                    alt={rg.title}
-                    className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-[9px] font-black uppercase tracking-wider text-black/50">
-                    {rg.title}
+              <div key={rg.id} className="relative shrink-0 w-[110px] sm:w-[130px]">
+                <Link
+                  href={`/games/${rg.slug || rg.id}`}
+                  className="group relative block w-full aspect-square overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white/40 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-all duration-200"
+                >
+                  {rg.thumbnail ? (
+                    <img
+                      src={rg.thumbnail}
+                      alt={rg.title}
+                      className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-[9px] font-black uppercase tracking-wider text-black/50">
+                      {rg.title}
+                    </div>
+                  )}
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-2">
+                    <p className="text-[9px] font-black uppercase tracking-wider text-white truncate w-full">
+                      {rg.title}
+                    </p>
                   </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-2">
-                  <p className="text-[9px] font-black uppercase tracking-wider text-white truncate">
-                    {rg.title}
-                  </p>
-                </div>
-                <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
-                  <svg className="w-2.5 h-2.5 text-black ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
-              </Link>
+                  {/* Play icon */}
+                  <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
+                    <svg className="w-2.5 h-2.5 text-black ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                </Link>
+
+                {/* Game title below */}
+                <p className="text-[9px] font-black uppercase tracking-wide text-black/60 truncate mt-1 px-0.5">
+                  {rg.title}
+                </p>
+
+                {/* Remove button — title కింద */}
+                <button
+                  onClick={(e) => handleRemoveRecent(e, rg.id)}
+                  className="mt-0.5 w-full flex items-center justify-center gap-1 text-[8px] font-black uppercase tracking-wider text-black/30 hover:text-red-500 transition-colors"
+                >
+                  <span>✕</span>
+                  <span>Remove</span>
+                </button>
+              </div>
             ))}
           </div>
         </div>
@@ -157,60 +239,74 @@ export default function HomepageClient({ initialGames }: Props) {
 
       {/* GAMES GRID */}
       <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-6 sm:mt-8 relative z-10">
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-1.5 sm:gap-2 grid-flow-row-dense">
-          {games.map((game, index) => {
-            const sizeClass = pokiGridStyles[index % pokiGridStyles.length];
-            return (
-              <Link
-                href={`/games/${game.slug || game.id}`}
-                key={game.id}
-                className={`
-                  group relative overflow-hidden rounded-[24px] sm:rounded-[32px]
-                  border border-black/10 hover:border-black/30
-                  bg-white/40 hover:bg-white/55
-                  shadow-[0_4px_10px_rgba(0,0,0,0.04)]
-                  hover:shadow-[0_12px_24px_rgba(0,0,0,0.18)]
-                  hover:-translate-y-1.5
-                  transition-[transform,box-shadow,border-color,background-color]
-                  duration-200 ease-out
-                  ${sizeClass}
-                `}
-              >
-                {game.thumbnail ? (
-                  <img
-                    src={game.thumbnail}
-                    alt={game.title}
-                    loading="lazy"
-                    className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-[filter,transform] duration-300 ease-out"
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-black/60">
-                    {game.title}
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3 rounded-b-[24px] sm:rounded-b-[32px]">
-                  <p className="text-[10px] font-black uppercase tracking-wider text-white truncate max-w-[70%]">
-                    {game.title}
-                  </p>
-                  <span className="ml-auto text-[8px] font-extrabold text-black bg-white px-2.5 py-1 rounded-md tracking-wider">
-                    PLAY
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+        {categoryLoading ? (
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-1.5 sm:gap-2">
+            {Array.from({ length: 16 }).map((_, i) => (
+              <div key={i} className="aspect-square rounded-[24px] bg-white/30 animate-pulse" />
+            ))}
+          </div>
+        ) : games.length > 0 ? (
+          <>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-1.5 sm:gap-2 grid-flow-row-dense">
+              {games.map((game, index) => {
+                const sizeClass = pokiGridStyles[index % pokiGridStyles.length];
+                return (
+                  <Link
+                    href={`/games/${game.slug || game.id}`}
+                    key={game.id}
+                    className={`
+                      group relative overflow-hidden rounded-[24px] sm:rounded-[32px]
+                      border border-black/10 hover:border-black/30
+                      bg-white/40 hover:bg-white/55
+                      shadow-[0_4px_10px_rgba(0,0,0,0.04)]
+                      hover:shadow-[0_12px_24px_rgba(0,0,0,0.18)]
+                      hover:-translate-y-1.5
+                      transition-[transform,box-shadow,border-color,background-color]
+                      duration-200 ease-out
+                      ${sizeClass}
+                    `}
+                  >
+                    {game.thumbnail ? (
+                      <img
+                        src={game.thumbnail}
+                        alt={game.title}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-[filter,transform] duration-300 ease-out"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-black/60">
+                        {game.title}
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3 rounded-b-[24px] sm:rounded-b-[32px]">
+                      <p className="text-[10px] font-black uppercase tracking-wider text-white truncate max-w-[70%]">
+                        {game.title}
+                      </p>
+                      <span className="ml-auto text-[8px] font-extrabold text-black bg-white px-2.5 py-1 rounded-md tracking-wider">
+                        PLAY
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
 
-        {/* LOAD MORE BUTTON */}
-        {hasMore && (
-          <div className="flex justify-center mt-8">
-            <button
-              onClick={loadMore}
-              disabled={loadingMore}
-              className="px-8 py-3 bg-[#161920] text-white font-black uppercase tracking-widest text-xs rounded-full hover:bg-black transition-colors disabled:opacity-50"
-            >
-              {loadingMore ? "Loading..." : "Load More Games"}
-            </button>
+            {/* LOAD MORE — grid కింద */}
+            {hasMore && (
+              <div className="flex justify-center mt-8 mb-4">
+                <button
+                  onClick={loadMore}
+                  disabled={loadingMore}
+                  className="px-8 py-3 bg-[#161920] text-white font-black uppercase tracking-widest text-xs rounded-full hover:bg-black transition-colors disabled:opacity-50"
+                >
+                  {loadingMore ? "Loading..." : "Load More Games"}
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-center font-bold py-20 bg-white/20 rounded-[24px] border border-black/10 max-w-xl mx-auto uppercase tracking-wider text-xs">
+            No games in this category.
           </div>
         )}
       </div>
@@ -250,7 +346,7 @@ export default function HomepageClient({ initialGames }: Props) {
               </p>
               <div className="flex items-center gap-2.5 pt-1">
                 <Link href="https://www.instagram.com/lokayantraofficial?utm_source=qr&igsh=MXBndWQ3MG9uaDE1bw%3D%3D" target="_blank" rel="noopener noreferrer"
-                  className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all shadow-md hover:bg-black/80">
+                  className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all shadow-md">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -258,7 +354,7 @@ export default function HomepageClient({ initialGames }: Props) {
                   </svg>
                 </Link>
                 <Link href="https://youtube.com/@official.lokayantra?si=0SE7fSqRAd5WxW3h" target="_blank" rel="noopener noreferrer"
-                  className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all shadow-md hover:bg-black/80">
+                  className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all shadow-md">
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                   </svg>
@@ -272,9 +368,9 @@ export default function HomepageClient({ initialGames }: Props) {
               <h3 className="text-xs font-black uppercase tracking-widest text-black/90 border-b border-black/10 pb-1">Explore</h3>
               <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-black/60">
                 <li><Link href="/" className="hover:text-black transition-colors">All Games</Link></li>
-                <li><Link href="/trending" className="hover:text-black transition-colors">Trending Games</Link></li>
-                <li><Link href="/2-player" className="hover:text-black transition-colors">2 Player Games</Link></li>
-                <li><Link href="/new-releases" className="hover:text-black transition-colors">New Releases</Link></li>
+                <li><Link href="/" className="hover:text-black transition-colors">Trending Games</Link></li>
+                <li><Link href="/" className="hover:text-black transition-colors">2 Player Games</Link></li>
+                <li><Link href="/" className="hover:text-black transition-colors">New Releases</Link></li>
               </ul>
             </div>
             <div className="space-y-4">

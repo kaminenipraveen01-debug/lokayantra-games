@@ -50,3 +50,15 @@ export function clearRecentlyPlayed() {
     // ignore
   }
 }
+export function removeRecentlyPlayed(id: string): void {
+  if (typeof window === "undefined") return;
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (!stored) return;
+  try {
+    const games: RecentGame[] = JSON.parse(stored);
+    const filtered = games.filter((g) => g.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+  } catch {
+    // ignore
+  }
+}

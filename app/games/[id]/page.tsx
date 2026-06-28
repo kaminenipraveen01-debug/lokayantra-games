@@ -59,14 +59,28 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
 
 export default async function GamePage({ params }: GamePageProps) {
   const resolvedParams = await params;
-  const game = await getGameAdmin(resolvedParams.id);
+  
+  let game;
+  try {
+    game = await getGameAdmin(resolvedParams.id);
+  } catch (err) {
+    console.error("Failed to fetch game:", err);
+    notFound(); // error వస్తే 404 చూపించు
+  }
+  
   if (!game) notFound();
 
-  const relatedGames = game.category
-    ? await getRelatedGamesAdmin(game.category as string, game.id, 30)
-    : [];
+  let relatedGames: any[] = [];
+  try {
+    relatedGames = game.category
+      ? await getRelatedGamesAdmin(game.category, game.id, 30)
+      : [];
+  } catch {
+    relatedGames = [];
+  }
 
   const bottomGames = relatedGames.slice(0, 30);
+  // ... rest of the code same గా ఉంచండి
 
   const jsonLd = {
     "@context": "https://schema.org",
