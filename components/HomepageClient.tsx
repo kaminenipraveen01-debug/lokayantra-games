@@ -173,12 +173,12 @@ const pokiGridStyles = [
 ];
 
 interface Props {
-  initialGames: GamePixGame[];  // GameSummary కాదు
+  initialGames: GamePixGame[];
 }
 
 export default function HomepageClient({ initialGames }: Props) {
   const [recentGames, setRecentGames] = useState<RecentGame[]>([]);
-  const [games, setGames] = useState<GameSummary[]>(initialGames);
+  const [games, setGames] = useState<GamePixGame[]>(initialGames); // ✅ GameSummary → GamePixGame
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loadingMore, setLoadingMore] = useState(false);
   const [categoryLoading, setCategoryLoading] = useState(false);
@@ -336,7 +336,7 @@ export default function HomepageClient({ initialGames }: Props) {
                   {rg.title}
                 </p>
 
-                {/* Remove button — title కింద */}
+                {/* Remove button */}
                 <button
                   onClick={(e) => handleRemoveRecent(e, rg.id)}
                   className="mt-0.5 w-full flex items-center justify-center gap-1 text-[8px] font-black uppercase tracking-wider text-black/30 hover:text-red-500 transition-colors"
@@ -365,7 +365,7 @@ export default function HomepageClient({ initialGames }: Props) {
                 const sizeClass = pokiGridStyles[index % pokiGridStyles.length];
                 return (
                   <Link
-                    href={`/games/${game.slug || game.id}`}
+                    href={`/games/${game.slug || game.id}`} // ✅ slug now exists on GamePixGame
                     key={game.id}
                     className={`
                       group relative overflow-hidden rounded-[24px] sm:rounded-[32px]
@@ -404,7 +404,7 @@ export default function HomepageClient({ initialGames }: Props) {
               })}
             </div>
 
-            {/* LOAD MORE — grid కింద */}
+            {/* LOAD MORE */}
             {hasMore && (
               <div className="flex justify-center mt-8 mb-4">
                 <button
