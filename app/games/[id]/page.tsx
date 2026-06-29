@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { fetchAllGamePixGames, GamePixGame } from "@/lib/gamepix";
+import { fetchAllGamePixGames, fetchGamePixPage, GamePixGame } from "@/lib/gamepix";
+import { getGameAdmin } from "@/lib/games-admin";
 import { getFirestore } from "firebase-admin/firestore";
 import { adminApp } from "@/lib/firebase-admin";
 import PlayCounter from "@/components/PlayCounter";
@@ -24,32 +25,53 @@ interface GamePageProps {
   params: Promise<{ id: string }>;
 }
 
-// Firebase నుండి likes/playcount మాత్రమే
+// Firebase నుండి stats + extra data
 async function getGameStats(id: string) {
   try {
     const db = getFirestore(adminApp);
     const snap = await db.collection("games").doc(id).get();
-    if (!snap.exists) return { playCount: 0, likes: 0, dislikes: 0 };
+    if (!snap.exists) return {
+      playCount: 0, likes: 0, dislikes: 0,
+      faqs: [], howToPlay: "", tips: [], controls: "",
+    };
     const data = snap.data()!;
     return {
       playCount: data.playCount ?? 0,
       likes: data.likes ?? 0,
       dislikes: data.dislikes ?? 0,
+      faqs: data.faqs ?? [],
+      howToPlay: data.howToPlay ?? "",
+      tips: data.tips ?? [],
+      controls: data.controls ?? "",
     };
   } catch {
-    return { playCount: 0, likes: 0, dislikes: 0 };
+    return {
+      playCount: 0, likes: 0, dislikes: 0,
+      faqs: [], howToPlay: "", tips: [], controls: "",
+    };
   }
 }
 
 export async function generateMetadata({ params }: GamePageProps): Promise<Metadata> {
   const { id } = await params;
   const games = await fetchAllGamePixGames();
-  const game = games.find((g) => g.id === id);
+  let game = games.find((g) => g.id === id);
+
+  if (!game) {
+    try {
+      const fb = await getGameAdmin(id);
+      if (fb) game = {
+        id: fb.id, title: fb.title, description: fb.description,
+        category: fb.category, thumbnail: fb.thumbnail,
+        embedUrl: fb.embedUrl || fb.gameUrl, slug: fb.slug || fb.id,
+      };
+    } catch {}
+  }
+
   if (!game) return { title: "Game Not Found | LokaYantra" };
 
   const title = `${game.title} - Play Online on LokaYantra`;
-  const description =
-    game.description?.slice(0, 160) ||
+  const description = game.description?.slice(0, 160) ||
     `Play ${game.title} online for free on LokaYantra!`;
   const gameUrl = `${SITE_URL}/games/${game.id}`;
   const imageUrl = game.thumbnail || `${SITE_URL}/og-image.png`;
@@ -59,36 +81,58 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
     description,
     alternates: { canonical: gameUrl },
     openGraph: {
-      title,
-      description,
-      url: gameUrl,
-      siteName: "LokaYantra",
+      title, description, url: gameUrl, siteName: "LokaYantra",
       images: [{ url: imageUrl, width: 1200, height: 630, alt: game.title }],
       type: "website",
     },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [imageUrl],
-    },
+    twitter: { card: "summary_large_image", title, description, images: [imageUrl] },
   };
 }
 
 export default async function GamePage({ params }: GamePageProps) {
   const { id } = await params;
 
+  // 1. ముందు GamePix లో చూడు
   const games = await fetchAllGamePixGames();
-  const game = games.find((g) => g.id === id);
+  let game = games.find((g) => g.id === id);
+
+  // 2. GamePix లో లేకపోతే Firebase లో చూడు (admin uploaded games)
+  if (!game) {
+    try {
+      const fb = await getGameAdmin(id);
+      if (fb) {
+        game = {
+          id: fb.id,
+          title: fb.title,
+          description: fb.description,
+          category: fb.category,
+          thumbnail: fb.thumbnail,
+          embedUrl: fb.embedUrl || fb.gameUrl,
+          slug: fb.slug || fb.id,
+        };
+      }
+    } catch {}
+  }
+
   if (!game) notFound();
 
-  // Firebase నుండి only stats — 1 read మాత్రమే
+  // Firebase నుండి stats + faqs/howToPlay/tips/controls
   const stats = await getGameStats(id);
 
-  // Related games — same category
-  const relatedGames = games
-    .filter((g) => g.category === game.category && g.id !== id)
-    .slice(0, 30);
+  // Related games
+  let relatedGames: GamePixGame[] = [];
+  try {
+    const [p1, p2, p3] = await Promise.all([
+      fetchGamePixPage(1, game.category),
+      fetchGamePixPage(2, game.category),
+      fetchGamePixPage(3, game.category),
+    ]);
+    relatedGames = [...p1, ...p2, ...p3]
+      .filter((g) => g.id !== id)
+      .slice(0, 30);
+  } catch {
+    relatedGames = [];
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -112,7 +156,7 @@ export default async function GamePage({ params }: GamePageProps) {
 
       <PlayCounter gameId={game.id} />
 
-      {/* BLACK BUBBLES BACKGROUND */}
+      {/* BLACK BUBBLES */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-black/95" />
         <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-black/90" />
@@ -189,17 +233,12 @@ export default async function GamePage({ params }: GamePageProps) {
                 </div>
                 <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-7 gap-2">
                   {relatedGames.map((rg) => (
-                    <Link
-                      key={rg.id}
-                      href={`/games/${rg.id}`}
+                    <Link key={rg.id} href={`/games/${rg.id}`}
                       className="group relative rounded-[16px] overflow-hidden border border-black/10 hover:border-black/50 bg-white/35 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
                     >
                       <div className="relative w-full aspect-square">
                         {rg.thumbnail ? (
-                          <img
-                            src={rg.thumbnail}
-                            alt={rg.title}
-                            loading="lazy"
+                          <img src={rg.thumbnail} alt={rg.title} loading="lazy"
                             className="absolute inset-0 w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105 transition-all duration-300"
                           />
                         ) : (
@@ -216,9 +255,7 @@ export default async function GamePage({ params }: GamePageProps) {
                         </div>
                       </div>
                       <div className="px-2 py-1.5 bg-white/55 border-t border-black/5">
-                        <p className="text-[9px] font-black text-black uppercase tracking-wide truncate leading-tight">
-                          {rg.title}
-                        </p>
+                        <p className="text-[9px] font-black text-black uppercase tracking-wide truncate leading-tight">{rg.title}</p>
                       </div>
                     </Link>
                   ))}
@@ -243,12 +280,46 @@ export default async function GamePage({ params }: GamePageProps) {
                       by GamePix
                     </span>
                   </div>
+
                   {game.description && (
                     <p className="text-xs text-black/60 font-semibold leading-relaxed">
                       {game.description}
                     </p>
                   )}
+
+                  {/* Firebase నుండి howToPlay */}
+                  {stats.howToPlay && (
+                    <div className="mt-4 pt-4 border-t border-black/8">
+                      <h3 className="text-[9px] font-black text-black/40 uppercase tracking-[0.25em] mb-2">How to Play</h3>
+                      <p className="text-xs text-black/60 font-semibold leading-relaxed">{stats.howToPlay}</p>
+                    </div>
+                  )}
+
+                  {/* Firebase నుండి tips */}
+                  {stats.tips && stats.tips.length > 0 && (
+                    <div className="mt-4 pt-4 border-t border-black/8">
+                      <h3 className="text-[9px] font-black text-black/40 uppercase tracking-[0.25em] mb-2">Tips &amp; Tricks</h3>
+                      <ul className="flex flex-col gap-1.5">
+                        {stats.tips.map((tip: string, i: number) => (
+                          <li key={i} className="flex items-start gap-2 text-xs text-black/60 font-semibold leading-relaxed">
+                            <span className="mt-0.5 shrink-0 w-4 h-4 rounded-full bg-black/8 border border-black/10 flex items-center justify-center text-[8px] font-black text-black/40">
+                              {i + 1}
+                            </span>
+                            {tip}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
+
+                {/* Firebase నుండి faqs */}
+                {stats.faqs && stats.faqs.length > 0 && (
+                  <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] border border-black/10 p-5 shadow-sm">
+                    <h4 className="text-[9px] font-black text-black/40 uppercase tracking-[0.25em] mb-3">FAQ INDEX</h4>
+                    <FaqAccordion items={stats.faqs} />
+                  </div>
+                )}
 
                 <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] border border-black/10 p-5 shadow-sm">
                   <DisqusComments
@@ -281,6 +352,17 @@ export default async function GamePage({ params }: GamePageProps) {
                       <span className="text-black/80">{formatCount(stats.playCount)}</span>
                     </div>
                   </div>
+
+                  {/* Firebase నుండి controls */}
+                  {stats.controls && (
+                    <div className="mt-4 pt-3 border-t border-black/8">
+                      <span className="text-[9px] font-black text-black/35 uppercase tracking-widest block mb-2">Controls</span>
+                      <p className="text-[11px] text-black/60 font-semibold leading-relaxed normal-case bg-black/5 rounded-xl p-3 border border-black/8">
+                        {stats.controls}
+                      </p>
+                    </div>
+                  )}
+
                   <div className="mt-4 pt-3 border-t border-black/8 flex flex-col gap-1.5">
                     <span className="text-[9px] font-black text-black/35 uppercase tracking-widest mb-1">More Games</span>
                     {game.category && (

@@ -194,13 +194,17 @@ export default function HomepageClient({ initialGames }: Props) {
     setPage(1);
     setHasMore(true);
     setCategoryLoading(true);
-    setGames([]);
 
+    if (catId === "all") {
+      setGames(initialGames);
+      setHasMore(initialGames.length >= 48);
+      setCategoryLoading(false);
+      return;
+    }
+
+    setGames([]);
     try {
-      const url = catId === "all"
-        ? `/api/games?page=1&limit=48`
-        : `/api/games?page=1&limit=48&category=${catId}`;
-      const res = await fetch(url);
+      const res = await fetch(`/api/games?page=1&limit=48&category=${catId}`);
       const data = await res.json();
       setGames(data.games ?? []);
       setHasMore((data.games ?? []).length >= 48);
