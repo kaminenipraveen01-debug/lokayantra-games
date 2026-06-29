@@ -1,18 +1,16 @@
-import { getHomepageGames, GameSummary } from "@/lib/games-admin";
+import { fetchAllGamePixGames, GamePixGame } from "@/lib/gamepix";
 import HomepageClient from "@/components/HomepageClient";
 
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  let games: GameSummary[] = [];
-  
+  let games: GamePixGame[] = [];
+
   try {
-    games = await getHomepageGames();
+    games = await fetchAllGamePixGames();
   } catch (err) {
-    console.error("Failed to fetch games:", err);
-    // Quota exceeded అయినా page build అవుతుంది
-    // Empty array తో render అవుతుంది
+    console.error("Failed to fetch GamePix games:", err);
   }
-  
+
   return <HomepageClient initialGames={games} />;
 }

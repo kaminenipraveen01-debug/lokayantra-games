@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { getRecentlyPlayed, removeRecentlyPlayed, RecentGame } from "@/lib/recentlyPlayed";
-import { GameSummary } from "@/lib/games-admin";
+import { GamePixGame } from "@/lib/gamepix";
 
 const CATEGORIES = [
   { id: "all", name: "All Games" },
@@ -173,7 +173,7 @@ const pokiGridStyles = [
 ];
 
 interface Props {
-  initialGames: GameSummary[];
+  initialGames: GamePixGame[];  // GameSummary కాదు
 }
 
 export default function HomepageClient({ initialGames }: Props) {

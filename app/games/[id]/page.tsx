@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getGameAdmin, getRelatedGamesAdmin } from "@/lib/games-admin";
+import { fetchAllGamePixGames, GamePixGame } from "@/lib/gamepix";
+import { getFirestore } from "firebase-admin/firestore";
+import { adminApp } from "@/lib/firebase-admin";
 import PlayCounter from "@/components/PlayCounter";
 import DisqusComments from "@/components/DisqusComments";
 import FaqAccordion from "@/components/FaqAccordion";
 import GamePlayer from "@/components/GamePlayer";
 import Link from "next/link";
-import Image from "next/image";
-
-interface GamePageProps {
-  params: Promise<{ id: string }>;
-}
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -23,18 +20,48 @@ function formatCount(n: number): string {
   return String(n);
 }
 
+interface GamePageProps {
+  params: Promise<{ id: string }>;
+}
+
+// Firebase నుండి likes/playcount మాత్రమే
+async function getGameStats(id: string) {
+  try {
+    const db = getFirestore(adminApp);
+    const snap = await db.collection("games").doc(id).get();
+    if (!snap.exists) return { playCount: 0, likes: 0, dislikes: 0 };
+    const data = snap.data()!;
+    return {
+      playCount: data.playCount ?? 0,
+      likes: data.likes ?? 0,
+      dislikes: data.dislikes ?? 0,
+    };
+  } catch {
+    return { playCount: 0, likes: 0, dislikes: 0 };
+  }
+}
+
+export async function generateStaticParams() {
+  try {
+    const games = await fetchAllGamePixGames();
+    return games.map((g) => ({ id: g.id }));
+  } catch {
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }: GamePageProps): Promise<Metadata> {
-  const resolvedParams = await params;
-  const game = await getGameAdmin(resolvedParams.id);
+  const { id } = await params;
+  const games = await fetchAllGamePixGames();
+  const game = games.find((g) => g.id === id);
   if (!game) return { title: "Game Not Found | LokaYantra" };
 
   const title = `${game.title} - Play Online on LokaYantra`;
   const description =
-    (game.description as string | undefined)?.slice(0, 160) ||
-    `Play ${game.title} online for free on LokaYantra Arcade Station. No downloads, no clutter, just pure gaming magic!`;
-
-  const gameUrl = `${SITE_URL}/games/${game.slug || game.id}`;
-  const imageUrl = (game.thumbnail as string | undefined) || `${SITE_URL}/og-image.png`;
+    game.description?.slice(0, 160) ||
+    `Play ${game.title} online for free on LokaYantra!`;
+  const gameUrl = `${SITE_URL}/games/${game.id}`;
+  const imageUrl = game.thumbnail || `${SITE_URL}/og-image.png`;
 
   return {
     title,
@@ -45,7 +72,7 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
       description,
       url: gameUrl,
       siteName: "LokaYantra",
-      images: [{ url: imageUrl, width: 1200, height: 630, alt: game.title as string }],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: game.title }],
       type: "website",
     },
     twitter: {
@@ -58,48 +85,31 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
 }
 
 export default async function GamePage({ params }: GamePageProps) {
-  const resolvedParams = await params;
-  
-  let game;
-  try {
-    game = await getGameAdmin(resolvedParams.id);
-  } catch (err) {
-    console.error("Failed to fetch game:", err);
-    notFound(); // error వస్తే 404 చూపించు
-  }
-  
+  const { id } = await params;
+
+  const games = await fetchAllGamePixGames();
+  const game = games.find((g) => g.id === id);
   if (!game) notFound();
 
-  let relatedGames: any[] = [];
-  try {
-    relatedGames = game.category
-      ? await getRelatedGamesAdmin(game.category, game.id, 30)
-      : [];
-  } catch {
-    relatedGames = [];
-  }
+  // Firebase నుండి only stats — 1 read మాత్రమే
+  const stats = await getGameStats(id);
 
-  const bottomGames = relatedGames.slice(0, 30);
-  // ... rest of the code same గా ఉంచండి
+  // Related games — same category
+  const relatedGames = games
+    .filter((g) => g.category === game.category && g.id !== id)
+    .slice(0, 30);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: game.title,
-    description:
-      (game.description as string | undefined)?.slice(0, 160) ||
-      `Play ${game.title} online for free on LokaYantra.`,
-    image: game.thumbnail
-      ? [game.thumbnail]
-      : [`${SITE_URL}/og-image.png`],
-    url: `${SITE_URL}/games/${game.slug || game.id}`,
+    description: game.description?.slice(0, 160) || `Play ${game.title} online for free.`,
+    image: game.thumbnail ? [game.thumbnail] : [`${SITE_URL}/og-image.png`],
+    url: `${SITE_URL}/games/${game.id}`,
     applicationCategory: "GameApplication",
     operatingSystem: "Web Browser, Windows, Android, iOS",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    author: {
-      "@type": "Organization",
-      name: (game.developer as string | undefined) || "LokaYantra",
-    },
+    author: { "@type": "Organization", name: "GamePix" },
   };
 
   return (
@@ -120,31 +130,23 @@ export default async function GamePage({ params }: GamePageProps) {
         <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-black/85" />
         <div className="absolute top-[180px] left-[2%] w-[60px] h-[60px] rounded-full bg-black/90" />
         <div className="absolute top-[130px] right-[25%] w-[90px] h-[90px] rounded-full bg-black/85" />
-        <div className="absolute top-[220px] right-[45%] w-[70px] h-[70px] rounded-full bg-black/90" />
         <div className="absolute top-[280px] left-[12%] w-[110px] h-[110px] rounded-full bg-black/85" />
         <div className="absolute top-[290px] right-[18%] w-[100px] h-[100px] rounded-full bg-black/90" />
         <div className="absolute top-[400px] left-[25%] w-[130px] h-[130px] rounded-full bg-black/90" />
-        <div className="absolute top-[450px] left-[60%] w-[95px] h-[95px] rounded-full bg-black/85" />
         <div className="absolute top-[480px] right-[5%] w-[170px] h-[170px] rounded-full bg-black/90" />
-        <div className="absolute top-[550px] left-[45%] w-[80px] h-[80px] rounded-full bg-black/95" />
         <div className="absolute top-[580px] left-[3%] w-[125px] h-[125px] rounded-full bg-black/90" />
         <div className="absolute top-[650px] right-[28%] w-[140px] h-[140px] rounded-full bg-black/85" />
         <div className="absolute top-[750px] right-[12%] w-[150px] h-[150px] rounded-full bg-black/90" />
-        <div className="absolute top-[820px] left-[35%] w-[115px] h-[115px] rounded-full bg-black/85" />
-        <div className="absolute top-[940px] left-[8%] w-[135px] h-[135px] rounded-full bg-black/90" />
-        <div className="absolute top-[1100px] left-[15%] w-[140px] h-[140px] rounded-full bg-black/85" />
-        <div className="absolute top-[1180px] right-[8%] w-[165px] h-[165px] rounded-full bg-black/90" />
         <div className="absolute bottom-[320px] left-[5%] w-[180px] h-[180px] rounded-full bg-black/90" />
         <div className="absolute bottom-[220px] right-[15%] w-[210px] h-[210px] rounded-full bg-black/85" />
         <div className="absolute bottom-[-30px] left-[12%] w-[190px] h-[190px] rounded-full bg-black/85" />
         <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-black/95" />
       </div>
 
-      {/* MAIN LAYOUT */}
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-2 sm:px-3 pt-[100px] sm:pt-[115px]">
         <div className="flex gap-3 items-start">
 
-          {/* LEFT AD SLOT */}
+          {/* LEFT AD */}
           <div className="hidden xl:flex flex-col items-center w-[160px] shrink-0 pt-32">
             <div className="w-[160px] h-[600px] rounded-[20px] bg-white/40 backdrop-blur-md border border-black/10 flex flex-col items-center justify-center overflow-hidden sticky top-28">
               <div className="text-[8px] font-black uppercase tracking-widest text-black/20 mb-2">Ad</div>
@@ -155,20 +157,20 @@ export default async function GamePage({ params }: GamePageProps) {
             </div>
           </div>
 
-          {/* CENTER PANEL */}
+          {/* CENTER */}
           <div className="flex-1 min-w-0 flex flex-col gap-3">
             <GamePlayer game={{
-                                 id: game.id,
-                                 title: game.title,
-                                 category: game.category,
-                                 thumbnail: game.thumbnail,
-                                 slug: game.slug,
-                                 gameUrl: game.gameUrl,
-                                 embedUrl: game.embedUrl,
-                                 likes: game.likes,
-                                 dislikes: game.dislikes,
-                                 youtubeEmbedUrl: game.youtubeEmbedUrl,
-                               }} />
+              id: game.id,
+              title: game.title,
+              category: game.category,
+              thumbnail: game.thumbnail,
+              slug: game.id,
+              gameUrl: "",
+              embedUrl: game.embedUrl,
+              likes: stats.likes,
+              dislikes: stats.dislikes,
+              youtubeEmbedUrl: "",
+            }} />
 
             {/* MOBILE AD */}
             <div className="lg:hidden w-full rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden flex flex-col items-center justify-center py-2 min-h-[100px]">
@@ -181,27 +183,24 @@ export default async function GamePage({ params }: GamePageProps) {
             </div>
 
             {/* RELATED GAMES */}
-            {bottomGames.length > 0 && (
+            {relatedGames.length > 0 && (
               <div className="mt-1">
                 <div className="flex items-center justify-between mb-2.5 px-0.5">
                   <div className="flex items-center gap-2">
                     <span className="w-1 h-4 rounded-full bg-black/25" />
                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black/50">
-                      More {(game.category as string) || "Games"}
+                      More {game.category || "Games"}
                     </span>
                   </div>
-                  <Link
-                    href="/"
-                    className="text-[9px] font-black uppercase tracking-widest text-black/35 hover:text-black transition-colors"
-                  >
+                  <Link href="/" className="text-[9px] font-black uppercase tracking-widest text-black/35 hover:text-black transition-colors">
                     SEE ALL →
                   </Link>
                 </div>
                 <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-7 gap-2">
-                  {bottomGames.map((rg: any) => (
+                  {relatedGames.map((rg) => (
                     <Link
                       key={rg.id}
-                      href={`/games/${rg.slug || rg.id}`}
+                      href={`/games/${rg.id}`}
                       className="group relative rounded-[16px] overflow-hidden border border-black/10 hover:border-black/50 bg-white/35 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
                     >
                       <div className="relative w-full aspect-square">
@@ -236,74 +235,35 @@ export default async function GamePage({ params }: GamePageProps) {
               </div>
             )}
 
-            {/* INFO SECTION */}
+            {/* INFO */}
             <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-3">
               <div className="md:col-span-2 flex flex-col gap-3">
                 <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] border border-black/10 p-5 shadow-sm">
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div>
                       <span className="text-[9px] font-black uppercase tracking-[0.25em] text-black/40">
-                        {(game.category as string) || "Arcade"}
+                        {game.category || "Arcade"}
                       </span>
                       <h1 className="text-base sm:text-lg font-black text-black uppercase tracking-tight leading-tight mt-0.5">
-                        {game.title as string}
+                        {game.title}
                       </h1>
                     </div>
-                    {game.developer && (
-                      <span className="shrink-0 text-[9px] font-black uppercase tracking-widest text-black/50 bg-black/5 border border-black/10 rounded-lg px-2 py-1.5 mt-1">
-                        by {game.developer as string}
-                      </span>
-                    )}
+                    <span className="shrink-0 text-[9px] font-black uppercase tracking-widest text-black/50 bg-black/5 border border-black/10 rounded-lg px-2 py-1.5 mt-1">
+                      by GamePix
+                    </span>
                   </div>
-
                   {game.description && (
                     <p className="text-xs text-black/60 font-semibold leading-relaxed">
-                      {game.description as string}
+                      {game.description}
                     </p>
                   )}
-
-                  {game.howToPlay && (
-                    <div className="mt-4 pt-4 border-t border-black/8">
-                      <h3 className="text-[9px] font-black text-black/40 uppercase tracking-[0.25em] mb-2">
-                        How to Play
-                      </h3>
-                      <p className="text-xs text-black/60 font-semibold leading-relaxed">
-                        {game.howToPlay as string}
-                      </p>
-                    </div>
-                  )}
-
-                  {game.tips && (game.tips as string[]).length > 0 && (
-                    <div className="mt-4 pt-4 border-t border-black/8">
-                      <h3 className="text-[9px] font-black text-black/40 uppercase tracking-[0.25em] mb-2">
-                        Tips &amp; Tricks
-                      </h3>
-                      <ul className="flex flex-col gap-1.5">
-                        {(game.tips as string[]).map((tip, i) => (
-                          <li key={i} className="flex items-start gap-2 text-xs text-black/60 font-semibold leading-relaxed">
-                            <span className="mt-0.5 shrink-0 w-4 h-4 rounded-full bg-black/8 border border-black/10 flex items-center justify-center text-[8px] font-black text-black/40">
-                              {i + 1}
-                            </span>
-                            {tip}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
                 </div>
-
-                {game.faqs && (game.faqs as any[]).length > 0 && (
-                  <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] border border-black/10 p-5 shadow-sm">
-                    <h4 className="text-[9px] font-black text-black/40 uppercase tracking-[0.25em] mb-3">FAQ INDEX</h4>
-                    <FaqAccordion items={game.faqs as { question: string; answer: string }[]} />
-                  </div>
-                )}
 
                 <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] border border-black/10 p-5 shadow-sm">
                   <DisqusComments
                     url={`${SITE_URL}/games/${game.id}`}
                     identifier={game.id}
-                    title={game.title as string}
+                    title={game.title}
                   />
                 </div>
               </div>
@@ -315,40 +275,26 @@ export default async function GamePage({ params }: GamePageProps) {
                     Game Info
                   </h4>
                   <div className="flex flex-col gap-3 text-[10px] font-black uppercase tracking-wider">
-                    {game.developer && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-black/40">Developer</span>
-                        <span className="text-black/80 normal-case font-bold text-right max-w-[130px] truncate">
-                          {game.developer as string}
-                        </span>
-                      </div>
-                    )}
+                    <div className="flex justify-between items-center">
+                      <span className="text-black/40">Developer</span>
+                      <span className="text-black/80 normal-case font-bold">GamePix</span>
+                    </div>
                     {game.category && (
                       <div className="flex justify-between items-center">
                         <span className="text-black/40">Category</span>
-                        <span className="text-black/80">{game.category as string}</span>
+                        <span className="text-black/80">{game.category}</span>
                       </div>
                     )}
-                    {game.playCount !== undefined && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-black/40">Plays</span>
-                        <span className="text-black/80">{formatCount(game.playCount as number)}</span>
-                      </div>
-                    )}
-                  </div>
-                  {game.controls && (
-                    <div className="mt-4 pt-3 border-t border-black/8">
-                      <span className="text-[9px] font-black text-black/35 uppercase tracking-widest block mb-2">Controls</span>
-                      <p className="text-[11px] text-black/60 font-semibold leading-relaxed normal-case bg-black/5 rounded-xl p-3 border border-black/8">
-                        {game.controls as string}
-                      </p>
+                    <div className="flex justify-between items-center">
+                      <span className="text-black/40">Plays</span>
+                      <span className="text-black/80">{formatCount(stats.playCount)}</span>
                     </div>
-                  )}
+                  </div>
                   <div className="mt-4 pt-3 border-t border-black/8 flex flex-col gap-1.5">
                     <span className="text-[9px] font-black text-black/35 uppercase tracking-widest mb-1">More Games</span>
                     {game.category && (
                       <Link href="/" className="text-[10px] font-black text-black/50 hover:text-black transition-colors uppercase tracking-wider">
-                        → More {game.category as string}
+                        → More {game.category}
                       </Link>
                     )}
                     <Link href="/" className="text-[10px] font-black text-black/50 hover:text-black transition-colors uppercase tracking-wider">
@@ -432,9 +378,9 @@ export default async function GamePage({ params }: GamePageProps) {
               <h3 className="text-xs font-black uppercase tracking-widest text-black/90 border-b border-black/10 pb-1">Explore</h3>
               <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-black/60">
                 <li><Link href="/" className="hover:text-black transition-colors">All Games</Link></li>
-                <li><Link href="/trending" className="hover:text-black transition-colors">Trending Games</Link></li>
-                <li><Link href="/2-player" className="hover:text-black transition-colors">2 Player Games</Link></li>
-                <li><Link href="/new-releases" className="hover:text-black transition-colors">New Releases</Link></li>
+                <li><Link href="/" className="hover:text-black transition-colors">Trending Games</Link></li>
+                <li><Link href="/" className="hover:text-black transition-colors">2 Player Games</Link></li>
+                <li><Link href="/" className="hover:text-black transition-colors">New Releases</Link></li>
               </ul>
             </div>
             <div className="space-y-4">
