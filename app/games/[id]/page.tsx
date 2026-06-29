@@ -41,15 +41,6 @@ async function getGameStats(id: string) {
   }
 }
 
-export async function generateStaticParams() {
-  try {
-    const games = await fetchAllGamePixGames();
-    return games.map((g) => ({ id: g.id }));
-  } catch {
-    return [];
-  }
-}
-
 export async function generateMetadata({ params }: GamePageProps): Promise<Metadata> {
   const { id } = await params;
   const games = await fetchAllGamePixGames();

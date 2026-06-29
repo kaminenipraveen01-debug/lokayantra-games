@@ -6,24 +6,23 @@ export interface GamePixGame {
   thumbnail?: string;
   embedUrl?: string;
   namespace?: string;
-  slug?: string; // ✅ Added
+  slug?: string;
   width?: number;
   height?: number;
 }
 
 const SID = "A3ALT";
-const BASE_URL = `https://feeds.gamepix.com/v2/json/?order=quality&pagination=12&sid=${SID}`;
-const MAX_PAGES = 42; // 42 × 12 = 504 games
 
-// Build time లో అన్ని games fetch చేయి
+// Homepage కి initial 10 pages మాత్రమే — build fast అవుతుంది
 export async function fetchAllGamePixGames(): Promise<GamePixGame[]> {
   const allGames: GamePixGame[] = [];
 
-  for (let page = 1; page <= MAX_PAGES; page++) {
+  for (let page = 1; page <= 10; page++) {
     try {
-      const res = await fetch(`${BASE_URL}&page=${page}`, {
-        next: { revalidate: 3600 },
-      });
+      const res = await fetch(
+        `https://feeds.gamepix.com/v2/json/?order=quality&pagination=12&sid=${SID}&page=${page}`,
+        { next: { revalidate: 3600 } }
+      );
       if (!res.ok) break;
       const data = await res.json();
       const items = data.items ?? [];
@@ -35,12 +34,10 @@ export async function fetchAllGamePixGames(): Promise<GamePixGame[]> {
           title: item.title ?? "",
           description: item.description ?? "",
           category: item.category ?? "",
-          thumbnail: item.image
-            ? item.image.replace("w=105", "w=512")
-            : "",
+          thumbnail: item.image?.replace("w=105", "w=512") ?? "",
           embedUrl: item.url ?? "",
           namespace: item.namespace ?? "",
-          slug: item.namespace ?? String(item.id), // ✅ Added
+          slug: item.namespace ?? String(item.id),
           width: item.width ?? 800,
           height: item.height ?? 600,
         });
@@ -53,21 +50,59 @@ export async function fetchAllGamePixGames(): Promise<GamePixGame[]> {
   return allGames;
 }
 
-// Single game fetch
+// Single game fetch — namespace తో direct page search
 export async function fetchGamePixGame(id: string): Promise<GamePixGame | null> {
-  // namespace తో direct URL construct చేయి
+  try {
+    // అన్ని pages లో search చేయి
+    for (let page = 1; page <= 100; page++) {
+      const res = await fetch(
+        `https://feeds.gamepix.com/v2/json/?order=quality&pagination=12&sid=${SID}&page=${page}`,
+        { next: { revalidate: 3600 } }
+      );
+      if (!res.ok) break;
+      const data = await res.json();
+      const items = data.items ?? [];
+      if (items.length === 0) break;
+
+      const item = items.find(
+        (i: any) => i.namespace === id || String(i.id) === id
+      );
+      if (item) {
+        return {
+          id: item.namespace ?? String(item.id),
+          title: item.title ?? "",
+          description: item.description ?? "",
+          category: item.category ?? "",
+          thumbnail: item.image?.replace("w=105", "w=512") ?? "",
+          embedUrl: item.url ?? "",
+          namespace: item.namespace ?? "",
+          slug: item.namespace ?? String(item.id),
+          width: item.width ?? 800,
+          height: item.height ?? 600,
+        };
+      }
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+// Page by page fetch — API route కి
+export async function fetchGamePixPage(
+  page: number,
+  category?: string
+): Promise<GamePixGame[]> {
+  const categoryParam =
+    category && category !== "all" ? `&category=${category}` : "";
   try {
     const res = await fetch(
-      `https://feeds.gamepix.com/v2/json/?order=quality&pagination=100&sid=${SID}&page=1`,
+      `https://feeds.gamepix.com/v2/json/?order=quality&pagination=12&sid=${SID}&page=${page}${categoryParam}`,
       { next: { revalidate: 3600 } }
     );
-    // id తో match చేయి — కానీ ఇది slow, cache వాడుతాం
+    if (!res.ok) return [];
     const data = await res.json();
-    const item = (data.items ?? []).find(
-      (i: any) => i.namespace === id || String(i.id) === id
-    );
-    if (!item) return null;
-    return {
+    return (data.items ?? []).map((item: any) => ({
       id: item.namespace ?? String(item.id),
       title: item.title ?? "",
       description: item.description ?? "",
@@ -75,14 +110,16 @@ export async function fetchGamePixGame(id: string): Promise<GamePixGame | null> 
       thumbnail: item.image?.replace("w=105", "w=512") ?? "",
       embedUrl: item.url ?? "",
       namespace: item.namespace ?? "",
-      slug: item.namespace ?? String(item.id), // ✅ Added
-    };
+      slug: item.namespace ?? String(item.id),
+      width: item.width ?? 800,
+      height: item.height ?? 600,
+    }));
   } catch {
-    return null;
+    return [];
   }
 }
 
-// Category తో filter
+// Category filter
 export function filterByCategory(
   games: GamePixGame[],
   category: string
