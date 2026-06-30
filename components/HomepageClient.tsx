@@ -4,162 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { getRecentlyPlayed, removeRecentlyPlayed, RecentGame } from "@/lib/recentlyPlayed";
 import { GamePixGame } from "@/lib/gamepix";
-
-const CATEGORIES = [
-  { id: "all", name: "All Games" },
-  { id: "2048", name: "2048" },
-  { id: "action", name: "Action" },
-  { id: "addictive", name: "Addictive" },
-  { id: "adventure", name: "Adventure" },
-  { id: "airplane", name: "Airplane" },
-  { id: "animal", name: "Animal" },
-  { id: "anime", name: "Anime" },
-  { id: "arcade", name: "Arcade" },
-  { id: "archery", name: "Archery" },
-  { id: "baby", name: "Baby" },
-  { id: "ball", name: "Ball" },
-  { id: "barbie", name: "Barbie" },
-  { id: "baseball", name: "Baseball" },
-  { id: "basketball", name: "Basketball" },
-  { id: "battle", name: "Battle" },
-  { id: "battle-royale", name: "Battle Royale" },
-  { id: "bejeweled", name: "Bejeweled" },
-  { id: "bike", name: "Bike" },
-  { id: "block", name: "Block" },
-  { id: "board", name: "Board" },
-  { id: "bowling", name: "Bowling" },
-  { id: "boxing", name: "Boxing" },
-  { id: "brain", name: "Brain" },
-  { id: "bubble-shooter", name: "Bubble Shooter" },
-  { id: "building", name: "Building" },
-  { id: "car", name: "Car" },
-  { id: "card", name: "Card" },
-  { id: "casual", name: "Casual" },
-  { id: "cats", name: "Cats" },
-  { id: "checkers", name: "Checkers" },
-  { id: "chess", name: "Chess" },
-  { id: "christmas", name: "Christmas" },
-  { id: "city-building", name: "City Building" },
-  { id: "classics", name: "Classics" },
-  { id: "clicker", name: "Clicker" },
-  { id: "coding", name: "Coding" },
-  { id: "coloring", name: "Coloring" },
-  { id: "cooking", name: "Cooking" },
-  { id: "cool", name: "Cool" },
-  { id: "crazy", name: "Crazy" },
-  { id: "cricket", name: "Cricket" },
-  { id: "dinosaur", name: "Dinosaur" },
-  { id: "dirt-bike", name: "Dirt Bike" },
-  { id: "dragons", name: "Dragons" },
-  { id: "drawing", name: "Drawing" },
-  { id: "dress-up", name: "Dress Up" },
-  { id: "drifting", name: "Drifting" },
-  { id: "driving", name: "Driving" },
-  { id: "educational", name: "Educational" },
-  { id: "escape", name: "Escape" },
-  { id: "family", name: "Family" },
-  { id: "farming", name: "Farming" },
-  { id: "fashion", name: "Fashion" },
-  { id: "fighting", name: "Fighting" },
-  { id: "fire-and-water", name: "Fire And Water" },
-  { id: "first-person-shooter", name: "First Person Shooter" },
-  { id: "fishing", name: "Fishing" },
-  { id: "flash", name: "Flash" },
-  { id: "flight", name: "Flight" },
-  { id: "fun", name: "Fun" },
-  { id: "games-for-girls", name: "Games For Girls" },
-  { id: "gangster", name: "Gangster" },
-  { id: "gdevelop", name: "Gdevelop" },
-  { id: "golf", name: "Golf" },
-  { id: "granny", name: "Granny" },
-  { id: "gun", name: "Gun" },
-  { id: "hair-salon", name: "Hair Salon" },
-  { id: "halloween", name: "Halloween" },
-  { id: "helicopter", name: "Helicopter" },
-  { id: "hidden-object", name: "Hidden Object" },
-  { id: "hockey", name: "Hockey" },
-  { id: "horror", name: "Horror" },
-  { id: "horse", name: "Horse" },
-  { id: "hunting", name: "Hunting" },
-  { id: "hyper-casual", name: "Hyper Casual" },
-  { id: "idle", name: "Idle" },
-  { id: "io", name: "IO" },
-  { id: "jewel", name: "Jewel" },
-  { id: "jigsaw-puzzles", name: "Jigsaw Puzzles" },
-  { id: "jumping", name: "Jumping" },
-  { id: "junior", name: "Junior" },
-  { id: "kids", name: "Kids" },
-  { id: "knight", name: "Knight" },
-  { id: "mahjong", name: "Mahjong" },
-  { id: "makeup", name: "Makeup" },
-  { id: "management", name: "Management" },
-  { id: "mario", name: "Mario" },
-  { id: "match-3", name: "Match 3" },
-  { id: "math", name: "Math" },
-  { id: "memory", name: "Memory" },
-  { id: "mermaid", name: "Mermaid" },
-  { id: "minecraft", name: "Minecraft" },
-  { id: "mining", name: "Mining" },
-  { id: "mmorpg", name: "Mmorpg" },
-  { id: "mobile", name: "Mobile" },
-  { id: "money", name: "Money" },
-  { id: "monster", name: "Monster" },
-  { id: "multiplayer", name: "Multiplayer" },
-  { id: "music", name: "Music" },
-  { id: "naval", name: "Naval" },
-  { id: "ninja", name: "Ninja" },
-  { id: "ninja-turtle", name: "Ninja Turtle" },
-  { id: "offroad", name: "Offroad" },
-  { id: "open-world", name: "Open World" },
-  { id: "parking", name: "Parking" },
-  { id: "parkour", name: "Parkour" },
-  { id: "piano", name: "Piano" },
-  { id: "pirates", name: "Pirates" },
-  { id: "pixel", name: "Pixel" },
-  { id: "platformer", name: "Platformer" },
-  { id: "police", name: "Police" },
-  { id: "pool", name: "Pool" },
-  { id: "princess", name: "Princess" },
-  { id: "puzzle", name: "Puzzle" },
-  { id: "racing", name: "Racing" },
-  { id: "restaurant", name: "Restaurant" },
-  { id: "retro", name: "Retro" },
-  { id: "robots", name: "Robots" },
-  { id: "rpg", name: "Rpg" },
-  { id: "runner", name: "Runner" },
-  { id: "scary", name: "Scary" },
-  { id: "scrabble", name: "Scrabble" },
-  { id: "sharks", name: "Sharks" },
-  { id: "shooter", name: "Shooter" },
-  { id: "simulation", name: "Simulation" },
-  { id: "skateboard", name: "Skateboard" },
-  { id: "skibidi-toilet", name: "Skibidi Toilet" },
-  { id: "skill", name: "Skill" },
-  { id: "snake", name: "Snake" },
-  { id: "sniper", name: "Sniper" },
-  { id: "soccer", name: "Soccer" },
-  { id: "solitaire", name: "Solitaire" },
-  { id: "spinner", name: "Spinner" },
-  { id: "sports", name: "Sports" },
-  { id: "stickman", name: "Stickman" },
-  { id: "strategy", name: "Strategy" },
-  { id: "surgery", name: "Surgery" },
-  { id: "survival", name: "Survival" },
-  { id: "sword", name: "Sword" },
-  { id: "tanks", name: "Tanks" },
-  { id: "tap", name: "Tap" },
-  { id: "tetris", name: "Tetris" },
-  { id: "trivia", name: "Trivia" },
-  { id: "truck", name: "Truck" },
-  { id: "two-player", name: "Two Player" },
-  { id: "tycoon", name: "Tycoon" },
-  { id: "war", name: "War" },
-  { id: "word", name: "Word" },
-  { id: "world-cup", name: "World Cup" },
-  { id: "worm", name: "Worm" },
-  { id: "wrestling", name: "Wrestling" },
-  { id: "zombie", name: "Zombie" },
-];
+import { FEATURED_CATEGORIES } from "@/lib/categories";
+import CategoryIcon from "@/components/CategoryIcon";
 
 const pokiGridStyles = [
   "col-span-2 row-span-2 aspect-square",
@@ -178,7 +24,7 @@ interface Props {
 
 export default function HomepageClient({ initialGames }: Props) {
   const [recentGames, setRecentGames] = useState<RecentGame[]>([]);
-  const [games, setGames] = useState<GamePixGame[]>(initialGames); // ✅ GameSummary → GamePixGame
+  const [games, setGames] = useState<GamePixGame[]>(initialGames);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loadingMore, setLoadingMore] = useState(false);
   const [categoryLoading, setCategoryLoading] = useState(false);
@@ -272,24 +118,50 @@ export default function HomepageClient({ initialGames }: Props) {
 
       {/* CATEGORIES */}
       <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-[105px] sm:mt-[115px] relative z-10">
-        <div className="flex flex-nowrap overflow-x-auto gap-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-3 px-3">
-          {CATEGORIES.map((cat) => (
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-3">
+          {FEATURED_CATEGORIES.slice(0, 11).map((cat) => (
             <button
               key={cat.id}
               onClick={() => handleCategoryChange(cat.id)}
               className={`
-                flex items-center justify-center font-bold uppercase tracking-wider whitespace-nowrap shrink-0
-                px-4 sm:px-5 h-[36px] sm:h-[42px] text-[10px] sm:text-[12px] rounded-full border
-                transition-colors duration-150 outline-none
+                flex flex-col items-center justify-center gap-1.5 aspect-square rounded-2xl border
+                transition-colors duration-150 outline-none px-2
                 ${selectedCategory === cat.id
                   ? "bg-[#161920] text-white border-black shadow-md"
                   : "bg-white/60 text-black border-black/10 hover:bg-[#161920] hover:text-white"}
               `}
             >
-              {cat.name}
+              <CategoryIcon icon={cat.icon} className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-center leading-tight">
+                {cat.name}
+              </span>
             </button>
           ))}
+
+          <Link
+            href="/categories"
+            className="flex flex-col items-center justify-center gap-1.5 aspect-square rounded-2xl border bg-white/60 text-black border-black/10 hover:bg-[#161920] hover:text-white transition-colors duration-150 px-2"
+          >
+            <svg className="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" strokeWidth={1.6} viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1.5" />
+              <rect x="14" y="3" width="7" height="7" rx="1.5" />
+              <rect x="3" y="14" width="7" height="7" rx="1.5" />
+              <rect x="14" y="14" width="7" height="7" rx="1.5" />
+            </svg>
+            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-center leading-tight">
+              All Categories
+            </span>
+          </Link>
         </div>
+
+        {selectedCategory !== "all" && (
+          <button
+            onClick={() => handleCategoryChange("all")}
+            className="mt-3 text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors flex items-center gap-1"
+          >
+            ← Back to All Games
+          </button>
+        )}
       </div>
 
       {/* CONTINUE PLAYING */}
@@ -321,13 +193,11 @@ export default function HomepageClient({ initialGames }: Props) {
                       {rg.title}
                     </div>
                   )}
-                  {/* Hover overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-2">
                     <p className="text-[9px] font-black uppercase tracking-wider text-white truncate w-full">
                       {rg.title}
                     </p>
                   </div>
-                  {/* Play icon */}
                   <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
                     <svg className="w-2.5 h-2.5 text-black ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M8 5v14l11-7z" />
@@ -335,12 +205,10 @@ export default function HomepageClient({ initialGames }: Props) {
                   </div>
                 </Link>
 
-                {/* Game title below */}
                 <p className="text-[9px] font-black uppercase tracking-wide text-black/60 truncate mt-1 px-0.5">
                   {rg.title}
                 </p>
 
-                {/* Remove button */}
                 <button
                   onClick={(e) => handleRemoveRecent(e, rg.id)}
                   className="mt-0.5 w-full flex items-center justify-center gap-1 text-[8px] font-black uppercase tracking-wider text-black/30 hover:text-red-500 transition-colors"
@@ -369,7 +237,7 @@ export default function HomepageClient({ initialGames }: Props) {
                 const sizeClass = pokiGridStyles[index % pokiGridStyles.length];
                 return (
                   <Link
-                    href={`/games/${game.slug || game.id}`} // ✅ slug now exists on GamePixGame
+                    href={`/games/${game.slug || game.id}`}
                     key={game.id}
                     className={`
                       group relative overflow-hidden rounded-[24px] sm:rounded-[32px]
@@ -408,7 +276,6 @@ export default function HomepageClient({ initialGames }: Props) {
               })}
             </div>
 
-            {/* LOAD MORE */}
             {hasMore && (
               <div className="flex justify-center mt-8 mb-4">
                 <button
@@ -486,7 +353,7 @@ export default function HomepageClient({ initialGames }: Props) {
               <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-black/60">
                 <li><Link href="/" className="hover:text-black transition-colors">All Games</Link></li>
                 <li><Link href="/" className="hover:text-black transition-colors">Trending Games</Link></li>
-                <li><Link href="/" className="hover:text-black transition-colors">2 Player Games</Link></li>
+                <li><Link href="/categories" className="hover:text-black transition-colors">All Categories</Link></li>
                 <li><Link href="/" className="hover:text-black transition-colors">New Releases</Link></li>
               </ul>
             </div>

@@ -227,9 +227,6 @@ export default async function GamePage({ params }: GamePageProps) {
                       More {game.category || "Games"}
                     </span>
                   </div>
-                  <Link href="/" className="text-[9px] font-black uppercase tracking-widest text-black/35 hover:text-black transition-colors">
-                    SEE ALL →
-                  </Link>
                 </div>
                 <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-7 gap-2">
                   {relatedGames.map((rg) => (
@@ -365,11 +362,6 @@ export default async function GamePage({ params }: GamePageProps) {
 
                   <div className="mt-4 pt-3 border-t border-black/8 flex flex-col gap-1.5">
                     <span className="text-[9px] font-black text-black/35 uppercase tracking-widest mb-1">More Games</span>
-                    {game.category && (
-                      <Link href="/" className="text-[10px] font-black text-black/50 hover:text-black transition-colors uppercase tracking-wider">
-                        → More {game.category}
-                      </Link>
-                    )}
                     <Link href="/" className="text-[10px] font-black text-black/50 hover:text-black transition-colors uppercase tracking-wider">
                       → All Games
                     </Link>
