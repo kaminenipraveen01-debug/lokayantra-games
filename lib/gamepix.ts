@@ -127,3 +127,22 @@ export function filterByCategory(
   if (!category || category === "all") return games;
   return games.filter((g) => g.category === category);
 }
+
+// అన్ని unique categories GamePix నుండి collect చేయి (multiple pages scan చేసి)
+export async function fetchAllCategories(): Promise<string[]> {
+  const categorySet = new Set<string>();
+  
+  for (let page = 1; page <= 30; page++) {
+    try {
+      const games = await fetchGamePixPage(page);
+      if (games.length === 0) break;
+      games.forEach((g) => {
+        if (g.category) categorySet.add(g.category);
+      });
+    } catch {
+      break;
+    }
+  }
+
+  return Array.from(categorySet).sort();
+}

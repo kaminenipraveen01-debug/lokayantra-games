@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { getRecentlyPlayed, removeRecentlyPlayed, RecentGame } from "@/lib/recentlyPlayed";
 import { GamePixGame } from "@/lib/gamepix";
-import { FEATURED_CATEGORIES } from "@/lib/categories";
-import CategoryIcon from "@/components/CategoryIcon";
 
 const pokiGridStyles = [
   "col-span-2 row-span-2 aspect-square",
@@ -18,11 +16,19 @@ const pokiGridStyles = [
   "col-span-1 row-span-1 aspect-square",
 ];
 
-interface Props {
-  initialGames: GamePixGame[];
+function formatCategoryName(id: string): string {
+  return id
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
 }
 
-export default function HomepageClient({ initialGames }: Props) {
+interface Props {
+  initialGames: GamePixGame[];
+  categories: string[];
+}
+
+export default function HomepageClient({ initialGames, categories }: Props) {
   const [recentGames, setRecentGames] = useState<RecentGame[]>([]);
   const [games, setGames] = useState<GamePixGame[]>(initialGames);
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -45,6 +51,8 @@ export default function HomepageClient({ initialGames }: Props) {
       setGames(initialGames);
       setHasMore(initialGames.length >= 48);
       setCategoryLoading(false);
+      // games grid దగ్గరకు scroll చేయి
+      document.getElementById("games-grid")?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
 
@@ -58,6 +66,7 @@ export default function HomepageClient({ initialGames }: Props) {
       setGames([]);
     } finally {
       setCategoryLoading(false);
+      document.getElementById("games-grid")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
@@ -116,57 +125,9 @@ export default function HomepageClient({ initialGames }: Props) {
         <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-black/95" />
       </div>
 
-      {/* CATEGORIES */}
-      <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-[105px] sm:mt-[115px] relative z-10">
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-3">
-          {FEATURED_CATEGORIES.slice(0, 11).map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => handleCategoryChange(cat.id)}
-              className={`
-                flex flex-col items-center justify-center gap-1.5 aspect-square rounded-2xl border
-                transition-colors duration-150 outline-none px-2
-                ${selectedCategory === cat.id
-                  ? "bg-[#161920] text-white border-black shadow-md"
-                  : "bg-white/60 text-black border-black/10 hover:bg-[#161920] hover:text-white"}
-              `}
-            >
-              <CategoryIcon icon={cat.icon} className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-center leading-tight">
-                {cat.name}
-              </span>
-            </button>
-          ))}
-
-          <Link
-            href="/categories"
-            className="flex flex-col items-center justify-center gap-1.5 aspect-square rounded-2xl border bg-white/60 text-black border-black/10 hover:bg-[#161920] hover:text-white transition-colors duration-150 px-2"
-          >
-            <svg className="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" strokeWidth={1.6} viewBox="0 0 24 24">
-              <rect x="3" y="3" width="7" height="7" rx="1.5" />
-              <rect x="14" y="3" width="7" height="7" rx="1.5" />
-              <rect x="3" y="14" width="7" height="7" rx="1.5" />
-              <rect x="14" y="14" width="7" height="7" rx="1.5" />
-            </svg>
-            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-center leading-tight">
-              All Categories
-            </span>
-          </Link>
-        </div>
-
-        {selectedCategory !== "all" && (
-          <button
-            onClick={() => handleCategoryChange("all")}
-            className="mt-3 text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors flex items-center gap-1"
-          >
-            ← Back to All Games
-          </button>
-        )}
-      </div>
-
       {/* CONTINUE PLAYING */}
       {recentGames.length > 0 && (
-        <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-6 sm:mt-8 relative z-10">
+        <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-[105px] sm:mt-[115px] relative z-10">
           <div className="flex items-center gap-2 mb-3 px-0.5">
             <svg className="w-3.5 h-3.5 text-black/60" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
@@ -223,7 +184,21 @@ export default function HomepageClient({ initialGames }: Props) {
       )}
 
       {/* GAMES GRID */}
-      <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-6 sm:mt-8 relative z-10">
+      <div id="games-grid" className={`w-full max-w-[1400px] mx-auto px-3 sm:px-4 ${recentGames.length > 0 ? "mt-6 sm:mt-8" : "mt-[105px] sm:mt-[115px]"} relative z-10`}>
+        {selectedCategory !== "all" && (
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-black uppercase tracking-wide text-black/70">
+              {formatCategoryName(selectedCategory)} Games
+            </h2>
+            <button
+              onClick={() => handleCategoryChange("all")}
+              className="text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors"
+            >
+              ← All Games
+            </button>
+          </div>
+        )}
+
         {categoryLoading ? (
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-1.5 sm:gap-2">
             {Array.from({ length: 16 }).map((_, i) => (
@@ -295,8 +270,52 @@ export default function HomepageClient({ initialGames }: Props) {
         )}
       </div>
 
+      {/* CATEGORIES — Load More కింద */}
+      {categories.length > 0 && (
+        <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 sm:mt-10 relative z-10">
+          <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-black/10 p-5 sm:p-8 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-black/50">
+                Browse by Category
+              </h2>
+              <Link
+                href="/categories"
+                className="text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors"
+              >
+                All Categories →
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => handleCategoryChange("all")}
+                className={`px-3.5 py-2 rounded-full border text-[10px] font-black uppercase tracking-wide transition-colors ${
+                  selectedCategory === "all"
+                    ? "bg-[#161920] text-white border-black"
+                    : "bg-white/50 text-black border-black/10 hover:bg-[#161920] hover:text-white"
+                }`}
+              >
+                All Games
+              </button>
+              {categories.map((catId) => (
+                <button
+                  key={catId}
+                  onClick={() => handleCategoryChange(catId)}
+                  className={`px-3.5 py-2 rounded-full border text-[10px] font-black uppercase tracking-wide transition-colors ${
+                    selectedCategory === catId
+                      ? "bg-[#161920] text-white border-black"
+                      : "bg-white/50 text-black border-black/10 hover:bg-[#161920] hover:text-white"
+                  }`}
+                >
+                  {formatCategoryName(catId)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* INFO STRIP */}
-      <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-10 sm:mt-16 text-center relative z-10">
+      <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-6 sm:mt-8 text-center relative z-10">
         <div className="border border-black/10 p-6 sm:p-12 rounded-[24px] sm:rounded-[32px] shadow-xl space-y-4 bg-white/60">
           <span className="text-xs font-black uppercase tracking-widest text-black/60">LOKAYANTRA ARCADE STATION</span>
           <h2 className="text-xl sm:text-4xl font-black text-black tracking-tight">No Downloads. No Clutter. Just Magic.</h2>
@@ -352,9 +371,9 @@ export default function HomepageClient({ initialGames }: Props) {
               <h3 className="text-xs font-black uppercase tracking-widest text-black/90 border-b border-black/10 pb-1">Explore</h3>
               <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-black/60">
                 <li><Link href="/" className="hover:text-black transition-colors">All Games</Link></li>
-                <li><Link href="/" className="hover:text-black transition-colors">Trending Games</Link></li>
+                <li><Link href="/trending" className="hover:text-black transition-colors">Trending Games</Link></li>
                 <li><Link href="/categories" className="hover:text-black transition-colors">All Categories</Link></li>
-                <li><Link href="/" className="hover:text-black transition-colors">New Releases</Link></li>
+                <li><Link href="/new-releases" className="hover:text-black transition-colors">New Releases</Link></li>
               </ul>
             </div>
             <div className="space-y-4">

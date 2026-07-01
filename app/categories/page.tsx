@@ -1,25 +1,36 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FEATURED_CATEGORIES } from "@/lib/categories";
-import CategoryIcon from "@/components/CategoryIcon";
+import { fetchAllCategories } from "@/lib/gamepix";
+
+export const revalidate = 86400; // రోజుకొకసారి refresh
 
 export const metadata: Metadata = {
   title: "All Game Categories | LokaYantra",
   description: "Browse all game categories on LokaYantra — Action, Racing, Puzzle, Adventure, Sports, and more. Find your favorite type of free online HTML5 games.",
 };
 
-export default function CategoriesPage() {
+function formatCategoryName(id: string): string {
+  return id
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
+export default async function CategoriesPage() {
+  let categories: string[] = [];
+  try {
+    categories = await fetchAllCategories();
+  } catch {
+    categories = [];
+  }
+
   return (
     <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
 
-      {/* BLACK BUBBLES */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-black/95" />
         <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-black/90" />
-        <div className="absolute top-[20px] left-[35%] w-[80px] h-[80px] rounded-full bg-black/95" />
-        <div className="absolute top-[-30px] right-[35%] w-[140px] h-[140px] rounded-full bg-black/95" />
         <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-black/85" />
-        <div className="absolute top-[280px] left-[12%] w-[110px] h-[110px] rounded-full bg-black/85" />
         <div className="absolute bottom-[320px] left-[5%] w-[180px] h-[180px] rounded-full bg-black/90" />
         <div className="absolute bottom-[-30px] left-[12%] w-[190px] h-[190px] rounded-full bg-black/85" />
         <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-black/95" />
@@ -41,27 +52,28 @@ export default function CategoriesPage() {
             Every category below links to a curated collection of HTML5 games that load instantly, with no
             downloads and no installs — just click and play.
           </p>
+          <p className="text-[10px] font-bold text-black/40 mt-3">{categories.length} categories available</p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-          {FEATURED_CATEGORIES.map((cat) => (
-            <Link
-              key={cat.id}
-              href={`/category/${cat.id}`}
-              className="group flex flex-col gap-3 p-5 rounded-[20px] border border-black/10 bg-white/50 hover:bg-white/70 hover:border-black/30 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-all duration-200"
-            >
-              <div className="w-11 h-11 rounded-xl bg-black text-white flex items-center justify-center group-hover:bg-[#161920]">
-                <CategoryIcon icon={cat.icon} className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="text-sm font-black uppercase tracking-wide text-black">{cat.name}</h2>
-                <p className="text-[10px] font-semibold text-black/50 mt-1 leading-relaxed line-clamp-2">
-                  {cat.description}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {categories.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            {categories.map((catId) => (
+              <Link
+                key={catId}
+                href={`/category/${catId}`}
+                className="group flex items-center justify-center text-center p-4 rounded-[16px] border border-black/10 bg-white/50 hover:bg-[#161920] hover:text-white hover:border-black hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-all duration-200"
+              >
+                <span className="text-[11px] font-black uppercase tracking-wide">
+                  {formatCategoryName(catId)}
+                </span>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center font-bold py-20 bg-white/20 rounded-[24px] border border-black/10 uppercase tracking-wider text-xs">
+            Categories loading failed. Please try again later.
+          </div>
+        )}
 
         <div className="mt-8">
           <Link

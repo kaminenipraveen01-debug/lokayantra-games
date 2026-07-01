@@ -443,9 +443,9 @@ export default async function GamePage({ params }: GamePageProps) {
               <h3 className="text-xs font-black uppercase tracking-widest text-black/90 border-b border-black/10 pb-1">Explore</h3>
               <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-black/60">
                 <li><Link href="/" className="hover:text-black transition-colors">All Games</Link></li>
-                <li><Link href="/" className="hover:text-black transition-colors">Trending Games</Link></li>
+                <li><Link href="/trending" className="hover:text-black transition-colors">Trending Games</Link></li>
                 <li><Link href="/" className="hover:text-black transition-colors">2 Player Games</Link></li>
-                <li><Link href="/" className="hover:text-black transition-colors">New Releases</Link></li>
+                <li><Link href="/new-releases" className="hover:text-black transition-colors">New Releases</Link></li>
               </ul>
             </div>
             <div className="space-y-4">
