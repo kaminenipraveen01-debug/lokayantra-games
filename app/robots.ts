@@ -1,4 +1,3 @@
-// app/robots.ts
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
@@ -9,12 +8,10 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: [
           '/admin',
-          '/api/',      // Internal API routes — index avvadam wasteful
-          '/*?*',       // Query param URLs — ?category=X duplicate content avoid
+          '/api/',
         ],
       },
       {
-        // AdsBot ki sitemap info provide cheyyadam — AdSense approval ki helps
         userAgent: 'AdsBot-Google',
         allow: '/',
       },
