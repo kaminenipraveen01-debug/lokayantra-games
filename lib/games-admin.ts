@@ -11,8 +11,10 @@ export interface GameSummary {
   playCount?: number;
   likes?: number;
   slug?: string;
+  embedUrl?: string;
+  gameUrl?: string;
+  description?: string;
 }
-
 export interface GameFull {
   id: string;
   title: string;
@@ -35,11 +37,11 @@ export interface GameFull {
   youtubeEmbedUrl?: string;
 }
 
-export async function getHomepageGames(): Promise<GameSummary[]> {
+export async function getHomepageGames(limitCount = 48): Promise<GameSummary[]> {
   const snap = await adminDb
     .collection("games")
     .orderBy("playCount", "desc")
-    .limit(48)
+    .limit(limitCount)
     .get();
 
   return snap.docs.map((d) => {
@@ -52,6 +54,9 @@ export async function getHomepageGames(): Promise<GameSummary[]> {
       playCount: data.playCount ?? 0,
       likes: data.likes ?? 0,
       slug: data.slug ?? "",
+      embedUrl: data.embedUrl ?? "",
+      gameUrl: data.gameUrl ?? "",
+      description: data.description ?? "",
     };
   });
 }
