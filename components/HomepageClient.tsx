@@ -155,7 +155,7 @@ export default function HomepageClient({ initialGames, categories: _categories }
   const [recentGames, setRecentGames] = useState<RecentGame[]>([]);
   const [games, setGames] = useState<GamePixGame[]>(initialGames);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(10);
   const [hasMore, setHasMore] = useState(initialGames.length >= 48);
 
   useEffect(() => {
