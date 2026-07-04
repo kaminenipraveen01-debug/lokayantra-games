@@ -8,6 +8,8 @@ import { useAuth } from "@/lib/auth-context";
 import { adminFetch, adminPostJSON } from "@/lib/admin-fetch";
 import { Game } from "@/types/game";
 
+// ── GamePix Import ────────────────────────────────────────────────────────────
+
 interface ImportResult {
   ok: boolean;
   imported: number;
@@ -29,7 +31,6 @@ function GamePixImport() {
     setLoading(true);
     setResult(null);
     setError(null);
-
     try {
       const data = await adminPostJSON<ImportResult>(
         "/api/admin/import-gamepix",
@@ -46,7 +47,6 @@ function GamePixImport() {
   return (
     <div className="mt-8 p-5 rounded-xl border border-[var(--b)] bg-[var(--bg2)] space-y-4 max-w-xl">
       <h2 className="text-lg font-semibold">Import Games from GamePix</h2>
-
       <div>
         <label className="block text-sm font-medium mb-1">GamePix RSS Feed URL</label>
         <input
@@ -57,27 +57,16 @@ function GamePixImport() {
           className="w-full px-3 py-2 rounded bg-[var(--bg3)] border border-[var(--b)] text-sm disabled:opacity-60"
           placeholder="https://feeds.gamepix.com/v2/json/?sid=..."
         />
-        <p className="text-xs text-[var(--t3)] mt-1">
-          మీ GamePix dashboard లో Games Catalog → RSS Feed URL copy చేసి paste చేయండి.
-        </p>
       </div>
-
       <button
         onClick={handleImport}
         disabled={loading || !feedUrl.trim()}
         className="px-4 py-2 bg-[var(--red)] text-white rounded text-sm font-medium disabled:opacity-50 hover:opacity-90 transition"
       >
-        {loading ? "Importing... (కొంత సేపు పడుతుంది)" : "Import All Games"}
+        {loading ? "Importing..." : "Import All Games"}
       </button>
-
-      {loading && (
-        <p className="text-sm text-[var(--t3)] animate-pulse">
-          GamePix నుండి games fetch చేస్తున్నాం, Firestore లో save చేస్తున్నాం...
-        </p>
-      )}
-
+      {loading && <p className="text-sm text-[var(--t3)] animate-pulse">Importing...</p>}
       {error && <p className="text-sm text-[var(--red)]">⚠ {error}</p>}
-
       {result && (
         <div className="space-y-2 text-sm">
           <p className="text-green-400 font-semibold">✓ Import పూర్తైంది!</p>
@@ -95,7 +84,6 @@ function GamePixImport() {
               <p className="text-xs text-[var(--t3)]">Total</p>
             </div>
           </div>
-
           {result.errors.length > 0 && (
             <div className="p-3 rounded bg-[var(--bg3)] space-y-1">
               <p className="text-xs font-semibold text-[var(--red)]">కొన్ని games import కాలేదు:</p>
@@ -109,6 +97,54 @@ function GamePixImport() {
     </div>
   );
 }
+
+// ── Delete GamePix Games ──────────────────────────────────────────────────────
+
+function DeleteGamePixGames() {
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<{ deleted: number } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleDelete = async () => {
+    if (!confirm("Firebase లో ఉన్న అన్ని GamePix games delete చేయాలా? ఇది undo కాదు!")) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await adminPostJSON<{ ok: boolean; deleted: number }>(
+        "/api/admin/delete-gamepix",
+        {}
+      );
+      setResult(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Delete failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-4 p-5 rounded-xl border border-red-500/30 bg-red-500/5 space-y-3 max-w-xl">
+      <h2 className="text-lg font-semibold text-red-400">Delete GamePix Games from Firebase</h2>
+      <p className="text-xs text-[var(--t3)]">
+        Firebase లో GamePix imported games ఉన్నాయి — అవి quota consume చేస్తున్నాయి.
+        Delete చేస్తే Firebase reads దాదాపు zero అవుతాయి.
+      </p>
+      <button
+        onClick={handleDelete}
+        disabled={loading}
+        className="px-4 py-2 bg-red-500 text-white rounded text-sm font-medium disabled:opacity-50 hover:bg-red-600 transition"
+      >
+        {loading ? "Deleting... (కొంత సేపు పడుతుంది)" : "Delete All GamePix Games"}
+      </button>
+      {error && <p className="text-sm text-red-400">⚠ {error}</p>}
+      {result && (
+        <p className="text-sm text-green-400">✓ {result.deleted} games deleted!</p>
+      )}
+    </div>
+  );
+}
+
+// ── Admin Dashboard ───────────────────────────────────────────────────────────
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
@@ -140,16 +176,9 @@ export default function AdminDashboard() {
   }, [loadGames]);
 
   const handleDelete = async (gameId: string) => {
-    if (
-      !confirm(
-        `Delete "${gameId}" permanently? This removes its Firestore entry and all files from the games repo. This cannot be undone.`
-      )
-    )
-      return;
-
+    if (!confirm(`Delete "${gameId}" permanently?`)) return;
     setDeletingId(gameId);
     setError(null);
-
     try {
       const res = await adminFetch(`/api/games/${gameId}`, { method: "DELETE" });
       if (!res.ok) {
@@ -166,6 +195,7 @@ export default function AdminDashboard() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--t)] p-6">
+      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Admin Dashboard</h1>
         <div className="flex items-center gap-3">
@@ -187,7 +217,9 @@ export default function AdminDashboard() {
       </Link>
 
       <GamePixImport />
+      <DeleteGamePixGames />
 
+      {/* Games list */}
       <div className="mt-8">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-semibold">
@@ -222,7 +254,6 @@ export default function AdminDashboard() {
                   key={game.id}
                   className="grid grid-cols-[64px_1fr] sm:grid-cols-[64px_1fr_140px_110px_110px_150px] gap-3 items-center px-4 py-3"
                 >
-                  {/* Thumbnail — plain img tag వాడాం, ఏ domain అయినా పని చేస్తుంది */}
                   <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-md overflow-hidden bg-[var(--bg3)] flex-shrink-0">
                     {game.thumbnail ? (
                       <img
@@ -264,7 +295,7 @@ export default function AdminDashboard() {
                   <div className="col-span-2 sm:col-span-1 flex items-center justify-start sm:justify-end gap-2 mt-2 sm:mt-0">
                     <Link
                       href={`/admin/upload?edit=${game.id}`}
-                      className="px-3 py-1.5 text-xs font-medium rounded bg-[var(--bg3)] text-[var(--t2)] hover:text-white hover:bg-[var(--bg3)]/80 transition"
+                      className="px-3 py-1.5 text-xs font-medium rounded bg-[var(--bg3)] text-[var(--t2)] hover:text-white transition"
                     >
                       Edit
                     </Link>
