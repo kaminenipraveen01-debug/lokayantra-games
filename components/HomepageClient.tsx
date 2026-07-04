@@ -318,7 +318,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
       </div>
 
       {featuredGames.length > 0 && (
-    <div className="mt-8">
+    <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 relative z-10">
       <div className="flex items-center gap-2 mb-3 px-0.5">
         <svg className="w-3.5 h-3.5 text-black" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 2L14.5 8H21L16 12.5L18 19L12 15L6 19L8 12.5L3 8H9.5L12 2Z"/>
