@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { fetchGamePixPage } from "@/lib/gamepix";
-import CategoryGamesClient from "@/components/CategoryGamesClient.tsx";
+import CategoryGamesClient from "@/components/CategoryGamesClient";
 
 export const revalidate = 3600;
 
