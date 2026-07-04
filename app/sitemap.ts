@@ -1,12 +1,7 @@
 import { MetadataRoute } from 'next';
-import { getFirestore } from 'firebase-admin/firestore';
-import { adminApp } from '@/lib/firebase-admin';
-
-export const revalidate = 86400; // రోజుకొకసారి మాత్రమే
 
 const SITE_URL = "https://lokayantra.vercel.app";
 
-// GamePix categories — hardcoded గా పెట్టాం, fetch అవసరం లేదు
 const GAMEPIX_CATEGORIES = [
   "2048", "action", "addictive", "adventure", "airplane", "animal",
   "arcade", "archery", "ball", "basketball", "battle", "battle-royale",
@@ -28,9 +23,7 @@ const GAMEPIX_CATEGORIES = [
   "word", "world-cup", "worm", "wrestling", "zombie",
 ];
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-
-  // 1. Static routes
+export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
     { url: `${SITE_URL}/categories`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
@@ -42,7 +35,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
   ];
 
-  // 2. Category pages
   const categoryRoutes: MetadataRoute.Sitemap = GAMEPIX_CATEGORIES.map((catId) => ({
     url: `${SITE_URL}/category/${catId}`,
     lastModified: new Date(),
@@ -50,36 +42,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  // 3. Admin uploaded games మాత్రమే Firebase నుండి
-  let adminGameRoutes: MetadataRoute.Sitemap = [];
-  try {
-    const db = getFirestore(adminApp);
-    const snap = await db.collection("games")
-      .where("developer", "!=", "GamePix")
-      .limit(500)
-      .get();
-
-    adminGameRoutes = snap.docs.map((doc) => {
-      const data = doc.data();
-      const gameIdentifier = data.slug || doc.id;
-      const rawDate = data.updatedAt || data.createdAt;
-      const lastModified =
-        rawDate?.toDate?.() instanceof Date
-          ? rawDate.toDate()
-          : typeof rawDate === "string"
-          ? new Date(rawDate)
-          : new Date();
-
-      return {
-        url: `${SITE_URL}/games/${gameIdentifier}`,
-        lastModified,
-        changeFrequency: 'weekly' as const,
-        priority: 0.9,
-      };
-    });
-  } catch (err) {
-    console.error("Sitemap: failed to fetch admin games:", err);
-  }
-
-  return [...staticRoutes, ...categoryRoutes, ...adminGameRoutes];
+  return [...staticRoutes, ...categoryRoutes];
 }
