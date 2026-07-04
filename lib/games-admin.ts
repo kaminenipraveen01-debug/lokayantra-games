@@ -38,9 +38,10 @@ export interface GameFull {
 }
 
 export async function getHomepageGames(limitCount = 48): Promise<GameSummary[]> {
+  // GamePix import చేసినవి కాదు — manually upload చేసినవి మాత్రమే
   const snap = await adminDb
     .collection("games")
-    .orderBy("playCount", "desc")
+    .where("developer", "!=", "GamePix")
     .limit(limitCount)
     .get();
 
