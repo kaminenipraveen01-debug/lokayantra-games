@@ -148,10 +148,9 @@ useEffect(() => {
       <motion.div
         layout
         initial={false}
-        // ఇలా replace చేయండి:
-        animate={{ 
-          width: isExpanded ? "92vw" : "480px", 
-          maxWidth: isExpanded ? "1000px" : "480px", 
+        animate={{
+          width: isExpanded ? "92vw" : "240px",
+          maxWidth: isExpanded ? "1000px" : "240px",
         }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
         className="h-[64px] sm:h-[72px] rounded-full p-2 flex items-center justify-between border border-white/[0.08] relative overflow-hidden"
