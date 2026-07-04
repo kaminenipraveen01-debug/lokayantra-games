@@ -49,11 +49,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Sitemap: failed to fetch GamePix games:", err);
   }
 
-  // 4. Firebase admin uploaded games
+  // 4. Firebase admin uploaded games మాత్రమే (GamePix import కాదు)
   let adminGameRoutes: MetadataRoute.Sitemap = [];
   try {
     const db = getFirestore(adminApp);
-    const snap = await db.collection("games").get();
+    const snap = await db.collection("games")
+      .where("developer", "!=", "GamePix") // GamePix imported games తీసేయి
+      .get();
     adminGameRoutes = snap.docs.map((doc) => {
       const data = doc.data();
       const gameIdentifier = data.slug || doc.id;
@@ -69,7 +71,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         url: `${SITE_URL}/games/${gameIdentifier}`,
         lastModified,
         changeFrequency: 'weekly' as const,
-        priority: 0.9, // Admin games higher priority
+        priority: 0.9,
       };
     });
   } catch (err) {

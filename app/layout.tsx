@@ -30,6 +30,9 @@ export const metadata: Metadata = {
   authors: [{ name: "LokaYantra", url: SITE_URL }],
   creator: "LokaYantra",
   publisher: "LokaYantra",
+  verification: {
+    google: "Ky6z3tsotqyy6e_A997Q6XHDCOF6TEMSLz1XwtTD2JA",
+  },
   robots: {
     index: true,
     follow: true,
