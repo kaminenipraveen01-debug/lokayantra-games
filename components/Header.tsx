@@ -65,16 +65,37 @@ export default function Header() {
   }, [isExpanded, setSearchTerm]);
 
   // Fetch all games once, the first time the search is opened (works on every page)
-  useEffect(() => {
+  // ఇలా replace చేయండి:
+useEffect(() => {
     if (!isExpanded || gamesLoaded) return;
     async function fetchGames() {
       try {
+        // Firebase games
         const snap = await getDocs(collection(db, "games"));
-        const list: SearchGame[] = snap.docs.map((d) => ({
+        const fbList: SearchGame[] = snap.docs.map((d) => ({
           id: d.id,
           ...d.data(),
         })) as SearchGame[];
-        setAllGames(list);
+
+        // GamePix games — API నుండి fetch
+        const res = await fetch("/api/games?page=1&limit=120");
+        const data = await res.json();
+        const gpList: SearchGame[] = (data.games ?? []).map((g: any) => ({
+          id: g.id,
+          title: g.title,
+          slug: g.slug || g.id,
+          thumbnail: g.thumbnail,
+          category: g.category,
+        }));
+
+        // Merge — duplicates తీసేయి
+        const merged = [...fbList];
+        for (const g of gpList) {
+          if (!merged.find((m) => m.id === g.id)) {
+            merged.push(g);
+          }
+        }
+        setAllGames(merged);
       } catch (err) {
         console.error("Search fetch error:", err);
       } finally {
@@ -127,9 +148,10 @@ export default function Header() {
       <motion.div
         layout
         initial={false}
-        animate={{
-          width: isExpanded ? "92vw" : "240px",
-          maxWidth: isExpanded ? "1000px" : "240px",
+        // ఇలా replace చేయండి:
+        animate={{ 
+          width: isExpanded ? "92vw" : "480px", 
+          maxWidth: isExpanded ? "1000px" : "480px", 
         }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
         className="h-[64px] sm:h-[72px] rounded-full p-2 flex items-center justify-between border border-white/[0.08] relative overflow-hidden"
@@ -193,6 +215,30 @@ export default function Header() {
             )}
           </AnimatePresence>
         </div>
+
+        <AnimatePresence>
+          {!isExpanded && (
+            <motion.nav
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="hidden md:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2"
+            >
+              <Link href="/categories"
+                className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-colors">
+                Categories
+              </Link>
+              <Link href="/trending"
+                className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-colors">
+                Trending
+              </Link>
+              <Link href="/new-releases"
+                className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-colors">
+                New
+              </Link>
+            </motion.nav>
+          )}
+        </AnimatePresence>
 
         {/* ── RIGHT: LOCK → /admin ── */}
         <motion.button
