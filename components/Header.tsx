@@ -55,26 +55,38 @@ export default function Header() {
   const [debouncedTerm, setDebouncedTerm] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isExpanded) {
-      const timer = setTimeout(() => inputRef.current?.focus(), 400);
-      return () => clearTimeout(timer);
-    } else {
-      setSearchTerm("");
-    }
-  }, [isExpanded, setSearchTerm]);
-
-  // Fetch all games once, the first time the search is opened (works on every page)
-  useEffect(() => {
+  // ఇలా replace చేయండి:
+useEffect(() => {
     if (!isExpanded || gamesLoaded) return;
     async function fetchGames() {
       try {
-        const snap = await getDocs(collection(db, "games"));
-        const list: SearchGame[] = snap.docs.map((d) => ({
+        // Firebase games + GamePix games parallel గా fetch
+        const [snap, res] = await Promise.all([
+          getDocs(collection(db, "games")),
+          fetch("/api/games?page=1&limit=120"),
+        ]);
+
+        const fbList: SearchGame[] = snap.docs.map((d) => ({
           id: d.id,
           ...d.data(),
         })) as SearchGame[];
-        setAllGames(list);
+
+        const gpData = await res.json();
+        const gpList: SearchGame[] = (gpData.games ?? []).map((g: any) => ({
+          id: g.id,
+          title: g.title,
+          slug: g.slug || g.id,
+          thumbnail: g.thumbnail,
+          category: g.category,
+        }));
+
+        // Merge — duplicates తీసేయి
+        const seen = new Set(fbList.map((g) => g.id));
+        const merged = [
+          ...fbList,
+          ...gpList.filter((g) => !seen.has(g.id)),
+        ];
+        setAllGames(merged);
       } catch (err) {
         console.error("Search fetch error:", err);
       } finally {
