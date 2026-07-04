@@ -149,9 +149,10 @@ const HOME_CATEGORIES = [
 interface Props {
   initialGames: GamePixGame[];
   categories: string[];
+  featuredGames?: GamePixGame[];
 }
 
-export default function HomepageClient({ initialGames, categories: _categories }: Props) {
+export default function HomepageClient({ initialGames, categories: _categories, featuredGames = [] }: Props) {
   const [recentGames, setRecentGames] = useState<RecentGame[]>([]);
   const [games, setGames] = useState<GamePixGame[]>(initialGames);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -262,6 +263,53 @@ export default function HomepageClient({ initialGames, categories: _categories }
           </div>
         </div>
       )}
+
+      {/* FEATURED GAMES — Admin uploaded */}
+{featuredGames.length > 0 && (
+  <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-6 sm:mt-8 relative z-10">
+    <div className="flex items-center gap-2 mb-3 px-0.5">
+      <svg className="w-3.5 h-3.5 text-black" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2L14.5 8H21L16 12.5L18 19L12 15L6 19L8 12.5L3 8H9.5L12 2Z"/>
+      </svg>
+      <span className="text-[11px] font-black uppercase tracking-[0.2em] text-black">
+        Featured Games
+      </span>
+    </div>
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-1.5 sm:gap-2">
+      {featuredGames.map((game) => (
+        <Link
+          href={`/games/${game.slug || game.id}`}
+          key={game.id}
+          className="group relative aspect-square overflow-hidden rounded-[24px] sm:rounded-[32px] border border-black/20 hover:border-black/50 bg-white/40 hover:bg-white/55 shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.2)] hover:-translate-y-1.5 transition-all duration-200"
+        >
+          {game.thumbnail ? (
+            <img
+              src={game.thumbnail}
+              alt={game.title}
+              className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-black/60">
+              {game.title}
+            </div>
+          )}
+          {/* Featured badge */}
+          <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black text-white text-[8px] font-black uppercase tracking-wider">
+            ★ Featured
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3">
+            <p className="text-[10px] font-black uppercase tracking-wider text-white truncate max-w-[70%]">
+              {game.title}
+            </p>
+            <span className="ml-auto text-[8px] font-extrabold text-black bg-white px-2.5 py-1 rounded-md tracking-wider">
+              PLAY
+            </span>
+          </div>
+        </Link>
+      ))}
+    </div>
+  </div>
+)}
 
       {/* GAMES GRID */}
       <div className={`w-full max-w-[1400px] mx-auto px-3 sm:px-4 ${recentGames.length > 0 ? "mt-6 sm:mt-8" : "mt-[105px] sm:mt-[115px]"} relative z-10`}>
