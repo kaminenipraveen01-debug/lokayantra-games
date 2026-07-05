@@ -176,7 +176,7 @@ export default function GamePlayer({ game }: { game: GameData }) {
           )}
 
           {!isPlaying ? (
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/90 group cursor-pointer" onClick={handlePlayClick}>
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/15 group cursor-pointer" onClick={handlePlayClick}>
               {game.thumbnail && (
                 <Image 
                   src={game.thumbnail} 
