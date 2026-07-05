@@ -102,19 +102,31 @@ function GamePixImport() {
 
 function DeleteGamePixGames() {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ deleted: number } | null>(null);
+  const [deleted, setDeleted] = useState(0);
+  const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleDelete = async () => {
     if (!confirm("Firebase లో ఉన్న అన్ని GamePix games delete చేయాలా? ఇది undo కాదు!")) return;
     setLoading(true);
     setError(null);
+    setDeleted(0);
+    setDone(false);
+
     try {
-      const data = await adminPostJSON<{ ok: boolean; deleted: number }>(
-        "/api/admin/delete-gamepix",
-        {}
-      );
-      setResult(data);
+      let totalDeleted = 0;
+      let hasMore = true;
+
+      while (hasMore) {
+        const data = await adminPostJSON<{ ok: boolean; deleted: number; hasMore: boolean }>(
+          "/api/admin/delete-gamepix",
+          {}
+        );
+        totalDeleted += data.deleted;
+        setDeleted(totalDeleted);
+        hasMore = data.hasMore;
+      }
+      setDone(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Delete failed");
     } finally {
@@ -134,11 +146,11 @@ function DeleteGamePixGames() {
         disabled={loading}
         className="px-4 py-2 bg-red-500 text-white rounded text-sm font-medium disabled:opacity-50 hover:bg-red-600 transition"
       >
-        {loading ? "Deleting... (కొంత సేపు పడుతుంది)" : "Delete All GamePix Games"}
+        {loading ? `Deleting... (${deleted} deleted so far)` : "Delete All GamePix Games"}
       </button>
       {error && <p className="text-sm text-red-400">⚠ {error}</p>}
-      {result && (
-        <p className="text-sm text-green-400">✓ {result.deleted} games deleted!</p>
+      {done && (
+        <p className="text-sm text-green-400">✓ {deleted} games deleted successfully!</p>
       )}
     </div>
   );

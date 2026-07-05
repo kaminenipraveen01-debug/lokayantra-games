@@ -23,10 +23,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  let deleted = 0;
-  let hasMore = true;
-
-  while (hasMore) {
+  try {
+    // ఒక్కసారి 400 మాత్రమే delete చేయి
     const snap = await adminDb
       .collection("games")
       .where("developer", "==", "GamePix")
@@ -34,15 +32,22 @@ export async function POST(req: NextRequest) {
       .get();
 
     if (snap.empty) {
-      hasMore = false;
-      break;
+      return NextResponse.json({ ok: true, deleted: 0, hasMore: false });
     }
 
     const batch = adminDb.batch();
     snap.docs.forEach((doc) => batch.delete(doc.ref));
     await batch.commit();
-    deleted += snap.docs.length;
-  }
 
-  return NextResponse.json({ ok: true, deleted });
+    return NextResponse.json({
+      ok: true,
+      deleted: snap.docs.length,
+      hasMore: snap.docs.length === 400,
+    });
+  } catch (err) {
+    return NextResponse.json(
+      { message: err instanceof Error ? err.message : "Delete failed" },
+      { status: 500 }
+    );
+  }
 }
