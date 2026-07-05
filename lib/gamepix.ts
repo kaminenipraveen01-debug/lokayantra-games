@@ -53,28 +53,34 @@ export async function fetchAllGamePixGames(): Promise<GamePixGame[]> {
 // Single game fetch — namespace తో direct fetch
 export async function fetchGamePixGame(id: string): Promise<GamePixGame | null> {
   try {
-    const res = await fetch(
-      `https://feeds.gamepix.com/v2/json/?order=quality&pagination=1&sid=${SID}&namespace=${id}`,
-      { next: { revalidate: 86400 } }
-    );
-    if (!res.ok) return null;
-    const data = await res.json();
-    const items = data.items ?? [];
-    if (items.length === 0) return null;
-
-    const item = items[0];
-    return {
-      id: item.namespace ?? String(item.id),
-      title: item.title ?? "",
-      description: item.description ?? "",
-      category: item.category ?? "",
-      thumbnail: item.image?.replace("w=105", "w=512") ?? "",
-      embedUrl: item.url ?? "",
-      namespace: item.namespace ?? "",
-      slug: item.namespace ?? String(item.id),
-      width: item.width ?? 800,
-      height: item.height ?? 600,
-    };
+    for (let page = 1; page <= 5; page++) {
+      const res = await fetch(
+        `https://feeds.gamepix.com/v2/json/?order=quality&pagination=12&sid=${SID}&page=${page}`,
+        { next: { revalidate: 3600 } }
+      );
+      if (!res.ok) break;
+      const data = await res.json();
+      const items = data.items ?? [];
+      if (items.length === 0) break;
+      const item = items.find(
+        (i: any) => i.namespace === id || String(i.id) === id
+      );
+      if (item) {
+        return {
+          id: item.namespace ?? String(item.id),
+          title: item.title ?? "",
+          description: item.description ?? "",
+          category: item.category ?? "",
+          thumbnail: item.image?.replace("w=105", "w=512") ?? "",
+          embedUrl: item.url ?? "",
+          namespace: item.namespace ?? "",
+          slug: item.namespace ?? String(item.id),
+          width: item.width ?? 800,
+          height: item.height ?? 600,
+        };
+      }
+    }
+    return null;
   } catch {
     return null;
   }

@@ -94,27 +94,44 @@ export default async function GamePage({ params }: GamePageProps) {
   const { id } = await params;
 
   // 1. ముందు GamePix లో చూడు
-  let game = await fetchGamePixGame(id);
+  // GamePix నుండి fetch try చేయి
+let game = await fetchGamePixGame(id);
 
-  // 2. GamePix లో లేకపోతే Firebase లో చూడు (admin uploaded games)
-  if (!game) {
-    try {
-      const fb = await getGameAdmin(id);
-      if (fb) {
-        game = {
-          id: fb.id,
-          title: fb.title,
-          description: fb.description,
-          category: fb.category,
-          thumbnail: fb.thumbnail,
-          embedUrl: fb.embedUrl || fb.gameUrl,
-          slug: fb.slug || fb.id,
-        };
-      }
-    } catch {}
-  }
+// GamePix feed లో లేకపోతే Firebase చూడు (admin uploaded games)
+if (!game) {
+  try {
+    const fb = await getGameAdmin(id);
+    if (fb) {
+      game = {
+        id: fb.id,
+        title: fb.title,
+        description: fb.description,
+        category: fb.category,
+        thumbnail: fb.thumbnail,
+        embedUrl: fb.embedUrl || fb.gameUrl,
+        slug: fb.slug || fb.id,
+      };
+    }
+  } catch {}
+}
 
-  if (!game) notFound();
+// ఇంకా లేకపోతే — namespace నుండి directly construct చేయి
+// GamePix లో అన్ని games namespace తో accessible గా ఉంటాయి
+if (!game) {
+  game = {
+    id: id,
+    title: id
+      .split("-")
+      .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" "),
+    description: "",
+    category: "",
+    thumbnail: `https://img.gamepix.com/games/${id}/icon/${id}.png?w=512`,
+    embedUrl: `https://play.gamepix.com/${id}/embed?sid=A3ALT`,
+    namespace: id,
+    slug: id,
+  };
+}
 
   // Firebase నుండి stats + faqs/howToPlay/tips/controls
   const stats = await getGameStats(id);
