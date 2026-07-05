@@ -1,4 +1,4 @@
-import { fetchAllGamePixGames, fetchAllCategories, GamePixGame } from "@/lib/gamepix";
+import { fetchAllGamePixGames, fetchAllCategories, fetchTrendingGames, GamePixGame } from "@/lib/gamepix";
 import { getHomepageGames } from "@/lib/games-admin";
 import HomepageClient from "@/components/HomepageClient";
 
@@ -8,6 +8,7 @@ export default async function HomePage() {
   let games: GamePixGame[] = [];
   let categories: string[] = [];
   let featuredGames: GamePixGame[] = [];
+  let trendingGames: GamePixGame[] = [];
 
   try {
     games = await fetchAllGamePixGames();
@@ -36,11 +37,18 @@ export default async function HomePage() {
     console.error("Failed to fetch admin games:", err);
   }
 
+  try {
+    trendingGames = await fetchTrendingGames();
+  } catch (err) {
+    console.error("Failed to fetch trending games:", err);
+  }
+
   return (
     <HomepageClient
       initialGames={games}
       categories={categories}
       featuredGames={featuredGames}
+      trendingGames={trendingGames}
     />
   );
 }
