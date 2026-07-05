@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { fetchAllGamePixGames, fetchGamePixPage, GamePixGame } from "@/lib/gamepix";
+import { fetchGamePixGame, fetchGamePixPage, GamePixGame } from "@/lib/gamepix";
 import { getGameAdmin } from "@/lib/games-admin";
 import { getFirestore } from "firebase-admin/firestore";
 import { adminApp } from "@/lib/firebase-admin";
@@ -56,8 +56,7 @@ async function getGameStats(id: string) {
 
 export async function generateMetadata({ params }: GamePageProps): Promise<Metadata> {
   const { id } = await params;
-  const games = await fetchAllGamePixGames();
-  let game = games.find((g) => g.id === id);
+  let game = await fetchGamePixGame(id);
 
   if (!game) {
     try {
@@ -95,8 +94,7 @@ export default async function GamePage({ params }: GamePageProps) {
   const { id } = await params;
 
   // 1. ముందు GamePix లో చూడు
-  const games = await fetchAllGamePixGames();
-  let game = games.find((g) => g.id === id);
+  let game = await fetchGamePixGame(id);
 
   // 2. GamePix లో లేకపోతే Firebase లో చూడు (admin uploaded games)
   if (!game) {
