@@ -152,9 +152,10 @@ interface Props {
   featuredGames?: GamePixGame[];
   trendingGames?: GamePixGame[];
   newReleases?: GamePixGame[];
+  recommendedGames?: GamePixGame[];
 }
 
-export default function HomepageClient({ initialGames, categories: _categories, featuredGames = [], trendingGames = [], newReleases = [] }: Props) {
+export default function HomepageClient({ initialGames, categories: _categories, featuredGames = [], trendingGames = [], newReleases = [], recommendedGames = [] }: Props) {
   const [recentGames, setRecentGames] = useState<RecentGame[]>([]);
   const [games, setGames] = useState<GamePixGame[]>(initialGames);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -449,6 +450,54 @@ export default function HomepageClient({ initialGames, categories: _categories, 
                 <path d="M12 2L15 9H22L16.5 13.5L18.5 21L12 16.5L5.5 21L7.5 13.5L2 9H9L12 2Z"/>
               </svg>
               <span>NEW</span>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-2">
+              <p className="text-[9px] font-black uppercase tracking-wider text-white truncate w-full">{game.title}</p>
+            </div>
+          </Link>
+          <p className="text-[9px] font-black uppercase tracking-wide text-black/60 truncate mt-1.5 px-0.5">{game.title}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+{recommendedGames.length > 0 && (
+  <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 relative z-10">
+    <div className="flex items-center justify-between mb-3 px-0.5">
+      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-violet-500 to-purple-400 shadow-sm">
+          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+          </svg>
+          <span className="text-[9px] font-black uppercase tracking-widest text-white">Pick</span>
+        </div>
+        <span className="text-[11px] font-black uppercase tracking-[0.2em] text-black">
+          Recommended
+        </span>
+      </div>
+    </div>
+    <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+      {recommendedGames.map((game) => (
+        <div key={game.id} className="relative shrink-0 w-[140px] sm:w-[160px]">
+          <Link
+            href={`/games/${game.slug || game.id}`}
+            className="group relative block w-full aspect-square overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white/40 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-all duration-200"
+          >
+            {game.thumbnail ? (
+              <img src={game.thumbnail} alt={game.title} loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-[9px] font-black uppercase tracking-wider text-black/50">
+                {game.title}
+              </div>
+            )}
+            <div className="absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-violet-500 to-purple-400 text-white text-[8px] font-black shadow-md">
+              <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+              </svg>
+              <span>PICK</span>
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-2">
               <p className="text-[9px] font-black uppercase tracking-wider text-white truncate w-full">{game.title}</p>

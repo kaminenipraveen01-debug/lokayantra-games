@@ -1,4 +1,4 @@
-import { fetchAllGamePixGames, fetchAllCategories, fetchTrendingGames, fetchNewReleases, GamePixGame } from "@/lib/gamepix";
+import { fetchAllGamePixGames, fetchAllCategories, fetchTrendingGames, fetchNewReleases, fetchRecommendedGames, GamePixGame } from "@/lib/gamepix";
 import { getHomepageGames } from "@/lib/games-admin";
 import HomepageClient from "@/components/HomepageClient";
 
@@ -10,6 +10,7 @@ export default async function HomePage() {
   let featuredGames: GamePixGame[] = [];
   let trendingGames: GamePixGame[] = [];
   let newReleases: GamePixGame[] = [];
+  let recommendedGames: GamePixGame[] = [];
 
   try {
     games = await fetchAllGamePixGames();
@@ -50,6 +51,12 @@ export default async function HomePage() {
     console.error("Failed to fetch new releases:", err);
   }
 
+  try {
+    recommendedGames = await fetchRecommendedGames();
+  } catch (err) {
+    console.error("Failed to fetch recommended games:", err);
+  }
+
   return (
     <HomepageClient
       initialGames={games}
@@ -57,6 +64,7 @@ export default async function HomePage() {
       featuredGames={featuredGames}
       trendingGames={trendingGames}
       newReleases={newReleases}
+      recommendedGames={recommendedGames}
     />
   );
 }

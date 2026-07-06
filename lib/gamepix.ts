@@ -185,3 +185,25 @@ export async function fetchNewReleases(): Promise<GamePixGame[]> {
     return [];
   }
 }
+
+export async function fetchRecommendedGames(): Promise<GamePixGame[]> {
+  try {
+    // వేరే page నుండి తీసుకో — variety కోసం
+    const res = await fetch(
+      `https://feeds.gamepix.com/v2/json/?order=quality&pagination=12&sid=${SID}&page=5`,
+      { next: { revalidate: 3600 } }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.items ?? []).map((item: any) => ({
+      id: item.namespace ?? String(item.id),
+      title: item.title ?? "",
+      category: item.category ?? "",
+      thumbnail: item.image?.replace("w=105", "w=512") ?? "",
+      embedUrl: item.url ?? "",
+      slug: item.namespace ?? String(item.id),
+    }));
+  } catch {
+    return [];
+  }
+}
