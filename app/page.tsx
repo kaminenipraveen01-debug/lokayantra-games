@@ -1,4 +1,4 @@
-import { fetchAllGamePixGames, fetchAllCategories, fetchTrendingGames, fetchNewReleases, fetchRecommendedGames, GamePixGame } from "@/lib/gamepix";
+import { fetchAllGamePixGames, fetchAllCategories, fetchTrendingGames, fetchNewReleases, fetchRecommendedGames, fetchMostPlayedGames, GamePixGame } from "@/lib/gamepix";
 import { getHomepageGames } from "@/lib/games-admin";
 import HomepageClient from "@/components/HomepageClient";
 
@@ -11,6 +11,7 @@ export default async function HomePage() {
   let trendingGames: GamePixGame[] = [];
   let newReleases: GamePixGame[] = [];
   let recommendedGames: GamePixGame[] = [];
+  let mostPlayedGames: GamePixGame[] = [];
 
   try {
     games = await fetchAllGamePixGames();
@@ -57,6 +58,12 @@ export default async function HomePage() {
     console.error("Failed to fetch recommended games:", err);
   }
 
+  try {
+    mostPlayedGames = await fetchMostPlayedGames();
+  } catch (err) {
+    console.error("Failed to fetch most played games:", err);
+  }
+
   return (
     <HomepageClient
       initialGames={games}
@@ -65,6 +72,7 @@ export default async function HomePage() {
       trendingGames={trendingGames}
       newReleases={newReleases}
       recommendedGames={recommendedGames}
+      mostPlayedGames={mostPlayedGames}
     />
   );
 }
