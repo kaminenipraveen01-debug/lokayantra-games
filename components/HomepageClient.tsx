@@ -6,12 +6,20 @@ import { getRecentlyPlayed, removeRecentlyPlayed, RecentGame } from "@/lib/recen
 import { GamePixGame } from "@/lib/gamepix";
 
 const pokiGridStyles = [
-  "col-span-2 row-span-2 aspect-square",
+  "col-span-1 row-span-1 aspect-square",
+  "col-span-1 row-span-1 aspect-square",
+  "col-span-1 row-span-1 aspect-square",
+  "col-span-2 row-span-2",
+  "col-span-1 row-span-1 aspect-square",
+  "col-span-1 row-span-1 aspect-square",
+  "col-span-1 row-span-2",
   "col-span-1 row-span-1 aspect-square",
   "col-span-1 row-span-1 aspect-square",
   "col-span-1 row-span-1 aspect-square",
   "col-span-1 row-span-1 aspect-square",
-  "col-span-2 row-span-2 aspect-square",
+  "col-span-2 row-span-2",
+  "col-span-1 row-span-1 aspect-square",
+  "col-span-1 row-span-2",
   "col-span-1 row-span-1 aspect-square",
   "col-span-1 row-span-1 aspect-square",
 ];
@@ -170,6 +178,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
     removeRecentlyPlayed(id);
     setRecentGames(getRecentlyPlayed());
   };
+
 
   return (
     <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
