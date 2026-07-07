@@ -27,90 +27,126 @@ export default function GameControlBar({
   const [isFavorite, setIsFavorite] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [shareToast, setShareToast] = useState(false);
+
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Restore from localStorage on mount
+  // The reaction that is ACTUALLY committed in Firestore right now.
+  // Only updated after a transaction succeeds — never from optimistic clicks.
+  const committedReactionRef = useRef<ReactionState>(null);
+  // The most recent reaction the user wants, updated on every click.
+  const latestReactionRef = useRef<ReactionState>(null);
+
+  // ── Restore local (per-device) UI state on mount ──
   useEffect(() => {
     try {
       const favs = JSON.parse(localStorage.getItem("lokayantra_favorites") || "[]");
       setIsFavorite(Array.isArray(favs) && favs.includes(gameId));
 
       const reactions = JSON.parse(localStorage.getItem("lokayantra_reactions") || "{}");
-      const savedReaction = reactions[gameId];
+      const savedReaction: ReactionState = reactions[gameId] ?? null;
 
-      if (savedReaction === "like" || savedReaction === "dislike") {
-        setReaction(savedReaction);
-        if (savedReaction === "like" && initialLikes === 0) setLikes(1);
-        if (savedReaction === "dislike" && initialDislikes === 0) setDislikes(1);
-      } else {
-        setReaction(null);
-        setLikes(initialLikes);
-        setDislikes(initialDislikes);
-      }
+      setReaction(savedReaction);
+      committedReactionRef.current = savedReaction;
+      latestReactionRef.current = savedReaction;
+      setLikes(initialLikes);
+      setDislikes(initialDislikes);
     } catch (e) {
       console.error("Error restoring states:", e);
+      committedReactionRef.current = null;
+      latestReactionRef.current = null;
     }
   }, [gameId, initialLikes, initialDislikes]);
 
+  // NOTE: counts are shown from `initialLikes` / `initialDislikes` (fetched once
+  // per page load, e.g. server-side) — intentionally NOT a live Firestore
+  // listener, so Firestore reads never scale with how many people are
+  // viewing the page or how many likes/dislikes come in. Refresh the page
+  // to see the latest totals.
   useEffect(() => {
     const onFSChange = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", onFSChange);
     return () => document.removeEventListener("fullscreenchange", onFSChange);
   }, []);
 
-  const handleReaction = useCallback((type: "like" | "dislike") => {
-    const reactions = JSON.parse(localStorage.getItem("lokayantra_reactions") || "{}");
-    const previous: ReactionState = reactions[gameId] ?? null;
+  const commitToFirestore = useCallback(
+    (targetGameId: string) => {
+      const from = committedReactionRef.current;
+      const to = latestReactionRef.current;
 
-    // 1. Optimistic UI update
-    if (previous === type) {
-      if (type === "like") setLikes((n) => Math.max(0, n - 1));
-      else setDislikes((n) => Math.max(0, n - 1));
-      delete reactions[gameId];
-      setReaction(null);
-    } else {
-      if (previous === "like") setLikes((n) => Math.max(0, n - 1));
-      if (previous === "dislike") setDislikes((n) => Math.max(0, n - 1));
-      if (type === "like") setLikes((n) => n + 1);
-      else setDislikes((n) => n + 1);
-      reactions[gameId] = type;
-      setReaction(type);
-    }
-    localStorage.setItem("lokayantra_reactions", JSON.stringify(reactions));
+      // Nothing actually changed since the last commit — skip the write.
+      if (from === to) return;
 
-    const newReaction = previous === type ? null : type;
+      const gameRef = doc(db, "games", targetGameId);
+      runTransaction(db, async (transaction) => {
+        const snap = await transaction.get(gameRef);
+        if (!snap.exists()) return;
 
-    // 2. Debounced Firestore update — API route అవసరమే లేదు
-    if (debounceTimer.current) clearTimeout(debounceTimer.current);
-    debounceTimer.current = setTimeout(async () => {
-      try {
-        const gameRef = doc(db, "games", gameId);
-        await runTransaction(db, async (transaction) => {
-          const snap = await transaction.get(gameRef);
-          if (!snap.exists()) return;
+        const data = snap.data();
+        let l: number = data.likes ?? 0;
+        let d: number = data.dislikes ?? 0;
 
-          const data = snap.data();
-          let l: number = data.likes ?? 0;
-          let d: number = data.dislikes ?? 0;
+        // Undo whatever is currently committed for this user...
+        if (from === "like") l = Math.max(0, l - 1);
+        if (from === "dislike") d = Math.max(0, d - 1);
 
-          // Previous undo
-          if (previous === "like") l = Math.max(0, l - 1);
-          if (previous === "dislike") d = Math.max(0, d - 1);
+        // ...then apply the new target state.
+        if (to === "like") l = l + 1;
+        if (to === "dislike") d = d + 1;
 
-          // New apply
-          if (newReaction === "like") l = l + 1;
-          if (newReaction === "dislike") d = d + 1;
-
-          transaction.update(gameRef, { likes: l, dislikes: d });
+        transaction.update(gameRef, { likes: l, dislikes: d });
+      })
+        .then(() => {
+          // Only mark as committed once Firestore actually reflects it.
+          committedReactionRef.current = to;
+        })
+        .catch((err) => {
+          console.error("Firestore reaction update failed:", err);
+          // Leave committedReactionRef untouched so the next attempt
+          // retries the correct transition instead of silently drifting.
         });
-      } catch (err) {
-        console.error("Firestore reaction update failed:", err);
+    },
+    []
+  );
+
+  const handleReaction = useCallback(
+    (type: "like" | "dislike") => {
+      const reactions = JSON.parse(localStorage.getItem("lokayantra_reactions") || "{}");
+      const previous: ReactionState = reactions[gameId] ?? null;
+      const newReaction: ReactionState = previous === type ? null : type;
+
+      // 1. Optimistic UI update (local counters shown to this user only,
+      //    the live onSnapshot listener will reconcile the real numbers).
+      if (previous === type) {
+        if (type === "like") setLikes((n) => Math.max(0, n - 1));
+        else setDislikes((n) => Math.max(0, n - 1));
+        delete reactions[gameId];
+      } else {
+        if (previous === "like") setLikes((n) => Math.max(0, n - 1));
+        if (previous === "dislike") setDislikes((n) => Math.max(0, n - 1));
+        if (type === "like") setLikes((n) => n + 1);
+        else setDislikes((n) => n + 1);
+        reactions[gameId] = type;
       }
-    }, 600);
-  }, [gameId]);
+      setReaction(newReaction);
+      localStorage.setItem("lokayantra_reactions", JSON.stringify(reactions));
+
+      // 2. Track only the latest desired state; committedReactionRef stays
+      //    untouched until a transaction actually succeeds, so rapid
+      //    clicking can never cause a double-subtract in Firestore.
+      latestReactionRef.current = newReaction;
+
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+      debounceTimer.current = setTimeout(() => {
+        commitToFirestore(gameId);
+      }, 600);
+    },
+    [gameId, commitToFirestore]
+  );
 
   useEffect(() => {
-    return () => { if (debounceTimer.current) clearTimeout(debounceTimer.current); };
+    return () => {
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    };
   }, []);
 
   const handleFavorite = useCallback(() => {
