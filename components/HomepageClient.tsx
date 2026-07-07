@@ -6,7 +6,7 @@ import { getRecentlyPlayed, removeRecentlyPlayed, RecentGame } from "@/lib/recen
 import { GamePixGame } from "@/lib/gamepix";
 import {
   Zap, Car, Puzzle, Compass, Trophy, Crosshair, Gamepad2, Building2,
-  Brain, Network, Swords, Heart, Grid3x3, type LucideIcon,
+  Brain, Network, Swords, Grid3x3, type LucideIcon,
 } from "lucide-react";
 
 // motham games anni okey size — ఏ big/tall special tile లేదు
@@ -28,7 +28,6 @@ const HOME_CATEGORIES: { id: string; name: string; Icon: LucideIcon }[] = [
   { id: "brain", name: "Brain Games", Icon: Brain },
   { id: "io", name: ".IO Games", Icon: Network },
   { id: "battle", name: "Battle Games", Icon: Swords },
-  { id: "girls", name: "Girls Games", Icon: Heart },
 ];
 
 interface Props {
