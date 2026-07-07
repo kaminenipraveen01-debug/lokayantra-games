@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import GameControlBar from "@/components/GameControlBar";
 import Image from "next/image";
 import { addRecentlyPlayed } from "@/lib/recentlyPlayed";
+import { Lock, Maximize2 } from "lucide-react";
 
 interface GameData {
   id: string;
@@ -129,10 +130,7 @@ export default function GamePlayer({ game }: { game: GameData }) {
               <span className="w-2.5 h-2.5 rounded-full bg-[#28C840] border border-black/20" />
             </div>
             <div className="flex-1 mx-2 bg-white/5 border border-white/10 rounded-md px-3 py-1 flex items-center gap-2 max-w-sm">
-              <svg className="w-2.5 h-2.5 text-white/25 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <rect x="3" y="11" width="18" height="11" rx="2" />
-                <path d="M7 11V7a5 5 0 0110 0v4" />
-              </svg>
+              <Lock className="w-2.5 h-2.5 text-white/25 shrink-0" strokeWidth={2.2} />
               <span className="text-[9px] text-white/25 font-mono truncate">lokayantra.com/games/{game.id}</span>
             </div>
 
@@ -142,9 +140,7 @@ export default function GamePlayer({ game }: { game: GameData }) {
                 title="Fullscreen"
                 className="shrink-0 w-7 h-7 rounded-md bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-white/40 hover:text-white transition-colors"
               >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4" />
-                </svg>
+                <Maximize2 className="w-3.5 h-3.5" strokeWidth={2.2} />
               </button>
             )}
           </div>
@@ -157,7 +153,7 @@ export default function GamePlayer({ game }: { game: GameData }) {
               : "relative w-full aspect-video max-h-[calc(100vh-220px)] bg-neutral-900"
           }
         >
-          {/* PANDA BACK BUTTON — అన్ని గేమ్‌లకూ ఫుల్ స్క్రీన్‌లో కుడి వైపు పై మూలన కనిపిస్తుంది */}
+          {/* PANDA BACK BUTTON — అన్ని గేమ్‌లకూ ఫుల్ స్క్రీన్‌లో కుడి వైపు పై మూలన కనిపిస్తుంది (LokaYantra brand mascot — ఇది marchaledu) */}
           {isFullscreen && (
             <button
               onClick={exitFullscreen}
