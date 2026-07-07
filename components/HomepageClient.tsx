@@ -5,17 +5,9 @@ import Link from "next/link";
 import { getRecentlyPlayed, removeRecentlyPlayed, RecentGame } from "@/lib/recentlyPlayed";
 import { GamePixGame } from "@/lib/gamepix";
 
-// Poki లో ఈ pattern motham game list మీద repeat avvadu — kevalam మొదటి
-// konni tiles స్థానాల్లో మాత్రమే (fixed index) big/tall tiles untai,
-// tarwatha motham grid uniform 1x1 chinna squares గానే untundi.
-const SPECIAL_TILE_STYLES: Record<number, string> = {
-  1: "col-span-2 row-span-2",   // idx1  -> big square (Subway Surfers laga)
-  7: "col-span-2 row-span-2",   // idx7  -> big square (+6/-7 laga)
-  9: "col-span-1 row-span-2",   // idx9  -> tall rectangle (Hill Climb laga)
-};
-
-function getTileClass(index: number) {
-  return SPECIAL_TILE_STYLES[index] ?? "col-span-1 row-span-1 aspect-square";
+// motham games anni okey size — ఏ big/tall special tile లేదు
+function getTileClass(_index: number) {
+  return "col-span-1 row-span-1 aspect-square";
 }
 
 // Homepage లో చూపించే 12 main categories — icons తో
