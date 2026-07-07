@@ -10,12 +10,31 @@ import FaqAccordion from "@/components/FaqAccordion";
 import GamePlayer from "@/components/GamePlayer";
 import Link from "next/link";
 import { FEATURED_CATEGORIES } from "@/lib/categories";
-import CategoryIcon from "@/components/CategoryIcon";
+import {
+  Zap, Car, Puzzle, Compass, Trophy, Crosshair, Gamepad2, Building2,
+  Brain, Network, Swords, Grid3x3, type LucideIcon,
+} from "lucide-react";
 
 export const revalidate = 3600;
 export const dynamicParams = true;
 
 const SITE_URL = "https://lokayantra.vercel.app";
+
+// prathi category id ki oka clean, consistent lucide icon — homepage
+// mariyu categories page lo unna style tone match avutundi.
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  action: Zap,
+  racing: Car,
+  puzzle: Puzzle,
+  adventure: Compass,
+  sports: Trophy,
+  shooter: Crosshair,
+  arcade: Gamepad2,
+  simulation: Building2,
+  brain: Brain,
+  battle: Swords,
+  io: Network,
+};
 
 function formatCount(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
@@ -407,47 +426,47 @@ if (!game) {
           </div>
         </div>
 
-        {/* CATEGORIES GRID */}
-<div className="mt-6 bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-black/10 p-5 sm:p-8 shadow-sm">
-  <div className="flex items-center justify-between mb-4">
-    <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-black/50">
-      Browse by Category
-    </h2>
-    <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors">
-      All Categories →
-    </Link>
-  </div>
-  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
-    {FEATURED_CATEGORIES.map((cat) => (
-      <Link
-        key={cat.id}
-        href={`/category/${cat.id}`}
-        className="group flex items-center gap-3 p-3 sm:p-4 rounded-[16px] border border-black/10 bg-white/50 hover:bg-[#161920] hover:text-white hover:border-black hover:-translate-y-0.5 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.12)] transition-all duration-200"
-      >
-        <div className="shrink-0 text-black/70 group-hover:text-white transition-colors">
-          <CategoryIcon icon={cat.icon} className="w-5 h-5 sm:w-6 sm:h-6" />
+        {/* CATEGORIES GRID — square tiles, lucide icons, girls tీసేసిన list */}
+        <div className="mt-6 bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-black/10 p-5 sm:p-8 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-black/50">
+              Browse by Category
+            </h2>
+            <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors">
+              All Categories →
+            </Link>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
+            {FEATURED_CATEGORIES.map((cat) => {
+              const Icon = CATEGORY_ICONS[cat.id] ?? Gamepad2;
+              return (
+                <Link
+                  key={cat.id}
+                  href={`/category/${cat.id}`}
+                  className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-black/10 bg-white/50 hover:bg-white/80 hover:border-black/20 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.14)] transition-all duration-200"
+                >
+                  <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-black/5 group-hover:bg-black group-hover:text-white text-black/70 flex items-center justify-center transition-colors duration-200">
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={1.75} />
+                  </div>
+                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-black/80 group-hover:text-black text-center leading-tight line-clamp-2">
+                    {cat.name}
+                  </span>
+                </Link>
+              );
+            })}
+            <Link
+              href="/categories"
+              className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-black/30 bg-[#161920] text-white hover:bg-black hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.2)] transition-all duration-200"
+            >
+              <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-white/10 flex items-center justify-center">
+                <Grid3x3 className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={1.75} />
+              </div>
+              <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-center leading-tight">
+                All Categories
+              </span>
+            </Link>
+          </div>
         </div>
-        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-black/80 group-hover:text-white leading-tight">
-          {cat.name}
-        </span>
-      </Link>
-    ))}
-    <Link
-      href="/categories"
-      className="group flex items-center gap-3 p-3 sm:p-4 rounded-[16px] border border-black/30 bg-[#161920] text-white hover:bg-black hover:-translate-y-0.5 transition-all duration-200"
-    >
-      <svg className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" fill="none" stroke="currentColor" strokeWidth={1.6} viewBox="0 0 24 24">
-        <rect x="3" y="3" width="7" height="7" rx="1.5" />
-        <rect x="14" y="3" width="7" height="7" rx="1.5" />
-        <rect x="3" y="14" width="7" height="7" rx="1.5" />
-        <rect x="14" y="14" width="7" height="7" rx="1.5" />
-      </svg>
-      <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide leading-tight">
-        All Categories
-      </span>
-    </Link>
-  </div>
-</div>
 
         {/* BRAND STRIP */}
         <div className="mt-6 border border-black/10 p-6 sm:p-10 rounded-[28px] sm:rounded-[32px] shadow-xl space-y-3 bg-white/60 text-center">
