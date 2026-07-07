@@ -159,9 +159,6 @@ interface Props {
 export default function HomepageClient({ initialGames, categories: _categories, featuredGames = [], trendingGames = [], newReleases = [], recommendedGames = [], mostPlayedGames = [] }: Props) {
   const [recentGames, setRecentGames] = useState<RecentGame[]>([]);
   const [games, setGames] = useState<GamePixGame[]>(initialGames);
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [page, setPage] = useState(10);
-  const [hasMore, setHasMore] = useState(initialGames.length >= 48);
 
   useEffect(() => {
     setRecentGames(getRecentlyPlayed());
@@ -172,26 +169,6 @@ export default function HomepageClient({ initialGames, categories: _categories, 
     e.stopPropagation();
     removeRecentlyPlayed(id);
     setRecentGames(getRecentlyPlayed());
-  };
-
-  const loadMore = async () => {
-    if (loadingMore) return;
-    setLoadingMore(true);
-    try {
-      const res = await fetch(`/api/games?page=${page + 1}&limit=48`);
-      const data = await res.json();
-      if (data.games?.length > 0) {
-        setGames((prev) => [...prev, ...data.games]);
-        setPage((p) => p + 1);
-        if (data.games.length < 48) setHasMore(false);
-      } else {
-        setHasMore(false);
-      }
-    } catch {
-      setHasMore(false);
-    } finally {
-      setLoadingMore(false);
-    }
   };
 
   return (
@@ -270,7 +247,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
 
       {/* GAMES GRID */}
       <div className={`w-full max-w-[1400px] mx-auto px-3 sm:px-4 ${recentGames.length > 0 ? "mt-6 sm:mt-8" : "mt-[105px] sm:mt-[115px]"} relative z-10`}>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-1.5 sm:gap-2 grid-flow-row-dense">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5 sm:gap-2 auto-rows-[1fr] grid-flow-row-dense">
           {games.map((game, index) => {
             const sizeClass = pokiGridStyles[index % pokiGridStyles.length];
             return (
@@ -306,19 +283,6 @@ export default function HomepageClient({ initialGames, categories: _categories, 
             );
           })}
         </div>
-
-        {/* LOAD MORE */}
-        {hasMore && (
-          <div className="flex justify-center mt-8 mb-4">
-            <button
-              onClick={loadMore}
-              disabled={loadingMore}
-              className="px-8 py-3 bg-[#161920] text-white font-black uppercase tracking-widest text-xs rounded-full hover:bg-black transition-colors disabled:opacity-50"
-            >
-              {loadingMore ? "Loading..." : "Load More Games"}
-            </button>
-          </div>
-        )}
       </div>
 
       {featuredGames.length > 0 && (
