@@ -147,7 +147,7 @@ export async function fetchAllCategories(): Promise<string[]> {
 export async function fetchTrendingGames(): Promise<GamePixGame[]> {
   try {
     const res = await fetch(
-      `https://feeds.gamepix.com/v2/json/?order=quality&pagination=12&sid=${SID}&page=1`,
+      `https://feeds.gamepix.com/v2/json/?order=quality&pagination=12&sid=${SID}&page=2`,
       { next: { revalidate: 3600 } }
     );
     if (!res.ok) return [];
