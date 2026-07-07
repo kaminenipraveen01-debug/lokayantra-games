@@ -5,24 +5,18 @@ import Link from "next/link";
 import { getRecentlyPlayed, removeRecentlyPlayed, RecentGame } from "@/lib/recentlyPlayed";
 import { GamePixGame } from "@/lib/gamepix";
 
-const pokiGridStyles = [
-  "col-span-1 row-span-1 aspect-square",
-  "col-span-1 row-span-1 aspect-square",
-  "col-span-1 row-span-1 aspect-square",
-  "col-span-2 row-span-2",
-  "col-span-1 row-span-1 aspect-square",
-  "col-span-1 row-span-1 aspect-square",
-  "col-span-1 row-span-2",
-  "col-span-1 row-span-1 aspect-square",
-  "col-span-1 row-span-1 aspect-square",
-  "col-span-1 row-span-1 aspect-square",
-  "col-span-1 row-span-1 aspect-square",
-  "col-span-2 row-span-2",
-  "col-span-1 row-span-1 aspect-square",
-  "col-span-1 row-span-2",
-  "col-span-1 row-span-1 aspect-square",
-  "col-span-1 row-span-1 aspect-square",
-];
+// Poki లో ఈ pattern motham game list మీద repeat avvadu — kevalam మొదటి
+// konni tiles స్థానాల్లో మాత్రమే (fixed index) big/tall tiles untai,
+// tarwatha motham grid uniform 1x1 chinna squares గానే untundi.
+const SPECIAL_TILE_STYLES: Record<number, string> = {
+  1: "col-span-2 row-span-2",   // idx1  -> big square (Subway Surfers laga)
+  7: "col-span-2 row-span-2",   // idx7  -> big square (+6/-7 laga)
+  9: "col-span-1 row-span-2",   // idx9  -> tall rectangle (Hill Climb laga)
+};
+
+function getTileClass(index: number) {
+  return SPECIAL_TILE_STYLES[index] ?? "col-span-1 row-span-1 aspect-square";
+}
 
 // Homepage లో చూపించే 12 main categories — icons తో
 const HOME_CATEGORIES = [
@@ -258,7 +252,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
       <div className={`w-full max-w-[1400px] mx-auto px-3 sm:px-4 ${recentGames.length > 0 ? "mt-6 sm:mt-8" : "mt-[105px] sm:mt-[115px]"} relative z-10`}>
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5 sm:gap-2 auto-rows-[1fr] grid-flow-row-dense">
           {games.map((game, index) => {
-            const sizeClass = pokiGridStyles[index % pokiGridStyles.length];
+            const sizeClass = getTileClass(index);
             return (
               <Link
                 href={`/games/${game.slug || game.id}`}
