@@ -72,12 +72,6 @@ export const FEATURED_CATEGORIES: CategoryDef[] = [
     description: "Compete in real-time against players worldwide in fast, addictive multiplayer browser games.",
     icon: `<circle cx="12" cy="12" r="3" fill="none" stroke-width="1.6"/><circle cx="6" cy="6" r="1.8" fill="none" stroke-width="1.4"/><circle cx="18" cy="6" r="1.8" fill="none" stroke-width="1.4"/><circle cx="6" cy="18" r="1.8" fill="none" stroke-width="1.4"/><circle cx="18" cy="18" r="1.8" fill="none" stroke-width="1.4"/>`,
   },
-  {
-    id: "girls",
-    name: "Girls",
-    description: "Dress-up, makeover, and lifestyle games packed with creativity, fashion, and fun design challenges.",
-    icon: `<circle cx="12" cy="8" r="3.5" fill="none" stroke-width="1.6"/><path d="M12 11.5C8 11.5 5 14 5 18V21H19V18C19 14 16 11.5 12 11.5Z" fill="none" stroke-width="1.6"/>`,
-  },
 ];
 
 export function getCategoryById(id: string): CategoryDef | undefined {

@@ -171,49 +171,52 @@ export default function HomepageClient({ initialGames, categories: _categories, 
       </div>
 
       {featuredGames.length > 0 && (
-    <div className="mt-8">
-      <div className="flex items-center gap-2 mb-3 px-0.5">
-        <svg className="w-3.5 h-3.5 text-black" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2L14.5 8H21L16 12.5L18 19L12 15L6 19L8 12.5L3 8H9.5L12 2Z"/>
-        </svg>
+  <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 relative z-10">
+    <div className="flex items-center justify-between mb-3 px-0.5">
+      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-black to-gray-700 shadow-sm">
+          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+          <span className="text-[9px] font-black uppercase tracking-widest text-white">Admin</span>
+        </div>
         <span className="text-[11px] font-black uppercase tracking-[0.2em] text-black">
-          Featured Games
+          Admin Games
         </span>
       </div>
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-1.5 sm:gap-2">
-        {featuredGames.map((game) => (
+    </div>
+    <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+      {featuredGames.map((game) => (
+        <div key={game.id} className="relative shrink-0 w-[140px] sm:w-[160px]">
           <Link
             href={`/games/${game.slug || game.id}`}
-            key={game.id}
-            className="group relative aspect-square overflow-hidden rounded-[24px] sm:rounded-[32px] border border-black/20 hover:border-black/50 bg-white/40 hover:bg-white/55 shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.2)] hover:-translate-y-1.5 transition-all duration-200"
+            className="group relative block w-full aspect-square overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white hover:-translate-y-1 shadow-sm hover:shadow-md transition-all duration-200"
           >
             {game.thumbnail ? (
-              <img
-                src={game.thumbnail}
-                alt={game.title}
-                className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
+              <img src={game.thumbnail} alt={game.title} loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
               />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-black/60">
+              <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-[9px] font-black uppercase tracking-wider text-black/50 bg-gray-100">
                 {game.title}
               </div>
             )}
-            <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black text-white text-[8px] font-black uppercase tracking-wider">
-              ★ Featured
+            <div className="absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-black to-gray-700 text-white text-[8px] font-black shadow-md">
+              <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+              </svg>
+              <span>ADMIN</span>
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-white truncate max-w-[70%]">
-                {game.title}
-              </p>
-              <span className="ml-auto text-[8px] font-extrabold text-black bg-white px-2.5 py-1 rounded-md tracking-wider">
-                PLAY
-              </span>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-2">
+              <p className="text-[9px] font-black uppercase tracking-wider text-white truncate w-full">{game.title}</p>
             </div>
           </Link>
-        ))}
-      </div>
+          <p className="text-[9px] font-black uppercase tracking-wide text-black/60 truncate mt-1.5 px-0.5">{game.title}</p>
+        </div>
+      ))}
     </div>
-  )}
+  </div>
+)}
 
   {trendingGames.length > 0 && (
   <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 relative z-10">
