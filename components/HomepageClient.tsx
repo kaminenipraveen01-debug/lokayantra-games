@@ -194,7 +194,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
           >
             {game.thumbnail ? (
               <img src={game.thumbnail} alt={game.title} loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-200"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-[9px] font-black uppercase tracking-wider text-black/50 bg-gray-100">

@@ -31,20 +31,30 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const { id } = await params;
   const name = formatCategoryName(id);
 
-  let initialGames: any[] = [];
-  try {
-    const pages = await Promise.all([
-      fetchGamePixPage(1, id),
-      fetchGamePixPage(2, id),
-      fetchGamePixPage(3, id),
-      fetchGamePixPage(4, id),
-    ]);
-    initialGames = pages.flat();
-  } catch {
-    initialGames = [];
-  }
+  // ముందు fetch చేసి totalPages తీసుకో
+let initialGames: any[] = [];
+let totalPages = 1;
+try {
+  const res = await fetch(
+    `https://feeds.gamepix.com/v2/json/?order=quality&pagination=12&sid=A3ALT&page=1&category=${id}`,
+    { next: { revalidate: 3600 } }
+  );
+  const data = await res.json();
+  initialGames = (data.items ?? []).map((item: any) => ({
+    id: item.namespace ?? String(item.id),
+    title: item.title ?? "",
+    thumbnail: item.image?.replace("w=105", "w=512") ?? "",
+    category: item.category ?? "",
+    slug: item.namespace ?? String(item.id),
+  }));
+  const lastPageUrl = data.last_page_url ?? "";
+  const match = lastPageUrl.match(/page=(\d+)/);
+  totalPages = match ? parseInt(match[1]) : 1;
+} catch {
+  initialGames = [];
+}
 
-  if (initialGames.length === 0) notFound();
+if (initialGames.length === 0) notFound();
 
   return (
     <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
@@ -72,9 +82,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         </div>
 
         <CategoryGamesClient
-          initialGames={initialGames}
-          categoryId={id}
-          initialPage={4}
+         initialGames={initialGames}
+         categoryId={id}
+         initialPage={1}
+         initialTotalPages={totalPages}
         />
 
         <div className="mt-8 flex gap-4">
