@@ -79,21 +79,26 @@ export default function GameControlBar({
       const gameRef = doc(db, "games", targetGameId);
       runTransaction(db, async (transaction) => {
         const snap = await transaction.get(gameRef);
-        if (!snap.exists()) return;
 
-        const data = snap.data();
-        let l: number = data.likes ?? 0;
-        let d: number = data.dislikes ?? 0;
+let l: number = 0;
+let d: number = 0;
 
-        // Undo whatever is currently committed for this user...
-        if (from === "like") l = Math.max(0, l - 1);
-        if (from === "dislike") d = Math.max(0, d - 1);
+if (snap.exists()) {
+  const data = snap.data();
+  l = data.likes ?? 0;
+  d = data.dislikes ?? 0;
+}
 
-        // ...then apply the new target state.
-        if (to === "like") l = l + 1;
-        if (to === "dislike") d = d + 1;
+if (from === "like") l = Math.max(0, l - 1);
+if (from === "dislike") d = Math.max(0, d - 1);
+if (to === "like") l = l + 1;
+if (to === "dislike") d = d + 1;
 
-        transaction.update(gameRef, { likes: l, dislikes: d });
+if (snap.exists()) {
+  transaction.update(gameRef, { likes: l, dislikes: d });
+} else {
+  transaction.set(gameRef, { likes: l, dislikes: d, playCount: 0 });
+}
       })
         .then(() => {
           // Only mark as committed once Firestore actually reflects it.
