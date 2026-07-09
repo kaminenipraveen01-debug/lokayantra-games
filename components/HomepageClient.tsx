@@ -10,6 +10,19 @@ import {
 } from "lucide-react";
 
 // motham games anni okey size — ఏ big/tall special tile లేదు
+// motham thumbnail sources rendu — GamePix (already w=256 tho vastundi
+// lib/gamepix.ts nunchi) mariyu Cloudinary (admin-uploaded games, ivi
+// raw uncompressed PNG ga vastayi). Cloudinary URL లో on-the-fly resize +
+// auto-compress transform inject chesthe, 1.8MB image ~30-60KB ki padutundi.
+function optimizeThumb(url?: string): string | undefined {
+  if (!url) return url;
+  if (url.includes("res.cloudinary.com") && url.includes("/upload/")) {
+    return url.replace("/upload/", "/upload/w_320,q_auto,f_auto/");
+  }
+  return url;
+}
+
+// motham games anni okey size — ఏ big/tall special tile లేదు
 function getTileClass(_index: number) {
   return "col-span-1 row-span-1 aspect-square";
 }
@@ -100,7 +113,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
                   className="group relative block w-full aspect-square overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white/40 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-all duration-200"
                 >
                   {rg.thumbnail ? (
-                    <img src={rg.thumbnail} alt={rg.title}
+                    <img src={optimizeThumb(rg.thumbnail)} alt={rg.title}
                       className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
                     />
                   ) : (
@@ -152,7 +165,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
                 `}
               >
                 {game.thumbnail ? (
-                  <img src={game.thumbnail} alt={game.title}
+                  <img src={optimizeThumb(game.thumbnail)} alt={game.title}
                     loading={index < 8 ? "eager" : "lazy"}
                     fetchPriority={index < 4 ? "high" : "auto"}
                     className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-[filter,transform] duration-300 ease-out"
@@ -191,7 +204,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
           >
             {game.thumbnail ? (
               <img
-                src={game.thumbnail}
+                src={optimizeThumb(game.thumbnail)}
                 alt={game.title}
                 className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
               />
@@ -226,7 +239,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
           Trending Games
         </span>
       </div>
-      <Link href="/trending" aria-label="See all trending games" className="text-[10px] font-black uppercase tracking-widest text-black/55 hover:text-black transition-colors">
+      <Link href="/trending" aria-label="See all trending games" className="text-[10px] font-black uppercase tracking-widest text-black/70 hover:text-black transition-colors">
         See All →
       </Link>
     </div>
@@ -238,7 +251,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
             className="group relative block w-full aspect-square overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white/40 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-all duration-200"
           >
             {game.thumbnail ? (
-              <img src={game.thumbnail} alt={game.title} loading="lazy"
+              <img src={optimizeThumb(game.thumbnail)} alt={game.title} loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
               />
             ) : (
@@ -276,7 +289,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
           New Releases
         </span>
       </div>
-      <Link href="/new-releases" aria-label="See all new release games" className="text-[10px] font-black uppercase tracking-widest text-black/55 hover:text-black transition-colors">
+      <Link href="/new-releases" aria-label="See all new release games" className="text-[10px] font-black uppercase tracking-widest text-black/70 hover:text-black transition-colors">
         See All →
       </Link>
     </div>
@@ -288,7 +301,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
             className="group relative block w-full aspect-square overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white/40 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-all duration-200"
           >
             {game.thumbnail ? (
-              <img src={game.thumbnail} alt={game.title} loading="lazy"
+              <img src={optimizeThumb(game.thumbnail)} alt={game.title} loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
               />
             ) : (
@@ -337,7 +350,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
             className="group relative block w-full aspect-square overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white/40 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-all duration-200"
           >
             {game.thumbnail ? (
-              <img src={game.thumbnail} alt={game.title} loading="lazy"
+              <img src={optimizeThumb(game.thumbnail)} alt={game.title} loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
               />
             ) : (
@@ -385,7 +398,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
             className="group relative block w-full aspect-square overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white/40 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-all duration-200"
           >
             {game.thumbnail ? (
-              <img src={game.thumbnail} alt={game.title} loading="lazy"
+              <img src={optimizeThumb(game.thumbnail)} alt={game.title} loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
               />
             ) : (
@@ -414,7 +427,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
       <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 sm:mt-10 relative z-10">
         <div className="flex items-center justify-between mb-4 px-0.5">
           <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-black/60">Browse by Category</h2>
-          <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/55 hover:text-black transition-colors">
+          <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/70 hover:text-black transition-colors">
             All Categories →
           </Link>
         </div>

@@ -1,0 +1,17 @@
+# LokaYantra
+
+> LokaYantra is a free browser-based HTML5 gaming platform. Play thousands of instant-play games — action, racing, puzzle, adventure, sports, shooting, arcade, simulation, brain, battle, and IO games — with no downloads or installs required.
+
+## Site
+
+- [Home](https://lokayantra.vercel.app/): Browse the full games catalogue and featured collections.
+- [All Categories](https://lokayantra.vercel.app/categories): Full list of game categories.
+- [Trending Games](https://lokayantra.vercel.app/trending): Currently popular games.
+- [New Releases](https://lokayantra.vercel.app/new-releases): Recently added games.
+- [About](https://lokayantra.vercel.app/about): About LokaYantra.
+- [Contact](https://lokayantra.vercel.app/contact): Contact the LokaYantra team.
+
+## Policies
+
+- [Privacy Policy](https://lokayantra.vercel.app/privacy-policy)
+- [Terms & Conditions](https://lokayantra.vercel.app/terms)

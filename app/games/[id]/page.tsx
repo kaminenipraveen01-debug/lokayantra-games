@@ -22,6 +22,17 @@ const SITE_URL = "https://lokayantra.vercel.app";
 
 // prathi category id ki oka clean, consistent lucide icon — homepage
 // mariyu categories page lo unna style tone match avutundi.
+// GamePix thumbnails already resize అవుతాయి (lib/gamepix.ts లో w=256), కానీ
+// Cloudinary (admin-uploaded games) raw uncompressed PNG గా వస్తాయి — ఇక్కడ
+// on-the-fly resize + auto-compress transform inject చేస్తున్నాం.
+function optimizeThumb(url?: string): string | undefined {
+  if (!url) return url;
+  if (url.includes("res.cloudinary.com") && url.includes("/upload/")) {
+    return url.replace("/upload/", "/upload/w_320,q_auto,f_auto/");
+  }
+  return url;
+}
+
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
   action: Zap,
   racing: Car,
@@ -271,7 +282,7 @@ if (!game) {
                     >
                       <div className="relative w-full aspect-square">
                         {rg.thumbnail ? (
-                          <img src={rg.thumbnail} alt={rg.title} loading="lazy"
+                          <img src={optimizeThumb(rg.thumbnail)} alt={rg.title} loading="lazy"
                             className="absolute inset-0 w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105 transition-all duration-300"
                           />
                         ) : (
@@ -432,7 +443,7 @@ if (!game) {
             <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-black/50">
               Browse by Category
             </h2>
-            <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/55 hover:text-black transition-colors">
+            <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/70 hover:text-black transition-colors">
               All Categories →
             </Link>
           </div>

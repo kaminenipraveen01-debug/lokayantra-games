@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import { AuthProvider } from "@/lib/auth-context";
 import { SearchProvider } from "@/lib/search-context";
 import Header from "@/components/Header";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 const SITE_URL = "https://lokayantra.vercel.app";
 
@@ -88,11 +89,6 @@ export default function RootLayout({
         <link rel="icon" href="/logo.svg" type="image/svg+xml" />
         <link rel="shortcut icon" href="/logo.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/logo.svg" type="image/svg+xml" />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXX"
-          crossOrigin="anonymous"
-        />
       </head>
       <body
         className={`${inter.className} bg-[#cfcfcf] text-black antialiased selection:bg-black selection:text-white overflow-x-hidden`}
@@ -107,6 +103,16 @@ export default function RootLayout({
             </div>
           </SearchProvider>
         </AuthProvider>
+
+        {/* AdSense script — page fully interactive అయ్యాక, idle time లో
+            load అవుతుంది (lazyOnload). Ide 152KB unused JS ni LCP/render
+            path nunchi తీసేస్తుంది — <head> లో raw <script async> unte
+            adi immediate ga network fetch start chestundi, ఇది కాదు. */}
+        <Script
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXX"
+          crossOrigin="anonymous"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );
