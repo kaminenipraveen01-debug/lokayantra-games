@@ -1,13 +1,10 @@
 // components/Header.tsx
 "use client";
 
-import { useAuth } from "@/lib/auth-context";
 import { useSearch } from "@/lib/search-context";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -42,7 +39,6 @@ function OverlaySkeletonTile() {
 }
 
 export default function Header() {
-  // auth context available if needed
   const { searchTerm, setSearchTerm } = useSearch();
   const [isExpanded, setIsExpanded] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -55,17 +51,21 @@ export default function Header() {
   const [debouncedTerm, setDebouncedTerm] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // ఇలా replace చేయండి:
-useEffect(() => {
+  // Firebase (firestore) motham page load ki eager ga రాకుండా, search box
+  // open chesinappudu matrame dynamic-import chestunnam — idi
+  // firebaseapp.com/auth/iframe.js ni prathi page nunchi తీసేస్తుంది,
+  // search వాడేటప్పుడు మాత్రమే load అవుతుంది.
+  useEffect(() => {
     if (!isExpanded || gamesLoaded) return;
     async function fetchGames() {
       try {
-        // Firebase games + GamePix games parallel గా fetch
-        const [snap, res] = await Promise.all([
-          getDocs(collection(db, "games")),
+        const [{ collection, getDocs }, { db }, res] = await Promise.all([
+          import("firebase/firestore"),
+          import("@/lib/firebase"),
           fetch("/api/games?page=1&limit=120"),
         ]);
 
+        const snap = await getDocs(collection(db, "games"));
         const fbList: SearchGame[] = snap.docs.map((d) => ({
           id: d.id,
           ...d.data(),
@@ -154,6 +154,8 @@ useEffect(() => {
         <motion.div
           layout
           onClick={() => { setIsExpanded(false); router.push("/"); }}
+          role="button"
+          aria-label="Go to homepage"
           className="h-12 w-12 rounded-full bg-[#f0f0f0] flex items-center justify-center shrink-0 cursor-pointer relative z-20 active:scale-90"
         >
           <PandaLogo />
@@ -180,10 +182,12 @@ useEffect(() => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search games..."
+                  aria-label="Search games"
                   className="w-full bg-transparent text-xs font-semibold text-white placeholder-slate-500 outline-none"
                 />
                 <button
                   onClick={(e) => { e.stopPropagation(); setIsExpanded(false); }}
+                  aria-label="Close search"
                   className="text-slate-500 hover:text-white px-1"
                 >
                   ✕
@@ -196,6 +200,7 @@ useEffect(() => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.5 }}
                 onClick={() => setIsExpanded(true)}
+                aria-label="Open search"
                 className="w-10 h-10 rounded-full bg-[#1f232d]/80 border border-white/[0.04] flex items-center justify-center text-slate-400 hover:text-white transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -213,6 +218,7 @@ useEffect(() => {
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.92 }}
           title="Admin Panel"
+          aria-label="Admin Panel"
           className="shrink-0 h-10 w-10 rounded-full flex items-center justify-center bg-gradient-to-br from-[#252932] to-[#13151a] border border-white/[0.06] shadow-md text-slate-300 hover:text-white transition-colors"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

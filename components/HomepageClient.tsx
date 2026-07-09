@@ -152,7 +152,9 @@ export default function HomepageClient({ initialGames, categories: _categories, 
                 `}
               >
                 {game.thumbnail ? (
-                  <img src={game.thumbnail} alt={game.title} loading="lazy"
+                  <img src={game.thumbnail} alt={game.title}
+                    loading={index < 8 ? "eager" : "lazy"}
+                    fetchPriority={index < 4 ? "high" : "auto"}
                     className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-[filter,transform] duration-300 ease-out"
                   />
                 ) : (
@@ -171,52 +173,49 @@ export default function HomepageClient({ initialGames, categories: _categories, 
       </div>
 
       {featuredGames.length > 0 && (
-  <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 relative z-10">
-    <div className="flex items-center justify-between mb-3 px-0.5">
-      <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-black to-gray-700 shadow-sm">
-          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <span className="text-[9px] font-black uppercase tracking-widest text-white">Admin</span>
-        </div>
+    <div className="mt-8">
+      <div className="flex items-center gap-2 mb-3 px-0.5">
+        <svg className="w-3.5 h-3.5 text-black" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2L14.5 8H21L16 12.5L18 19L12 15L6 19L8 12.5L3 8H9.5L12 2Z"/>
+        </svg>
         <span className="text-[11px] font-black uppercase tracking-[0.2em] text-black">
-          Admin Games
+          Featured Games
         </span>
       </div>
-    </div>
-    <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-      {featuredGames.map((game) => (
-        <div key={game.id} className="relative shrink-0 w-[140px] sm:w-[160px]">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-1.5 sm:gap-2">
+        {featuredGames.map((game) => (
           <Link
             href={`/games/${game.slug || game.id}`}
-            className="group relative block w-full aspect-square overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white hover:-translate-y-1 shadow-sm hover:shadow-md transition-all duration-200"
+            key={game.id}
+            className="group relative aspect-square overflow-hidden rounded-[24px] sm:rounded-[32px] border border-black/20 hover:border-black/50 bg-white/40 hover:bg-white/55 shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.2)] hover:-translate-y-1.5 transition-all duration-200"
           >
             {game.thumbnail ? (
-              <img src={game.thumbnail} alt={game.title} loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-200"
+              <img
+                src={game.thumbnail}
+                alt={game.title}
+                className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
               />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-[9px] font-black uppercase tracking-wider text-black/50 bg-gray-100">
+              <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-black/60">
                 {game.title}
               </div>
             )}
-            <div className="absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-black to-gray-700 text-white text-[8px] font-black shadow-md">
-              <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-              </svg>
-              <span>ADMIN</span>
+            <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black text-white text-[8px] font-black uppercase tracking-wider">
+              ★ Featured
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-2">
-              <p className="text-[9px] font-black uppercase tracking-wider text-white truncate w-full">{game.title}</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3">
+              <p className="text-[10px] font-black uppercase tracking-wider text-white truncate max-w-[70%]">
+                {game.title}
+              </p>
+              <span className="ml-auto text-[8px] font-extrabold text-black bg-white px-2.5 py-1 rounded-md tracking-wider">
+                PLAY
+              </span>
             </div>
           </Link>
-          <p className="text-[9px] font-black uppercase tracking-wide text-black/60 truncate mt-1.5 px-0.5">{game.title}</p>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-)}
+  )}
 
   {trendingGames.length > 0 && (
   <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 relative z-10">
@@ -227,7 +226,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
           Trending Games
         </span>
       </div>
-      <Link href="/trending" className="text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors">
+      <Link href="/trending" aria-label="See all trending games" className="text-[10px] font-black uppercase tracking-widest text-black/55 hover:text-black transition-colors">
         See All →
       </Link>
     </div>
@@ -277,7 +276,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
           New Releases
         </span>
       </div>
-      <Link href="/new-releases" className="text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors">
+      <Link href="/new-releases" aria-label="See all new release games" className="text-[10px] font-black uppercase tracking-widest text-black/55 hover:text-black transition-colors">
         See All →
       </Link>
     </div>
@@ -415,7 +414,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
       <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 sm:mt-10 relative z-10">
         <div className="flex items-center justify-between mb-4 px-0.5">
           <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-black/60">Browse by Category</h2>
-          <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors">
+          <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/55 hover:text-black transition-colors">
             All Categories →
           </Link>
         </div>
@@ -484,7 +483,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
                 &ldquo;Boring grids are dead. Welcome to the infinite monochrome playground.&rdquo;
               </p>
               <div className="flex items-center gap-2.5 pt-1">
-                <Link href="https://www.instagram.com/lokayantraofficial?utm_source=qr&igsh=MXBndWQ3MG9uaDE1bw%3D%3D" target="_blank" rel="noopener noreferrer"
+                <Link href="https://www.instagram.com/lokayantraofficial?utm_source=qr&igsh=MXBndWQ3MG9uaDE1bw%3D%3D" target="_blank" rel="noopener noreferrer" aria-label="LokaYantra on Instagram"
                   className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all shadow-md">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -492,7 +491,7 @@ export default function HomepageClient({ initialGames, categories: _categories, 
                     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                   </svg>
                 </Link>
-                <Link href="https://youtube.com/@official.lokayantra?si=0SE7fSqRAd5WxW3h" target="_blank" rel="noopener noreferrer"
+                <Link href="https://youtube.com/@official.lokayantra?si=0SE7fSqRAd5WxW3h" target="_blank" rel="noopener noreferrer" aria-label="LokaYantra on YouTube"
                   className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all shadow-md">
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>

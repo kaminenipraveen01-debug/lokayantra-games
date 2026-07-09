@@ -432,7 +432,7 @@ if (!game) {
             <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-black/50">
               Browse by Category
             </h2>
-            <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors">
+            <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/55 hover:text-black transition-colors">
               All Categories →
             </Link>
           </div>
@@ -498,7 +498,7 @@ if (!game) {
                 &ldquo;Boring grids are dead. Welcome to the infinite monochrome playground.&rdquo;
               </p>
               <div className="flex items-center gap-2.5 pt-1">
-                <Link href="https://www.instagram.com/lokayantraofficial?utm_source=qr&igsh=MXBndWQ3MG9uaDE1bw%3D%3D" target="_blank" rel="noopener noreferrer"
+                <Link href="https://www.instagram.com/lokayantraofficial?utm_source=qr&igsh=MXBndWQ3MG9uaDE1bw%3D%3D" target="_blank" rel="noopener noreferrer" aria-label="LokaYantra on Instagram"
                   className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all shadow-md hover:bg-black/80">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -506,7 +506,7 @@ if (!game) {
                     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                   </svg>
                 </Link>
-                <Link href="https://youtube.com/@official.lokayantra?si=0SE7fSqRAd5WxW3h" target="_blank" rel="noopener noreferrer"
+                <Link href="https://youtube.com/@official.lokayantra?si=0SE7fSqRAd5WxW3h" target="_blank" rel="noopener noreferrer" aria-label="LokaYantra on YouTube"
                   className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all shadow-md hover:bg-black/80">
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
@@ -522,7 +522,6 @@ if (!game) {
               <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-black/60">
                 <li><Link href="/" className="hover:text-black transition-colors">All Games</Link></li>
                 <li><Link href="/trending" className="hover:text-black transition-colors">Trending Games</Link></li>
-                <li><Link href="/" className="hover:text-black transition-colors">2 Player Games</Link></li>
                 <li><Link href="/new-releases" className="hover:text-black transition-colors">New Releases</Link></li>
               </ul>
             </div>

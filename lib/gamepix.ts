@@ -13,6 +13,16 @@ export interface GamePixGame {
 
 const SID = "A3ALT";
 
+// Grid tiles motham 216-242px range lo display avutunnayi kabatti w=512
+// avasaram ledu — w=256 retina (2x) displays ki kuda crisp ga untundi,
+// kani file size sagam ki taggutundi (PageSpeed "Improve image delivery"
+// audit fix chesindi idi).
+const THUMB_WIDTH = "w=256";
+
+function resizeThumb(url: string): string {
+  return url ? url.replace("w=105", THUMB_WIDTH) : "";
+}
+
 // Homepage కి initial 10 pages మాత్రమే — build fast అవుతుంది
 export async function fetchAllGamePixGames(): Promise<GamePixGame[]> {
   const allGames: GamePixGame[] = [];
@@ -34,7 +44,7 @@ export async function fetchAllGamePixGames(): Promise<GamePixGame[]> {
           title: item.title ?? "",
           description: item.description ?? "",
           category: item.category ?? "",
-          thumbnail: item.image?.replace("w=105", "w=512") ?? "",
+          thumbnail: resizeThumb(item.image ?? ""),
           embedUrl: item.url ?? "",
           namespace: item.namespace ?? "",
           slug: item.namespace ?? String(item.id),
@@ -71,6 +81,8 @@ export async function fetchGamePixGame(id: string): Promise<GamePixGame | null> 
           title: item.title ?? "",
           description: item.description ?? "",
           category: item.category ?? "",
+          // Game detail page లో పెద్ద hero thumbnail వాడొచ్చు కాబట్టి ఇక్కడ
+          // మాత్రం అసలు size (512) అలాగే ఉంచుతున్నాం.
           thumbnail: item.image?.replace("w=105", "w=512") ?? "",
           embedUrl: item.url ?? "",
           namespace: item.namespace ?? "",
@@ -105,7 +117,7 @@ export async function fetchGamePixPage(
       title: item.title ?? "",
       description: item.description ?? "",
       category: item.category ?? "",
-      thumbnail: item.image?.replace("w=105", "w=512") ?? "",
+      thumbnail: resizeThumb(item.image ?? ""),
       embedUrl: item.url ?? "",
       namespace: item.namespace ?? "",
       slug: item.namespace ?? String(item.id),
@@ -156,7 +168,7 @@ export async function fetchTrendingGames(): Promise<GamePixGame[]> {
       id: item.namespace ?? String(item.id),
       title: item.title ?? "",
       category: item.category ?? "",
-      thumbnail: item.image?.replace("w=105", "w=512") ?? "",
+      thumbnail: resizeThumb(item.image ?? ""),
       embedUrl: item.url ?? "",
       slug: item.namespace ?? String(item.id),
     }));
@@ -177,7 +189,7 @@ export async function fetchNewReleases(): Promise<GamePixGame[]> {
       id: item.namespace ?? String(item.id),
       title: item.title ?? "",
       category: item.category ?? "",
-      thumbnail: item.image?.replace("w=105", "w=512") ?? "",
+      thumbnail: resizeThumb(item.image ?? ""),
       embedUrl: item.url ?? "",
       slug: item.namespace ?? String(item.id),
     }));
@@ -199,7 +211,7 @@ export async function fetchRecommendedGames(): Promise<GamePixGame[]> {
       id: item.namespace ?? String(item.id),
       title: item.title ?? "",
       category: item.category ?? "",
-      thumbnail: item.image?.replace("w=105", "w=512") ?? "",
+      thumbnail: resizeThumb(item.image ?? ""),
       embedUrl: item.url ?? "",
       slug: item.namespace ?? String(item.id),
     }));
@@ -220,7 +232,7 @@ export async function fetchMostPlayedGames(): Promise<GamePixGame[]> {
       id: item.namespace ?? String(item.id),
       title: item.title ?? "",
       category: item.category ?? "",
-      thumbnail: item.image?.replace("w=105", "w=512") ?? "",
+      thumbnail: resizeThumb(item.image ?? ""),
       embedUrl: item.url ?? "",
       slug: item.namespace ?? String(item.id),
     }));
