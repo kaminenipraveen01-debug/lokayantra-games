@@ -10,6 +10,8 @@ import FaqAccordion from "@/components/FaqAccordion";
 import GamePlayer from "@/components/GamePlayer";
 import Link from "next/link";
 import { FEATURED_CATEGORIES } from "@/lib/categories";
+import AdBanner from "@/components/AdBanner";
+import NativeBanner from "@/components/NativeBanner";
 import {
   Zap, Car, Puzzle, Compass, Trophy, Crosshair, Gamepad2, Building2,
   Brain, Network, Swords, Grid3x3, type LucideIcon,
@@ -230,12 +232,8 @@ if (!game) {
 
           {/* LEFT AD */}
           <div className="hidden xl:flex flex-col items-center w-[160px] shrink-0 pt-32">
-            <div className="w-[160px] h-[600px] rounded-[20px] bg-white/40 backdrop-blur-md border border-black/10 flex flex-col items-center justify-center overflow-hidden sticky top-28">
-              <div className="text-[8px] font-black uppercase tracking-widest text-black/20 mb-2">Ad</div>
-              <ins className="adsbygoogle"
-                style={{ display: "inline-block", width: "160px", height: "600px" }}
-                data-ad-client="ca-pub-XXXXXXXXXXXXXX"
-                data-ad-slot="XXXXXXXXXX" />
+            <div className="w-[160px] h-[600px] rounded-[20px] bg-white/40 backdrop-blur-md border border-black/10 flex items-center justify-center overflow-hidden sticky top-28">
+              <AdBanner adKey="c8f88403481c59512559028424f05501" width={160} height={600} />
             </div>
           </div>
 
@@ -255,13 +253,8 @@ if (!game) {
             }} />
 
             {/* MOBILE AD */}
-            <div className="lg:hidden w-full rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden flex flex-col items-center justify-center py-2 min-h-[100px]">
-              <div className="text-[8px] font-black uppercase tracking-widest text-black/20 mb-1">Ad</div>
-              <ins className="adsbygoogle"
-                style={{ display: "block", width: "100%", maxWidth: "336px", height: "90px" }}
-                data-ad-client="ca-pub-XXXXXXXXXXXXXX"
-                data-ad-slot="XXXXXXXXXX"
-                data-ad-format="horizontal" />
+            <div className="lg:hidden w-full rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden flex items-center justify-center py-2 min-h-[70px]">
+              <AdBanner adKey="900cf53b97a3af8bcbb34b562255e073" width={320} height={50} />
             </div>
 
             {/* RELATED GAMES */}
@@ -420,19 +413,11 @@ if (!game) {
 
           {/* RIGHT ADS */}
           <div className="hidden lg:flex flex-col gap-4 w-[300px] shrink-0 mt-32 sticky top-28">
-            <div className="w-[300px] h-[250px] rounded-[20px] bg-white/40 backdrop-blur-md border border-black/10 flex flex-col items-center justify-center overflow-hidden">
-              <div className="text-[8px] font-black uppercase tracking-widest text-black/20 mb-2">Ad</div>
-              <ins className="adsbygoogle"
-                style={{ display: "inline-block", width: "300px", height: "250px" }}
-                data-ad-client="ca-pub-XXXXXXXXXXXXXX"
-                data-ad-slot="XXXXXXXXXX" />
+            <div className="w-[300px] h-[250px] rounded-[20px] bg-white/40 backdrop-blur-md border border-black/10 flex items-center justify-center overflow-hidden">
+              <AdBanner adKey="24f1c20fd366825da4e73b27e9b523b0" width={300} height={250} />
             </div>
-            <div className="w-[300px] h-[600px] rounded-[20px] bg-white/40 backdrop-blur-md border border-black/10 flex flex-col items-center justify-center overflow-hidden">
-              <div className="text-[8px] font-black uppercase tracking-widest text-black/20 mb-2">Ad</div>
-              <ins className="adsbygoogle"
-                style={{ display: "inline-block", width: "300px", height: "600px" }}
-                data-ad-client="ca-pub-XXXXXXXXXXXXXX"
-                data-ad-slot="XXXXXXXXXX" />
+            <div className="w-[300px] flex items-center justify-center rounded-[20px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden p-3">
+              <NativeBanner />
             </div>
           </div>
         </div>
