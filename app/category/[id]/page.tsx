@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { fetchGamePixPage } from "@/lib/gamepix";
 import CategoryGamesClient from "@/components/CategoryGamesClient";
+import AdBanner from "@/components/AdBanner";
+import NativeBanner from "@/components/NativeBanner";
 
 export const revalidate = 3600;
 
@@ -31,30 +33,20 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const { id } = await params;
   const name = formatCategoryName(id);
 
-  // ముందు fetch చేసి totalPages తీసుకో
-let initialGames: any[] = [];
-let totalPages = 1;
-try {
-  const res = await fetch(
-    `https://feeds.gamepix.com/v2/json/?order=quality&pagination=12&sid=A3ALT&page=1&category=${id}`,
-    { next: { revalidate: 3600 } }
-  );
-  const data = await res.json();
-  initialGames = (data.items ?? []).map((item: any) => ({
-    id: item.namespace ?? String(item.id),
-    title: item.title ?? "",
-    thumbnail: item.image?.replace("w=105", "w=512") ?? "",
-    category: item.category ?? "",
-    slug: item.namespace ?? String(item.id),
-  }));
-  const lastPageUrl = data.last_page_url ?? "";
-  const match = lastPageUrl.match(/page=(\d+)/);
-  totalPages = match ? parseInt(match[1]) : 1;
-} catch {
-  initialGames = [];
-}
+  let initialGames: any[] = [];
+  try {
+    const pages = await Promise.all([
+      fetchGamePixPage(1, id),
+      fetchGamePixPage(2, id),
+      fetchGamePixPage(3, id),
+      fetchGamePixPage(4, id),
+    ]);
+    initialGames = pages.flat();
+  } catch {
+    initialGames = [];
+  }
 
-if (initialGames.length === 0) notFound();
+  if (initialGames.length === 0) notFound();
 
   return (
     <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
@@ -81,20 +73,35 @@ if (initialGames.length === 0) notFound();
           </p>
         </div>
 
+        {/* AD SLOT 1 — intro tarwatha, games grid mundu */}
+        <div className="w-full flex items-center justify-center py-2 mb-6 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+          <AdBanner adKey="1964a0ad17560680bdab1ffb00859133" width={468} height={60} />
+        </div>
+
         <CategoryGamesClient
-         initialGames={initialGames}
-         categoryId={id}
-         initialPage={1}
-         initialTotalPages={totalPages}
+          initialGames={initialGames}
+          categoryId={id}
+          initialPage={4}
+          initialTotalPages={50}
         />
 
-        <div className="mt-8 flex gap-4">
+        {/* AD SLOT 2 — games grid tarwatha */}
+        <div className="w-full flex items-center justify-center py-2 mt-8 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+          <AdBanner adKey="b0af7b8091bb9ba523dec2416736fdaa" width={728} height={90} />
+        </div>
+
+        <div className="mt-6 flex gap-4">
           <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black transition-colors">
             ← All Categories
           </Link>
           <Link href="/" className="text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black transition-colors">
             ← All Games
           </Link>
+        </div>
+
+        {/* AD SLOT 3 — page pathaka */}
+        <div className="w-full flex items-center justify-center py-3 mt-6 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+          <NativeBanner />
         </div>
       </div>
     </main>

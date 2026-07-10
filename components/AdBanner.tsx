@@ -1,7 +1,7 @@
 // components/AdBanner.tsx
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 interface AdBannerProps {
   adKey: string;
@@ -10,47 +10,52 @@ interface AdBannerProps {
   className?: string;
 }
 
-// highperformanceformat.com ad units motham "atOptions object + invoke.js"
-// pattern follow avutayi — ide reusable ga prathi size ki work chesela
-// build chesam. Same component ni prathi ad slot ki different adKey tho
-// malli malli use cheyachu.
+// highperformanceformat.com ad scripts లోపల document.write() వాడతాయి —
+// idi React useEffect లో dynamic గా script inject chesinappudu panichēyadu
+// (browser silently ignore chēstundi, ఖాళీ ఉంటుంది). Fix: prathi ad ni
+// dāni sontha fresh <iframe> document లో load cheyadam — akkada
+// document.write() sarigga pani chēstundi.
 export default function AdBanner({ adKey, width, height, className = "" }: AdBannerProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    container.innerHTML = "";
+    setMounted(true);
+  }, []);
 
-    const configScript = document.createElement("script");
-    configScript.type = "text/javascript";
-    configScript.innerHTML = `atOptions = {
-      'key': '${adKey}',
-      'format': 'iframe',
-      'height': ${height},
-      'width': ${width},
-      'params': {}
-    };`;
-
-    const invokeScript = document.createElement("script");
-    invokeScript.src = `https://www.highperformanceformat.com/${adKey}/invoke.js`;
-    invokeScript.async = true;
-
-    container.appendChild(configScript);
-    container.appendChild(invokeScript);
-
-    return () => {
-      container.innerHTML = "";
-    };
-  }, [adKey, width, height]);
+  const srcDoc = `<!DOCTYPE html>
+<html>
+<head>
+<style>html,body{margin:0;padding:0;overflow:hidden;background:transparent;}</style>
+</head>
+<body>
+<script type="text/javascript">
+  atOptions = {
+    'key': '${adKey}',
+    'format': 'iframe',
+    'height': ${height},
+    'width': ${width},
+    'params': {}
+  };
+</script>
+<script type="text/javascript" src="https://www.highperformanceformat.com/${adKey}/invoke.js"></script>
+</body>
+</html>`;
 
   return (
-    <div className={`flex items-center justify-center overflow-hidden ${className}`}>
-      <div className="text-[8px] font-black uppercase tracking-widest text-black/20 absolute -mt-4">Ad</div>
-      <div
-        ref={containerRef}
-        style={{ width, height, maxWidth: "100%" }}
-      />
+    <div
+      className={`flex items-center justify-center overflow-hidden ${className}`}
+      style={{ width, height, maxWidth: "100%" }}
+    >
+      {mounted && (
+        <iframe
+          title={`ad-${adKey}`}
+          srcDoc={srcDoc}
+          width={width}
+          height={height}
+          scrolling="no"
+          style={{ border: "none", maxWidth: "100%" }}
+        />
+      )}
     </div>
   );
 }
