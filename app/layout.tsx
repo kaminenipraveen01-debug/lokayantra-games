@@ -4,6 +4,7 @@ import Script from "next/script";
 import { AuthProvider } from "@/lib/auth-context";
 import { SearchProvider } from "@/lib/search-context";
 import Header from "@/components/Header";
+import SocialBarAd from "@/components/SocialBarAd";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
@@ -103,6 +104,9 @@ export default function RootLayout({
             </div>
           </SearchProvider>
         </AuthProvider>
+
+        {/* Social Bar ad — motham site ki okkasare, global ga */}
+        <SocialBarAd />
 
         {/* AdSense script — page fully interactive అయ్యాక, idle time లో
             load అవుతుంది (lazyOnload). Ide 152KB unused JS ni LCP/render

@@ -8,6 +8,8 @@ import {
   Zap, Car, Puzzle, Compass, Trophy, Crosshair, Gamepad2, Building2,
   Brain, Network, Swords, Grid3x3, type LucideIcon,
 } from "lucide-react";
+import AdBanner from "@/components/AdBanner";
+import NativeBanner from "@/components/NativeBanner";
 
 // motham games anni okey size — ఏ big/tall special tile లేదు
 // motham thumbnail sources rendu — GamePix (already w=256 tho vastundi
@@ -185,50 +187,56 @@ export default function HomepageClient({ initialGames, categories: _categories, 
         </div>
       </div>
 
-      {featuredGames.length > 0 && (
-    <div className="mt-8">
-      <div className="flex items-center gap-2 mb-3 px-0.5">
-        <svg className="w-3.5 h-3.5 text-black" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2L14.5 8H21L16 12.5L18 19L12 15L6 19L8 12.5L3 8H9.5L12 2Z"/>
-        </svg>
-        <span className="text-[11px] font-black uppercase tracking-[0.2em] text-black">
-          Featured Games
-        </span>
+      {/* AD SLOT 1 — Games grid తర్వాత, Featured section ముందు */}
+      <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-6 relative z-10">
+        <div className="w-full flex items-center justify-center py-2 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+          <AdBanner adKey="b0af7b8091bb9ba523dec2416736fdaa" width={728} height={90} />
+        </div>
       </div>
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-1.5 sm:gap-2">
-        {featuredGames.map((game) => (
+
+      {featuredGames.length > 0 && (
+  <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 relative z-10">
+    <div className="flex items-center gap-2 mb-3 px-0.5">
+      <svg className="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2L14.5 8H21L16 12.5L18 19L12 15L6 19L8 12.5L3 8H9.5L12 2Z"/>
+      </svg>
+      <span className="text-[11px] font-black uppercase tracking-[0.2em] text-black">
+        Featured Games
+      </span>
+    </div>
+    <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+      {featuredGames.map((game) => (
+        <div key={game.id} className="relative shrink-0 w-[140px] sm:w-[160px]">
           <Link
             href={`/games/${game.slug || game.id}`}
-            key={game.id}
-            className="group relative aspect-square overflow-hidden rounded-[24px] sm:rounded-[32px] border border-black/20 hover:border-black/50 bg-white/40 hover:bg-white/55 shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.2)] hover:-translate-y-1.5 transition-all duration-200"
+            className="group relative block w-full aspect-square overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white/40 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-all duration-200"
           >
             {game.thumbnail ? (
               <img
                 src={optimizeThumb(game.thumbnail)}
                 alt={game.title}
-                className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
               />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-black/60">
+              <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-[9px] font-black uppercase tracking-wider text-black/50">
                 {game.title}
               </div>
             )}
-            <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black text-white text-[8px] font-black uppercase tracking-wider">
-              ★ Featured
+            <div className="absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-400 via-orange-400 to-pink-500 text-white text-[8px] font-black shadow-md">
+              <span>★</span>
+              <span>FEATURED</span>
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-white truncate max-w-[70%]">
-                {game.title}
-              </p>
-              <span className="ml-auto text-[8px] font-extrabold text-black bg-white px-2.5 py-1 rounded-md tracking-wider">
-                PLAY
-              </span>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-2">
+              <p className="text-[9px] font-black uppercase tracking-wider text-white truncate w-full">{game.title}</p>
             </div>
           </Link>
-        ))}
-      </div>
+          <p className="text-[9px] font-black uppercase tracking-wide text-black/60 truncate mt-1.5 px-0.5">{game.title}</p>
+        </div>
+      ))}
     </div>
-  )}
+  </div>
+      )}
 
   {trendingGames.length > 0 && (
   <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 relative z-10">
@@ -375,6 +383,13 @@ export default function HomepageClient({ initialGames, categories: _categories, 
   </div>
 )}
 
+      {/* AD SLOT 2 — Recommended, Most Played మధ్య */}
+      <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 relative z-10">
+        <div className="w-full flex items-center justify-center py-2 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+          <AdBanner adKey="1964a0ad17560680bdab1ffb00859133" width={468} height={60} />
+        </div>
+      </div>
+
 {mostPlayedGames.length > 0 && (
   <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 relative z-10">
     <div className="flex items-center justify-between mb-3 px-0.5">
@@ -471,6 +486,13 @@ export default function HomepageClient({ initialGames, categories: _categories, 
             Welcome to LokaYantra. We smashed the boring web grids to build a living, breathing playground of free HTML5 games.
             Click a fluid shape, dive into instant gameplay, and experience the internet&apos;s most beautiful game station.
           </p>
+        </div>
+      </div>
+
+      {/* AD SLOT 3 — Footer ముందు */}
+      <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-6 relative z-10">
+        <div className="w-full flex items-center justify-center py-3 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+          <NativeBanner />
         </div>
       </div>
 

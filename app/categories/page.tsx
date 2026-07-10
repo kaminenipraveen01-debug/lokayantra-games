@@ -11,6 +11,8 @@ import {
   Sword, Shield, Book, CarFront, type LucideIcon,
 } from "lucide-react";
 import { fetchAllCategories } from "@/lib/gamepix";
+import AdBanner from "@/components/AdBanner";
+import NativeBanner from "@/components/NativeBanner";
 
 export const revalidate = 86400;
 
@@ -179,6 +181,11 @@ export default async function CategoriesPage() {
     categories = [];
   }
 
+  // grid ni rendu parts ga split chesi, madhyalo oka ad slot pettataniki
+  const midpoint = Math.ceil(categories.length / 2);
+  const firstHalf = categories.slice(0, midpoint);
+  const secondHalf = categories.slice(midpoint);
+
   return (
     <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
 
@@ -209,28 +216,64 @@ export default async function CategoriesPage() {
           <p className="text-[10px] font-bold text-black/40 mt-3">{categories.length} categories available</p>
         </div>
 
+        {/* AD SLOT 1 — intro box tarwatha, grid mundu */}
+        <div className="w-full flex items-center justify-center py-2 mb-6 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+          <AdBanner adKey="1964a0ad17560680bdab1ffb00859133" width={468} height={60} />
+        </div>
+
         {categories.length > 0 ? (
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
-            {categories.map((catId) => (
-              <Link
-                key={catId}
-                href={`/category/${catId}`}
-                className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-black/10 bg-white/50 hover:bg-white/80 hover:border-black/20 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.14)] transition-all duration-200"
-              >
-                <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-black/5 group-hover:bg-black group-hover:text-white text-black/70 flex items-center justify-center transition-colors duration-200">
-                  <CategoryIcon id={catId} />
-                </div>
-                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-black/80 group-hover:text-black text-center leading-tight line-clamp-2">
-                  {formatCategoryName(catId)}
-                </span>
-              </Link>
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
+              {firstHalf.map((catId) => (
+                <Link
+                  key={catId}
+                  href={`/category/${catId}`}
+                  className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-black/10 bg-white/50 hover:bg-white/80 hover:border-black/20 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.14)] transition-all duration-200"
+                >
+                  <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-black/5 group-hover:bg-black group-hover:text-white text-black/70 flex items-center justify-center transition-colors duration-200">
+                    <CategoryIcon id={catId} />
+                  </div>
+                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-black/80 group-hover:text-black text-center leading-tight line-clamp-2">
+                    {formatCategoryName(catId)}
+                  </span>
+                </Link>
+              ))}
+            </div>
+
+            {/* AD SLOT 2 — grid madhyalo */}
+            {secondHalf.length > 0 && (
+              <div className="w-full flex items-center justify-center py-2 my-6 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+                <AdBanner adKey="b0af7b8091bb9ba523dec2416736fdaa" width={728} height={90} />
+              </div>
+            )}
+
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
+              {secondHalf.map((catId) => (
+                <Link
+                  key={catId}
+                  href={`/category/${catId}`}
+                  className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-black/10 bg-white/50 hover:bg-white/80 hover:border-black/20 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.14)] transition-all duration-200"
+                >
+                  <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-black/5 group-hover:bg-black group-hover:text-white text-black/70 flex items-center justify-center transition-colors duration-200">
+                    <CategoryIcon id={catId} />
+                  </div>
+                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-black/80 group-hover:text-black text-center leading-tight line-clamp-2">
+                    {formatCategoryName(catId)}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </>
         ) : (
           <div className="text-center font-bold py-20 bg-white/20 rounded-[24px] border border-black/10 uppercase tracking-wider text-xs">
             Categories loading failed. Please try again later.
           </div>
         )}
+
+        {/* AD SLOT 3 — back-link mundu */}
+        <div className="w-full flex items-center justify-center py-3 mt-8 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+          <NativeBanner />
+        </div>
 
         <div className="mt-8">
           <Link href="/" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black transition-colors">
