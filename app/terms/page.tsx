@@ -19,7 +19,7 @@ export default function TermsPage() {
           <div className="space-y-1">
             <span className="text-[10px] font-black uppercase tracking-widest text-black/40">USER AGREEMENT</span>
             <h1 className="text-3xl font-black uppercase tracking-tight text-black">TERMS & CONDITIONS</h1>
-            <p className="text-xs font-bold text-black/50 uppercase">Last Updated: June 2026</p>
+            <p className="text-xs font-bold text-black/50 uppercase">Last Updated: July 2026</p>
           </div>
 
           <div className="space-y-5 text-xs sm:text-sm font-semibold text-black/70 leading-relaxed border-t border-black/5 pt-4">
@@ -39,7 +39,7 @@ export default function TermsPage() {
 
             <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">3. Use of Games & Third-Party Content (DMCA)</h2>
             <p>
-              LokaYantra acts as a curated hosting and discovery platform for free HTML5 browser games. Some games are built in-house, while others are sourced from or embedded via third-party developers and hosting providers. We do our best to ensure all featured games are safe and functional, but we do not guarantee uninterrupted availability, and we are not responsible for bugs, content, or behavior originating from third-party game code.
+              LokaYantra acts as a curated hosting and discovery platform for free HTML5 browser games. The majority of games are sourced from GamePix, an external HTML5 game distribution platform, while a smaller selection is built or uploaded in-house. We do our best to ensure all featured games are safe and functional, but we do not guarantee uninterrupted availability, and we are not responsible for bugs, content, or behavior originating from third-party game code.
             </p>
             <p className="bg-black/5 p-3 rounded-xl border border-black/5 text-xs italic">
               <strong>Copyright Notice:</strong> If you are a game developer or copyright owner and believe your content has been shared here without authorization, please contact us immediately through our Contact Station, and we will take it down within 24-48 hours.
@@ -53,45 +53,40 @@ export default function TermsPage() {
               <li>Using this Website in any way that is or may be damaging to this Website, including attempting to disrupt servers, scrape content at scale, or reverse-engineer the platform.</li>
               <li>Using this Website contrary to applicable laws and regulations, or in a way that causes harm to the Website, or to any person or business entity.</li>
               <li>Engaging in any data mining, data harvesting, data extraction, or any other similar activity in relation to this Website.</li>
-              <li>Posting abusive, hateful, sexually explicit, or otherwise objectionable content in the comments section.</li>
+              <li>Attempting to manipulate like/dislike counts or other platform metrics through automated means.</li>
             </ul>
 
-            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">5. User-Generated Content</h2>
+            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">5. Advertising</h2>
             <p>
-              Certain parts of this Website allow users to post comments and reactions via our embedded Disqus integration. By submitting such content, you grant LokaYantra a non-exclusive, royalty-free license to display it on the platform. We reserve the right to monitor, edit, or remove any user-submitted content that we consider, at our sole discretion, to be inappropriate, offensive, or in violation of these Terms.
+              LokaYantra is, and intends to remain, free to play. To support this, the platform may display third-party advertisements through Google AdSense and other advertising networks. We do not control the specific content of every ad shown by our advertising partners, though we make reasonable efforts to ensure ads are appropriate for a general audience.
             </p>
 
-            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">6. Advertising</h2>
-            <p>
-              LokaYantra is, and intends to remain, free to play. To support this, the platform may display third-party advertisements. We do not control the specific content of every ad shown by our advertising partners, though we make reasonable efforts to ensure ads are appropriate for a general audience.
-            </p>
-
-            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">7. Disclaimer of Warranties</h2>
+            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">6. Disclaimer of Warranties</h2>
             <p>
               This Website and the games on it are provided &ldquo;as is&rdquo;, without warranty of any kind, express or implied. LokaYantra does not warrant that the Website will be constantly available, uninterrupted, error-free, or free from viruses or other harmful components, although we take reasonable steps to keep it that way.
             </p>
 
-            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">8. Limitation of Liability</h2>
+            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">7. Limitation of Liability</h2>
             <p>
               In no event shall LokaYantra, its developer, or affiliates be liable for any indirect, incidental, special, or consequential damages arising out of or in connection with your use of the Website or any games hosted or embedded on it.
             </p>
 
-            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">9. Termination</h2>
+            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">8. Termination</h2>
             <p>
               We reserve the right to restrict or terminate your access to LokaYantra, without notice, for any conduct that we believe violates these Terms or is otherwise harmful to other users, third parties, or the platform itself.
             </p>
 
-            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">10. Changes to These Terms</h2>
+            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">9. Changes to These Terms</h2>
             <p>
               We may revise these Terms of Use at any time by updating this page. By continuing to use LokaYantra after changes are posted, you agree to be bound by the revised Terms.
             </p>
 
-            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">11. Entire Agreement</h2>
+            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">10. Entire Agreement</h2>
             <p>
               These Terms constitute the entire agreement between LokaYantra and you in relation to your use of this Website, and supersede all prior agreements and understandings, whether written or oral, relating to such use.
             </p>
 
-            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">12. Contact Us</h2>
+            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">11. Contact Us</h2>
             <p>
               If you have any questions about these Terms & Conditions, please reach out through our Contact Station page.
             </p>

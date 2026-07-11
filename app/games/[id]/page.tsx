@@ -5,7 +5,6 @@ import { getGameAdmin } from "@/lib/games-admin";
 import { getFirestore } from "firebase-admin/firestore";
 import { adminApp } from "@/lib/firebase-admin";
 import PlayCounter from "@/components/PlayCounter";
-import DisqusComments from "@/components/DisqusComments";
 import FaqAccordion from "@/components/FaqAccordion";
 import GamePlayer from "@/components/GamePlayer";
 import Link from "next/link";
@@ -357,14 +356,6 @@ if (!game) {
                     <FaqAccordion items={stats.faqs} />
                   </div>
                 )}
-
-                <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] border border-black/10 p-5 shadow-sm">
-                  <DisqusComments
-                    url={`${SITE_URL}/games/${game.id}`}
-                    identifier={game.id}
-                    title={game.title}
-                  />
-                </div>
               </div>
 
               {/* SIDEBAR */}

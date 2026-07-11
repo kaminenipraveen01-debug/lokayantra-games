@@ -19,7 +19,7 @@ export default function PrivacyPolicyPage() {
           <div className="space-y-1">
             <span className="text-[10px] font-black uppercase tracking-widest text-black/40">LEGAL COMPLIANCE</span>
             <h1 className="text-3xl font-black uppercase tracking-tight text-black">PRIVACY POLICY</h1>
-            <p className="text-xs font-bold text-black/50 uppercase">Last Updated: June 2026</p>
+            <p className="text-xs font-bold text-black/50 uppercase">Last Updated: July 2026</p>
           </div>
 
           <div className="space-y-5 text-xs sm:text-sm font-semibold text-black/70 leading-relaxed border-t border-black/5 pt-4">
@@ -34,7 +34,8 @@ export default function PrivacyPolicyPage() {
             <ul className="list-disc pl-5 space-y-1.5 text-xs">
               <li>Technical data such as browser type, device type, screen size, and operating system, used purely to keep the site working smoothly across devices.</li>
               <li>Gameplay data such as which games you open, recently-played history, and play counts — most of this is stored locally in your own browser (localStorage) and is never tied to your real identity.</li>
-              <li>Information you voluntarily submit, such as your name, email address, or message text when you use our Contact form or post a comment.</li>
+              <li>Anonymous interaction data such as likes/dislikes on a game, which is not linked to your identity and requires no account or sign-in.</li>
+              <li>Information you voluntarily submit, such as your name, email address, or message text when you use our Contact form.</li>
               <li>Cookies and similar technologies used by embedded third-party services (see Section 3 and 4 below).</li>
             </ul>
 
@@ -48,16 +49,15 @@ export default function PrivacyPolicyPage() {
               Like any other website, LokaYantra uses &apos;cookies&apos;. These cookies are used to store information including visitors&apos; preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users&apos; experience by customizing our web page content based on visitors&apos; browser type and/or other information. You are free to decline cookies through your individual browser settings, though doing so may affect certain interactive features of the site.
             </p>
 
-            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">4. Third-Party Services & Advertising (Google AdSense)</h2>
+            <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">4. Third-Party Services & Advertising</h2>
             <p>
               LokaYantra hosts and embeds content from a number of third-party providers in order to operate the platform. These include, but are not limited to:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-xs">
-              <li><strong>Google AdSense:</strong> Google is one of the third-party vendors on our site. It uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to LokaYantra and other sites on the internet. Visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy.</li>
-              <li><strong>Game hosting (GitHub Pages):</strong> Many of our HTML5 games are served from an external static hosting provider. Loading a game may expose your IP address to that host, governed by their own privacy practices.</li>
-              <li><strong>Disqus:</strong> Our comments section is powered by Disqus. If you choose to comment, Disqus may collect data per their own privacy policy, independent of LokaYantra.</li>
-              <li><strong>Cloudinary:</strong> Game thumbnails and images are delivered via Cloudinary&apos;s content delivery network.</li>
-              <li><strong>Firebase (Google):</strong> We use Firebase for authentication (admin access only) and storing game metadata such as titles, categories, and play counts.</li>
+              <li><strong>Advertising networks (including Google AdSense and other third-party ad partners):</strong> These networks may use cookies or similar technologies to serve ads based on your visit to LokaYantra and other sites on the internet. You may opt out of personalized advertising through your browser settings or the respective ad network&apos;s opt-out tools.</li>
+              <li><strong>GamePix:</strong> The majority of games on LokaYantra are sourced from and played via GamePix, an external HTML5 game distribution platform. Loading a game may load content from GamePix&apos;s servers, governed by their own privacy practices.</li>
+              <li><strong>Cloudinary:</strong> Thumbnails and images for select games are delivered via Cloudinary&apos;s content delivery network.</li>
+              <li><strong>Firebase (Google):</strong> We use Firebase for authentication (admin access only) and storing game metadata such as titles, categories, play counts, and anonymous likes/dislikes.</li>
             </ul>
             <p>
               LokaYantra&apos;s Privacy Policy does not apply to these other advertisers or websites. We advise you to consult the respective Privacy Policies of these third-party servers for more detailed information, including their practices and instructions about how to opt out of certain options.
@@ -65,12 +65,12 @@ export default function PrivacyPolicyPage() {
 
             <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">5. How We Use Your Information</h2>
             <p>
-              Any information we collect is used solely to operate, maintain, and improve LokaYantra — including displaying relevant games, responding to contact requests, moderating comments, preventing abuse, and understanding which categories of games are most popular so we can curate the platform better. We do not sell personal information to third parties.
+              Any information we collect is used solely to operate, maintain, and improve LokaYantra — including displaying relevant games, responding to contact requests, preventing abuse, and understanding which categories of games are most popular so we can curate the platform better. We do not sell personal information to third parties.
             </p>
 
             <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">6. Children&apos;s Privacy</h2>
             <p>
-              LokaYantra does not knowingly collect any personal identifiable information from children under the age of 13. If you believe your child has provided this kind of information through our Contact form or comments, please contact us immediately so we can take appropriate action, including removal of such information from our records.
+              LokaYantra does not knowingly collect any personal identifiable information from children under the age of 13. If you believe your child has provided this kind of information through our Contact form, please contact us immediately so we can take appropriate action, including removal of such information from our records.
             </p>
 
             <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">7. Data Storage & Security</h2>
@@ -80,7 +80,7 @@ export default function PrivacyPolicyPage() {
 
             <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">8. Your Choices</h2>
             <p>
-              You can clear your locally-stored gameplay history at any time by clearing your browser&apos;s site data. You may also disable cookies in your browser settings, decline to submit information through our Contact form, and choose not to comment using Disqus.
+              You can clear your locally-stored gameplay history at any time by clearing your browser&apos;s site data. You may also disable cookies in your browser settings and choose not to submit information through our Contact form.
             </p>
 
             <h2 className="text-sm font-black uppercase text-black tracking-wide pt-2">9. Changes to This Policy</h2>
