@@ -6,7 +6,8 @@ import { getRecentlyPlayed, removeRecentlyPlayed, RecentGame } from "@/lib/recen
 import { GamePixGame } from "@/lib/gamepix";
 import {
   Zap, Car, Puzzle, Compass, Trophy, Crosshair, Gamepad2, Building2,
-  Brain, Network, Swords, Grid3x3, type LucideIcon,
+  Brain, Network, Swords, Grid3x3, Smartphone, ShieldCheck, Infinity,
+  RefreshCw, type LucideIcon,
 } from "lucide-react";
 import AdBanner from "@/components/AdBanner";
 import NativeBanner from "@/components/NativeBanner";
@@ -477,15 +478,60 @@ export default function HomepageClient({ initialGames, categories: _categories, 
         </div>
       </div>
 
-      {/* INFO STRIP */}
-      <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 sm:mt-10 text-center relative z-10">
-        <div className="border border-black/10 p-6 sm:p-12 rounded-[24px] sm:rounded-[32px] shadow-xl space-y-4 bg-white/60">
-          <span className="text-xs font-black uppercase tracking-widest text-black/60">LOKAYANTRA ARCADE STATION</span>
-          <h2 className="text-xl sm:text-4xl font-black text-black tracking-tight">No Downloads. No Clutter. Just Magic.</h2>
-          <p className="max-w-2xl mx-auto text-xs sm:text-sm text-black/70 font-semibold leading-relaxed">
-            Welcome to LokaYantra. We smashed the boring web grids to build a living, breathing playground of free HTML5 games.
-            Click a fluid shape, dive into instant gameplay, and experience the internet&apos;s most beautiful game station.
-          </p>
+      {/* INFO STRIP — motham website gurinchi richer, professional info */}
+      <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 mt-8 sm:mt-10 relative z-10">
+        <div className="border border-black/10 p-6 sm:p-12 rounded-[24px] sm:rounded-[32px] shadow-xl bg-white/60">
+          <div className="text-center space-y-4">
+            <span className="text-xs font-black uppercase tracking-widest text-black/60">LokaYantra Arcade Station</span>
+            <h2 className="text-xl sm:text-4xl font-black text-black tracking-tight">No Downloads. No Clutter. Just Magic.</h2>
+            <p className="max-w-3xl mx-auto text-xs sm:text-sm text-black/70 font-semibold leading-relaxed">
+              LokaYantra is a free browser-based gaming platform built for people who just want to click and play —
+              no installs, no sign-ups, no waiting. We curate thousands of instant-play HTML5 games spanning action,
+              racing, puzzle, adventure, sports, shooting, arcade, simulation, brain, and battle categories, updated
+              regularly with fresh titles so there&apos;s always something new to discover. Every game runs directly
+              in your browser on desktop, tablet, or phone, with a fast, distraction-free, mobile-first experience
+              designed from the ground up — not a slow retrofit of an old desktop site.
+            </p>
+          </div>
+
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div className="flex flex-col items-center text-center gap-2 p-4 rounded-2xl bg-black/[0.03] border border-black/5">
+              <div className="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center">
+                <Zap className="w-5 h-5" strokeWidth={1.8} />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-wide text-black/80">Instant Play</span>
+              <span className="text-[10px] text-black/50 font-semibold leading-snug">No downloads or installs — click and play in seconds.</span>
+            </div>
+            <div className="flex flex-col items-center text-center gap-2 p-4 rounded-2xl bg-black/[0.03] border border-black/5">
+              <div className="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center">
+                <Infinity className="w-5 h-5" strokeWidth={1.8} />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-wide text-black/80">100% Free</span>
+              <span className="text-[10px] text-black/50 font-semibold leading-snug">Every game on LokaYantra is completely free to play.</span>
+            </div>
+            <div className="flex flex-col items-center text-center gap-2 p-4 rounded-2xl bg-black/[0.03] border border-black/5">
+              <div className="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center">
+                <Smartphone className="w-5 h-5" strokeWidth={1.8} />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-wide text-black/80">Any Device</span>
+              <span className="text-[10px] text-black/50 font-semibold leading-snug">Works smoothly on desktop, tablet, and mobile.</span>
+            </div>
+            <div className="flex flex-col items-center text-center gap-2 p-4 rounded-2xl bg-black/[0.03] border border-black/5">
+              <div className="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center">
+                <RefreshCw className="w-5 h-5" strokeWidth={1.8} />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-wide text-black/80">Fresh Games</span>
+              <span className="text-[10px] text-black/50 font-semibold leading-snug">New titles added regularly across every category.</span>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-black/10 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-[10px] font-black uppercase tracking-widest text-black/50">
+            <span className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5" /> Safe &amp; Family-Friendly</span>
+            <span className="hidden sm:inline text-black/20">•</span>
+            <span>No Account Required</span>
+            <span className="hidden sm:inline text-black/20">•</span>
+            <span>Ad-Supported, Always Free</span>
+          </div>
         </div>
       </div>
 

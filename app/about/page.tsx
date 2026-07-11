@@ -42,6 +42,27 @@ function IconDevices({ className = "w-6 h-6" }: { className?: string }) {
     </svg>
   );
 }
+function IconCursor({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 4l7 17 2.5-7.5L21 11 4 4z" />
+    </svg>
+  );
+}
+function IconShield({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" />
+    </svg>
+  );
+}
+function IconRefresh({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12a9 9 0 11-3-6.7M21 3v6h-6" />
+    </svg>
+  );
+}
 
 // ── MOUSE-TRACKING SPOTLIGHT ──
 function MouseSpotlight() {
@@ -261,10 +282,10 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
 
 // ── DATA ──
 const stats = [
-  { value: 8, suffix: "", label: "Categories" },
+  { value: 1000, suffix: "+", label: "Free Games" },
+  { value: 100, suffix: "+", label: "Categories" },
   { value: 100, suffix: "%", label: "Free Forever" },
   { value: 1, suffix: "", label: "Developer" },
-  { value: 0, suffix: "", label: "Downloads Needed" },
 ];
 
 const features = [
@@ -292,6 +313,45 @@ const features = [
     desc: "Desktop, tablet, or phone — the station reshapes itself. Games go fullscreen on mobile automatically.",
     num: "04",
   },
+];
+
+const categoryTags = [
+  "Action", "Racing", "Puzzle", "Adventure", "Sports", "Shooting",
+  "Arcade", "Simulation", "Brain", "Battle", "IO Games", "Card",
+  "Cooking", "Dress-Up", "Horror", "Idle", "Math", "Minecraft",
+  "Multiplayer", "Parking", "Platformer", "Runner", "Sniper", "Zombie",
+];
+
+const steps = [
+  {
+    Icon: IconSwatch,
+    title: "Pick a Game",
+    desc: "Browse the arcade grid or jump straight into a category — Action, Racing, Puzzle, and 100+ more.",
+  },
+  {
+    Icon: IconCursor,
+    title: "Click Play",
+    desc: "One click. No account, no email, no download prompt standing between you and the game.",
+  },
+  {
+    Icon: IconBolt,
+    title: "Play Instantly",
+    desc: "The game loads directly in your browser, full-screen on mobile, ready in seconds.",
+  },
+];
+
+const commitments = [
+  { Icon: IconShield, title: "Safe & Family-Friendly", desc: "Every game on the platform is screened before it goes live — no malware, no sketchy redirects." },
+  { Icon: IconRefresh, title: "Always Updated", desc: "New titles are added regularly across every category, so the arcade never goes stale." },
+  { Icon: IconDevices, title: "No Account Needed", desc: "Play as a guest, always. We never gate a game behind a login wall or a paywall." },
+  { Icon: IconBolt, title: "Built for Speed", desc: "Optimized images, lazy loading, and a lean codebase keep the station fast on any connection." },
+];
+
+const faqs = [
+  { q: "Is LokaYantra really free?", a: "Yes — every single game on the platform is 100% free to play, forever. The station is supported by ads, not paywalls or subscriptions." },
+  { q: "Do I need to download or install anything?", a: "No. Every game runs directly in your browser using HTML5 — just click Play and you're in." },
+  { q: "Does it work on my phone?", a: "Yes. LokaYantra is built mobile-first — games automatically switch to fullscreen on phones and tablets for the best experience." },
+  { q: "Do I need an account to play?", a: "No account, no email, no sign-up. You can play every game as a guest, instantly." },
 ];
 
 const story = [
@@ -461,7 +521,9 @@ export default function AboutPage() {
             <NuclearCard intensity={10} className="card-surface-bright rounded-[36px] p-10 sm:p-16 text-center">
               <p className="text-base sm:text-xl font-semibold leading-relaxed max-w-2xl mx-auto" style={{ color: "rgba(255,255,255,0.58)" }}>
                 Boring grids are dead.{" "}
-                <strong className="text-white font-black">LokaYantra</strong> is a living, breathing playground — built for players who want{" "}
+                <strong className="text-white font-black">LokaYantra</strong> is a free, browser-based gaming
+                platform spanning action, racing, puzzle, adventure, sports, shooting, arcade, simulation, brain,
+                and battle categories — built for players who want{" "}
                 <strong className="text-white">aesthetic fury</strong> and{" "}
                 <strong className="text-white">instant action</strong>, zero downloads, zero clutter, zero compromise.
               </p>
@@ -488,6 +550,71 @@ export default function AboutPage() {
               ))}
             </div>
           </Reveal>
+        </div>
+
+        {/* ── WHAT YOU'LL FIND HERE (categories) ── */}
+        <div className="w-full max-w-[1020px] mx-auto px-4 mt-24 sm:mt-32 relative z-10">
+          <Reveal delay={80}>
+            <div className="mb-10 sm:mb-14">
+              <span className="block text-center text-[9px] font-black uppercase tracking-[0.45em] text-white/20 mb-3">The Catalogue</span>
+              <h2 className="text-center text-[clamp(28px,5vw,56px)] font-black uppercase leading-[0.95] text-ice"
+                style={{ letterSpacing: "-0.04em" }}>
+                What You&apos;ll Find Here
+              </h2>
+              <p className="text-center text-xs sm:text-sm font-medium max-w-2xl mx-auto mt-5" style={{ color: "rgba(255,255,255,0.42)" }}>
+                From twitchy arcade shooters to slow, meditative puzzles, the LokaYantra catalogue spans over
+                100 categories and thousands of titles — sourced, screened, and organized so you spend less
+                time searching and more time playing.
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-2.5 max-w-3xl mx-auto">
+              {categoryTags.map((tag, i) => (
+                <span
+                  key={i}
+                  className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest px-3.5 py-2 rounded-full card-surface text-white/60"
+                >
+                  {tag}
+                </span>
+              ))}
+              <Link
+                href="/categories"
+                className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest px-3.5 py-2 rounded-full text-white"
+                style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.06) 100%)", border: "1px solid rgba(255,255,255,0.18)" }}
+              >
+                + See All Categories
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+
+        {/* ── HOW IT WORKS ── */}
+        <div className="w-full max-w-[1020px] mx-auto px-4 mt-24 sm:mt-32 relative z-10">
+          <Reveal delay={80}>
+            <div className="mb-14 sm:mb-20">
+              <span className="block text-center text-[9px] font-black uppercase tracking-[0.45em] text-white/20 mb-3">Getting Started</span>
+              <h2 className="text-center text-[clamp(32px,6vw,72px)] font-black uppercase leading-[0.9] text-ice"
+                style={{ letterSpacing: "-0.04em" }}>
+                How It Works
+              </h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6">
+            {steps.map((s, i) => (
+              <Reveal key={i} delay={i * 100}>
+                <NuclearCard intensity={18} glowColor="rgba(255,255,255,0.14)"
+                  className="card-surface rounded-[26px] p-8 h-full text-center"
+                >
+                  <div className="w-12 h-12 mx-auto mb-5 rounded-2xl card-surface flex items-center justify-center"
+                    style={{ background: "rgba(255,255,255,0.06)" }}>
+                    <s.Icon className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="block text-[9px] font-black uppercase tracking-[0.35em] text-white/25 mb-2">Step {i + 1}</span>
+                  <h3 className="text-xs sm:text-sm font-black uppercase tracking-[0.2em] text-white mb-3">{s.title}</h3>
+                  <p className="text-xs font-medium leading-relaxed" style={{ color: "rgba(255,255,255,0.42)" }}>{s.desc}</p>
+                </NuclearCard>
+              </Reveal>
+            ))}
+          </div>
         </div>
 
         {/* ── FEATURES ── */}
@@ -532,6 +659,37 @@ export default function AboutPage() {
                   {/* Bottom edge light */}
                   <div className="absolute bottom-0 left-8 right-8 h-px rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)" }} />
+                </NuclearCard>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
+        {/* ── OUR COMMITMENT ── */}
+        <div className="w-full max-w-[1020px] mx-auto px-4 mt-24 sm:mt-32 relative z-10">
+          <Reveal delay={80}>
+            <div className="mb-14 sm:mb-20">
+              <span className="block text-center text-[9px] font-black uppercase tracking-[0.45em] text-white/20 mb-3">The Fine Print, Made Simple</span>
+              <h2 className="text-center text-[clamp(32px,6vw,72px)] font-black uppercase leading-[0.9] text-ice"
+                style={{ letterSpacing: "-0.04em" }}>
+                Our Commitment
+              </h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+            {commitments.map((c, i) => (
+              <Reveal key={i} delay={i * 90}>
+                <NuclearCard intensity={16} glowColor="rgba(255,255,255,0.12)"
+                  className="card-surface rounded-[24px] p-7 sm:p-8"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-10 h-10 rounded-xl card-surface flex items-center justify-center shrink-0"
+                      style={{ background: "rgba(255,255,255,0.07)" }}>
+                      <c.Icon className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white">{c.title}</h3>
+                  </div>
+                  <p className="text-xs font-medium leading-relaxed" style={{ color: "rgba(255,255,255,0.42)" }}>{c.desc}</p>
                 </NuclearCard>
               </Reveal>
             ))}
@@ -615,6 +773,31 @@ export default function AboutPage() {
           </Reveal>
         </div>
 
+        {/* ── FAQ ── */}
+        <div className="w-full max-w-[820px] mx-auto px-4 mt-24 sm:mt-32 relative z-10">
+          <Reveal delay={80}>
+            <div className="mb-12 sm:mb-16">
+              <span className="block text-center text-[9px] font-black uppercase tracking-[0.45em] text-white/20 mb-3">Quick Answers</span>
+              <h2 className="text-center text-[clamp(28px,5vw,56px)] font-black uppercase leading-[0.95] text-ice"
+                style={{ letterSpacing: "-0.04em" }}>
+                Frequently Asked
+              </h2>
+            </div>
+          </Reveal>
+          <div className="flex flex-col gap-4">
+            {faqs.map((f, i) => (
+              <Reveal key={i} delay={i * 90}>
+                <NuclearCard intensity={10} glowColor="rgba(255,255,255,0.1)"
+                  className="card-surface rounded-[20px] p-6 sm:p-7"
+                >
+                  <h4 className="text-xs sm:text-sm font-black uppercase tracking-wide text-white mb-2">{f.q}</h4>
+                  <p className="text-xs sm:text-sm font-medium leading-relaxed" style={{ color: "rgba(255,255,255,0.42)" }}>{f.a}</p>
+                </NuclearCard>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
         {/* ── CORE PILLARS ── */}
         <div className="w-full max-w-[1020px] mx-auto px-4 mt-14 sm:mt-20 relative z-10">
           <Reveal delay={80}>
@@ -643,6 +826,13 @@ export default function AboutPage() {
         {/* ── CTA ── */}
         <div className="w-full max-w-[1020px] mx-auto px-4 mt-20 sm:mt-24 relative z-10 text-center">
           <Reveal delay={80}>
+            <div className="mb-8">
+              <p className="text-xs sm:text-sm font-medium max-w-lg mx-auto" style={{ color: "rgba(255,255,255,0.42)" }}>
+                Questions, feedback, or just want to say hi? Reach out on the{" "}
+                <Link href="/contact" className="text-white underline underline-offset-4">Contact page</Link>{" "}
+                — a real person (the one panda running this whole place) reads every message.
+              </p>
+            </div>
             <Link
               href="/"
               className="inline-flex h-[56px] px-12 items-center justify-center font-black uppercase tracking-[0.22em] text-[11px] rounded-full text-white relative overflow-hidden group"
