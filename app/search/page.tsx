@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { fetchSearchIndex, fetchAllCategories } from "@/lib/gamepix";
+import { Suspense } from "react";
+import { fetchSearchIndex, fetchAllCategories, GamePixGame } from "@/lib/gamepix";
+import { getHomepageGames } from "@/lib/games-admin";
 import SearchResultsClient from "@/components/SearchResultsClient";
 
 export const revalidate = 1800;
@@ -11,9 +13,10 @@ export const metadata: Metadata = {
 };
 
 export default async function SearchPage() {
-  let popularGames: any[] = [];
-  let newestGames: any[] = [];
+  let popularGames: GamePixGame[] = [];
+  let newestGames: GamePixGame[] = [];
   let categories: string[] = [];
+  let adminGames: GamePixGame[] = [];
 
   try {
     popularGames = await fetchSearchIndex("quality");
@@ -31,6 +34,42 @@ export default async function SearchPage() {
     categories = await fetchAllCategories();
   } catch {
     categories = [];
+  }
+
+  // Admin-uploaded games (Featured section lo unnavi) — ivi GamePix feed
+  // lo raavu, kabatti veti కోసం search ki వేరే గా fetch చేసి కలుపుతున్నాం.
+  try {
+    const fbGames = await getHomepageGames(200);
+    adminGames = fbGames.map((g) => ({
+      id: g.id,
+      title: g.title,
+      thumbnail: g.thumbnail ?? "",
+      category: g.category ?? "",
+      embedUrl: g.embedUrl ?? g.gameUrl ?? "",
+      slug: g.slug ?? g.id,
+      description: g.description ?? "",
+    }));
+  } catch (err) {
+    console.error("search: getHomepageGames failed:", err);
+    adminGames = [];
+  }
+
+  // Merge — admin games (curated) mundu, GamePix games tarwatha,
+  // duplicates (same id) తీసేసి.
+  const seen = new Set<string>();
+  const mergedPopular: GamePixGame[] = [];
+  for (const g of [...adminGames, ...popularGames]) {
+    if (seen.has(g.id)) continue;
+    seen.add(g.id);
+    mergedPopular.push(g);
+  }
+
+  const seenNewest = new Set<string>();
+  const mergedNewest: GamePixGame[] = [];
+  for (const g of [...adminGames, ...newestGames]) {
+    if (seenNewest.has(g.id)) continue;
+    seenNewest.add(g.id);
+    mergedNewest.push(g);
   }
 
   return (
@@ -54,11 +93,17 @@ export default async function SearchPage() {
           </h1>
         </div>
 
-        <SearchResultsClient
-          initialGames={popularGames}
-          newestGames={newestGames}
-          categories={categories}
-        />
+        <Suspense fallback={
+          <div className="w-full py-24 text-center">
+            <p className="text-xs font-black uppercase tracking-widest text-black/30">Loading search…</p>
+          </div>
+        }>
+          <SearchResultsClient
+            initialGames={mergedPopular}
+            newestGames={mergedNewest}
+            categories={categories}
+          />
+        </Suspense>
 
         <div className="mt-8">
           <Link href="/" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black transition-colors">
