@@ -240,3 +240,45 @@ export async function fetchMostPlayedGames(): Promise<GamePixGame[]> {
     return [];
   }
 }
+
+// Search page కోసం — విస్తారమైన index (15 pages × 12 = ~180 games),
+// title/category ల మీద client-side filter + sort చేయడానికి సరిపోతుంది.
+export async function fetchSearchIndex(order: "quality" | "pubdate" = "quality"): Promise<GamePixGame[]> {
+  const allGames: GamePixGame[] = [];
+  const seen = new Set<string>();
+
+  for (let page = 1; page <= 15; page++) {
+    try {
+      const res = await fetch(
+        `https://feeds.gamepix.com/v2/json/?order=${order}&pagination=12&sid=${SID}&page=${page}`,
+        { next: { revalidate: 1800 } }
+      );
+      if (!res.ok) break;
+      const data = await res.json();
+      const items = data.items ?? [];
+      if (items.length === 0) break;
+
+      for (const item of items) {
+        const id = item.namespace ?? String(item.id);
+        if (seen.has(id)) continue;
+        seen.add(id);
+        allGames.push({
+          id,
+          title: item.title ?? "",
+          description: item.description ?? "",
+          category: item.category ?? "",
+          thumbnail: resizeThumb(item.image ?? ""),
+          embedUrl: item.url ?? "",
+          namespace: item.namespace ?? "",
+          slug: id,
+          width: item.width ?? 800,
+          height: item.height ?? 600,
+        });
+      }
+    } catch {
+      break;
+    }
+  }
+
+  return allGames;
+}

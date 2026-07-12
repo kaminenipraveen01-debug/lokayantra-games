@@ -181,6 +181,12 @@ export default function Header() {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && searchTerm.trim()) {
+                      setIsExpanded(false);
+                      router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+                    }
+                  }}
                   placeholder="Search games..."
                   aria-label="Search games"
                   className="w-full bg-transparent text-xs font-semibold text-white placeholder-slate-500 outline-none"
@@ -278,6 +284,18 @@ export default function Header() {
             ) : (
               <div className="text-center py-10 text-xs font-black uppercase tracking-wider text-black/40">
                 No games match &quot;{debouncedTerm}&quot;
+              </div>
+            )}
+
+            {!isSearching && gamesLoaded && debouncedTerm.trim() && (
+              <div className="mt-4 pt-4 border-t border-black/10 text-center">
+                <Link
+                  href={`/search?q=${encodeURIComponent(debouncedTerm.trim())}`}
+                  onClick={() => setIsExpanded(false)}
+                  className="text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black transition-colors"
+                >
+                  See all results in Search →
+                </Link>
               </div>
             )}
           </motion.div>
