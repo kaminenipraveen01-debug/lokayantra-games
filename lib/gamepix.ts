@@ -241,33 +241,36 @@ export async function fetchMostPlayedGames(): Promise<GamePixGame[]> {
   }
 }
 
-// Search page కోసం — విస్తారమైన index (15 pages × 12 = ~180 games),
-// title/category ల మీద client-side filter + sort చేయడానికి సరిపోతుంది.
-export async function fetchSearchIndex(order: "quality" | "pubdate" = "quality"): Promise<GamePixGame[]> {
+// Search page కోసం — GamePix యొక్క limit-1000 endpoint వాడి, పెద్ద
+// coverage తో (v2/json feed లో page-by-page fetch చేసేకంటే చాలా faster,
+// ఎక్కువ games) index build చేస్తున్నాం. Rendu offset batches (0, 1000)
+// fetch చేసి, up to ~2000 games వరకు cover చేస్తుంది.
+export async function fetchSearchIndex(order: "q" | "d" = "q"): Promise<GamePixGame[]> {
   const allGames: GamePixGame[] = [];
   const seen = new Set<string>();
+  const offsets = [0, 1000];
 
-  for (let page = 1; page <= 15; page++) {
+  for (const offset of offsets) {
     try {
       const res = await fetch(
-        `https://feeds.gamepix.com/v2/json/?order=${order}&pagination=12&sid=${SID}&page=${page}`,
+        `https://games.gamepix.com/games?sid=${SID}&order=${order}&limit=1000&offset=${offset}`,
         { next: { revalidate: 1800 } }
       );
       if (!res.ok) break;
       const data = await res.json();
-      const items = data.items ?? [];
-      if (items.length === 0) break;
+      const items = data.items ?? data.games ?? data ?? [];
+      if (!Array.isArray(items) || items.length === 0) break;
 
       for (const item of items) {
-        const id = item.namespace ?? String(item.id);
-        if (seen.has(id)) continue;
+        const id = item.namespace ?? String(item.id ?? "");
+        if (!id || seen.has(id)) continue;
         seen.add(id);
         allGames.push({
           id,
           title: item.title ?? "",
           description: item.description ?? "",
           category: item.category ?? "",
-          thumbnail: resizeThumb(item.image ?? ""),
+          thumbnail: resizeThumb(item.image ?? item.banner?.landscape ?? ""),
           embedUrl: item.url ?? "",
           namespace: item.namespace ?? "",
           slug: id,
@@ -275,8 +278,49 @@ export async function fetchSearchIndex(order: "quality" | "pubdate" = "quality")
           height: item.height ?? 600,
         });
       }
-    } catch {
+
+      if (items.length < 1000) break; // last page
+    } catch (err) {
+      console.error("fetchSearchIndex error:", err);
       break;
+    }
+  }
+
+  // Fallback — పైన API ఏదైనా కారణంతో ఏమీ ఇవ్వకపోతే, పాత v2/json feed
+  // (15 pages) ద్వారా కనీసం ~180 games అయినా చూపిద్దాం, పూర్తిగా ఖాళీగా
+  // కాకుండా.
+  if (allGames.length === 0) {
+    const legacyOrder = order === "d" ? "pubdate" : "quality";
+    for (let page = 1; page <= 15; page++) {
+      try {
+        const res = await fetch(
+          `https://feeds.gamepix.com/v2/json/?order=${legacyOrder}&pagination=12&sid=${SID}&page=${page}`,
+          { next: { revalidate: 1800 } }
+        );
+        if (!res.ok) break;
+        const data = await res.json();
+        const items = data.items ?? [];
+        if (items.length === 0) break;
+        for (const item of items) {
+          const id = item.namespace ?? String(item.id);
+          if (seen.has(id)) continue;
+          seen.add(id);
+          allGames.push({
+            id,
+            title: item.title ?? "",
+            description: item.description ?? "",
+            category: item.category ?? "",
+            thumbnail: resizeThumb(item.image ?? ""),
+            embedUrl: item.url ?? "",
+            namespace: item.namespace ?? "",
+            slug: id,
+            width: item.width ?? 800,
+            height: item.height ?? 600,
+          });
+        }
+      } catch {
+        break;
+      }
     }
   }
 

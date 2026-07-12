@@ -19,13 +19,13 @@ export default async function SearchPage() {
   let adminGames: GamePixGame[] = [];
 
   try {
-    popularGames = await fetchSearchIndex("quality");
+    popularGames = await fetchSearchIndex("q");
   } catch {
     popularGames = [];
   }
 
   try {
-    newestGames = await fetchSearchIndex("pubdate");
+    newestGames = await fetchSearchIndex("d");
   } catch {
     newestGames = [];
   }
