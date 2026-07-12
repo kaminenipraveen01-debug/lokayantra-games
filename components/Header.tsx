@@ -66,19 +66,23 @@ export default function Header() {
         ]);
 
         const snap = await getDocs(collection(db, "games"));
-        const fbList: SearchGame[] = snap.docs.map((d) => ({
-          id: d.id,
-          ...d.data(),
-        })) as SearchGame[];
+        const fbList: SearchGame[] = snap.docs
+          .map((d) => ({
+            id: d.id,
+            ...d.data(),
+          }))
+          .filter((g: any) => typeof g.title === "string" && g.title.trim().length > 0) as SearchGame[];
 
         const gpData = await res.json();
-        const gpList: SearchGame[] = (gpData.games ?? []).map((g: any) => ({
-          id: g.id,
-          title: g.title,
-          slug: g.slug || g.id,
-          thumbnail: g.thumbnail,
-          category: g.category,
-        }));
+        const gpList: SearchGame[] = (gpData.games ?? [])
+          .filter((g: any) => g && g.id && g.title)
+          .map((g: any) => ({
+            id: g.id,
+            title: g.title,
+            slug: g.slug || g.id,
+            thumbnail: g.thumbnail,
+            category: g.category,
+          }));
 
         // Merge — duplicates తీసేయి
         const seen = new Set(fbList.map((g) => g.id));
@@ -114,7 +118,9 @@ export default function Header() {
   const results = useMemo(() => {
     if (!debouncedTerm.trim()) return [];
     const q = debouncedTerm.toLowerCase();
-    return allGames.filter((g) => g.title.toLowerCase().includes(q)).slice(0, 12);
+    return allGames
+      .filter((g) => g && g.id && (g.title || "").toLowerCase().includes(q))
+      .slice(0, 12);
   }, [debouncedTerm, allGames]);
 
   // Close overlay on outside click
