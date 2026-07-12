@@ -48,7 +48,7 @@ export default function SearchResultsClient({ initialGames, newestGames, categor
 
   const results = useMemo(() => {
     const sourceList = sort === "newest" ? newestGames : initialGames;
-    let list = [...sourceList];
+    let list = sourceList.filter((g) => g && g.id);
 
     if (category !== "all") {
       list = list.filter((g) => g.category === category);
@@ -56,11 +56,11 @@ export default function SearchResultsClient({ initialGames, newestGames, categor
 
     if (debouncedQuery.trim()) {
       const q = debouncedQuery.trim().toLowerCase();
-      list = list.filter((g) => g.title.toLowerCase().includes(q));
+      list = list.filter((g) => (g.title || "").toLowerCase().includes(q));
     }
 
     if (sort === "az") {
-      list = [...list].sort((a, b) => a.title.localeCompare(b.title));
+      list = [...list].sort((a, b) => (a.title || "").localeCompare(b.title || ""));
     }
 
     return list;
@@ -123,17 +123,17 @@ export default function SearchResultsClient({ initialGames, newestGames, categor
               {game.thumbnail ? (
                 <img
                   src={game.thumbnail}
-                  alt={game.title}
+                  alt={game.title || "Game"}
                   loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-[filter,transform] duration-300 ease-out"
                 />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-[10px] font-black uppercase tracking-wider text-black/60">
-                  {game.title}
+                  {game.title || "Untitled Game"}
                 </div>
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-2.5">
-                <p className="text-[9px] font-black uppercase tracking-wider text-white truncate max-w-[70%]">{game.title}</p>
+                <p className="text-[9px] font-black uppercase tracking-wider text-white truncate max-w-[70%]">{game.title || "Untitled Game"}</p>
                 <span className="ml-auto text-[7px] font-extrabold text-black bg-white px-2 py-0.5 rounded-md tracking-wider">PLAY</span>
               </div>
             </Link>
