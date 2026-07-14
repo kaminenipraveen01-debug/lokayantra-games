@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { fetchSearchIndex } from "@/lib/gamepix";
 
 function PandaLogo() {
   return (
@@ -59,10 +60,10 @@ export default function Header() {
     if (!isExpanded || gamesLoaded) return;
     async function fetchGames() {
       try {
-        const [{ collection, getDocs }, { db }, res] = await Promise.all([
+        const [{ collection, getDocs }, { db }, gpList] = await Promise.all([
           import("firebase/firestore"),
           import("@/lib/firebase"),
-          fetch("/api/games?page=1&limit=120"),
+          fetchSearchIndex("q"),
         ]);
 
         const snap = await getDocs(collection(db, "games"));
@@ -73,22 +74,21 @@ export default function Header() {
           }))
           .filter((g: any) => typeof g.title === "string" && g.title.trim().length > 0) as SearchGame[];
 
-        const gpData = await res.json();
-        const gpList: SearchGame[] = (gpData.games ?? [])
-          .filter((g: any) => g && g.id && g.title)
-          .map((g: any) => ({
-            id: g.id,
-            title: g.title,
-            slug: g.slug || g.id,
-            thumbnail: g.thumbnail,
-            category: g.category,
-          }));
-
-        // Merge — duplicates తీసేయి
+        // Merge — duplicates తీసేయి. gpList ఇప్పుడు fetchSearchIndex
+        // నుండి వస్తుంది (~2000 games వరకు), motham GamePix catalogue
+        // ని cover చేస్తుంది, కేవలం మొదటి 120 games కాదు.
         const seen = new Set(fbList.map((g) => g.id));
         const merged = [
           ...fbList,
-          ...gpList.filter((g) => !seen.has(g.id)),
+          ...gpList
+            .filter((g) => g && g.id && g.title && !seen.has(g.id))
+            .map((g) => ({
+              id: g.id,
+              title: g.title,
+              slug: g.slug || g.id,
+              thumbnail: g.thumbnail,
+              category: g.category,
+            })),
         ];
         setAllGames(merged);
       } catch (err) {
