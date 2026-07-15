@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useSecretCodes } from "@/lib/secret-codes-context";
 import { EffectKind, SecretCode } from "@/lib/secretCodes";
 import MiniGameModal from "./MiniGames";
+import { PREMIUM_EFFECTS } from "./PremiumEffects";
 
 const DEFAULT_DURATION = 3200;
 
@@ -31,9 +32,12 @@ export default function SecretEffectsOverlay() {
     closeGame,
   } = useSecretCodes();
 
-  // Auto-dismiss the active effect after its duration
+  // Auto-dismiss the active effect after its duration.
+  // Premium codes (galaxy, godmode, levelup...champion) run their own
+  // multi-phase timeline in PremiumEffects.tsx and call dismissEvent
+  // themselves via onEnd, so we skip the generic timer for those.
   useEffect(() => {
-    if (!activeEvent) return;
+    if (!activeEvent || activeEvent.entry.premium) return;
     const ms = activeEvent.entry.durationMs ?? DEFAULT_DURATION;
     const t = setTimeout(dismissEvent, ms);
     return () => clearTimeout(t);
@@ -50,15 +54,33 @@ export default function SecretEffectsOverlay() {
     <>
       {/* ── FULL-SCREEN EFFECT + POPUP ── */}
       <AnimatePresence>
-        {activeEvent && (
-          <EffectLayer
-            key={activeEvent.id}
-            entry={activeEvent.entry}
-            isNew={activeEvent.isNew}
-            onPlayGame={() => {
-              if (activeEvent.entry.unlocksGame) openGame(activeEvent.entry.unlocksGame);
-            }}
-          />
+        {activeEvent && activeEvent.entry.premium ? (
+          (() => {
+            const PremiumComponent = PREMIUM_EFFECTS[activeEvent.entry.code];
+            if (!PremiumComponent) return null;
+            return (
+              <PremiumComponent
+                key={activeEvent.id}
+                entry={activeEvent.entry}
+                isNew={activeEvent.isNew}
+                onEnd={dismissEvent}
+                onPlayGame={() => {
+                  if (activeEvent.entry.unlocksGame) openGame(activeEvent.entry.unlocksGame);
+                }}
+              />
+            );
+          })()
+        ) : (
+          activeEvent && (
+            <EffectLayer
+              key={activeEvent.id}
+              entry={activeEvent.entry}
+              isNew={activeEvent.isNew}
+              onPlayGame={() => {
+                if (activeEvent.entry.unlocksGame) openGame(activeEvent.entry.unlocksGame);
+              }}
+            />
+          )
         )}
       </AnimatePresence>
 
@@ -202,7 +224,7 @@ function EffectVisual({ effect, color, emoji }: { effect: EffectKind; color?: st
 
 // ── Simple CSS-driven effects ──
 
-function GlowEffect({ color }: { color: string }) {
+export function GlowEffect({ color }: { color: string }) {
   return (
     <div
       className="absolute inset-0"
@@ -211,7 +233,7 @@ function GlowEffect({ color }: { color: string }) {
   );
 }
 
-function AuraEffect({ color }: { color: string }) {
+export function AuraEffect({ color }: { color: string }) {
   return (
     <motion.div
       animate={{ opacity: [0.3, 0.7, 0.3] }}
@@ -351,7 +373,7 @@ function FounderEffect({ color }: { color: string }) {
 }
 
 // ── Particle field: confetti or falling emoji ──
-function ParticleField({ mode, emoji }: { mode: "confetti" | "emoji"; emoji?: string }) {
+export function ParticleField({ mode, emoji }: { mode: "confetti" | "emoji"; emoji?: string }) {
   const pieces = Array.from({ length: mode === "confetti" ? 60 : 36 });
   const confettiColors = ["#ff003c", "#00f0ff", "#ffd700", "#22c55e", "#a855f7", "#f472b6"];
 
@@ -396,7 +418,7 @@ function ParticleField({ mode, emoji }: { mode: "confetti" | "emoji"; emoji?: st
 }
 
 // ── Canvas-based effects: matrix rain / snow / starfield ──
-function CanvasEffect({ kind, color }: { kind: "matrix" | "snow" | "stars"; color: string }) {
+export function CanvasEffect({ kind, color }: { kind: "matrix" | "snow" | "stars" | "galaxy"; color: string }) {
   const ref = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -454,7 +476,7 @@ function CanvasEffect({ kind, color }: { kind: "matrix" | "snow" | "stars"; colo
         raf = requestAnimationFrame(draw);
       };
       draw();
-    } else {
+    } else if (kind === "stars") {
       const stars = Array.from({ length: 160 }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -477,6 +499,96 @@ function CanvasEffect({ kind, color }: { kind: "matrix" | "snow" | "stars"; colo
         raf = requestAnimationFrame(draw);
       };
       draw();
+    } else {
+      // "galaxy" — TRANSPARENT overlay (games underneath stay fully
+      // visible): tiny stars, slow-floating nebula blobs from the
+      // corners, a shooting star every ~4-5s, and mouse parallax.
+      const stars = Array.from({ length: 130 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: 0.6 + Math.random() * 1.4,
+        tw: Math.random() * Math.PI * 2, // twinkle phase
+      }));
+      const nebulae = [
+        { x: 0, y: 0, r: 380, c: "rgba(124,155,255,0.10)" },
+        { x: width, y: 0, r: 340, c: "rgba(168,124,255,0.09)" },
+        { x: 0, y: height, r: 360, c: "rgba(90,90,255,0.08)" },
+        { x: width, y: height, r: 400, c: "rgba(180,140,255,0.09)" },
+      ];
+      let t = 0;
+      let mx = width / 2;
+      let my = height / 2;
+      const onMove = (e: MouseEvent) => {
+        mx = e.clientX;
+        my = e.clientY;
+      };
+      window.addEventListener("mousemove", onMove);
+
+      let shootingStar: { x: number; y: number; vx: number; vy: number; life: number } | null = null;
+      let nextShootAt = 90 + Math.random() * 120; // frames
+
+      const draw = () => {
+        t++;
+        ctx.clearRect(0, 0, width, height);
+
+        const parX = (mx / width - 0.5) * 18;
+        const parY = (my / height - 0.5) * 18;
+
+        for (const n of nebulae) {
+          const nx = n.x + Math.sin(t / 240 + n.r) * 30 - parX * 0.4;
+          const ny = n.y + Math.cos(t / 260 + n.r) * 30 - parY * 0.4;
+          const grad = ctx.createRadialGradient(nx, ny, 0, nx, ny, n.r);
+          grad.addColorStop(0, n.c);
+          grad.addColorStop(1, "rgba(0,0,0,0)");
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        }
+
+        ctx.fillStyle = color;
+        for (const s of stars) {
+          const alpha = 0.35 + Math.abs(Math.sin(t / 30 + s.tw)) * 0.5;
+          ctx.globalAlpha = alpha;
+          ctx.beginPath();
+          ctx.arc(s.x + parX, s.y + parY, s.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+
+        nextShootAt--;
+        if (!shootingStar && nextShootAt <= 0) {
+          shootingStar = {
+            x: Math.random() * width * 0.6,
+            y: Math.random() * height * 0.3,
+            vx: 9 + Math.random() * 5,
+            vy: 4 + Math.random() * 3,
+            life: 40,
+          };
+          nextShootAt = 240 + Math.random() * 120; // ~4-6s at 60fps
+        }
+        if (shootingStar) {
+          const s = shootingStar;
+          ctx.strokeStyle = "rgba(255,255,255,0.9)";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(s.x, s.y);
+          ctx.lineTo(s.x - s.vx * 4, s.y - s.vy * 4);
+          ctx.stroke();
+          s.x += s.vx;
+          s.y += s.vy;
+          s.life--;
+          if (s.life <= 0 || s.x > width || s.y > height) shootingStar = null;
+        }
+
+        raf = requestAnimationFrame(draw);
+      };
+      draw();
+
+      const cleanupMove = () => window.removeEventListener("mousemove", onMove);
+      return () => {
+        cancelAnimationFrame(raf);
+        window.removeEventListener("resize", onResize);
+        cleanupMove();
+      };
     }
 
     return () => {

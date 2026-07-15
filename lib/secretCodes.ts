@@ -31,14 +31,15 @@ export interface SecretCode {
   emoji?: string;        // used by rain/silhouette effects
   durationMs?: number;   // effect duration, default 3200ms (godmode/founder override)
   unlocksGame?: string;  // mini-game id (see components/MiniGames.tsx), if any
+  premium?: boolean;     // true = handled by components/PremiumEffects.tsx (multi-phase, bespoke)
 }
 
 export const SECRET_CODES: SecretCode[] = [
   // ── CATEGORY 1 – Visual Effects ──
-  { code: "godmode", category: "Visual", title: "God Mode", popup: "⚡ GOD MODE ACTIVATED!", effect: "glow", color: "#ffd700", durationMs: 10000 },
+  { code: "godmode", category: "Visual", title: "God Mode", popup: "⚡ GOD MODE ACTIVATED ⚡", effect: "glow", color: "#ffd700", durationMs: 15000, premium: true },
   { code: "matrix", category: "Visual", title: "Matrix", popup: "Wake up, LokaYantra...", effect: "matrix", color: "#00ff41", unlocksGame: "snake" },
   { code: "rainbow", category: "Visual", title: "Rainbow", popup: "Colors Unleashed! 🌈", effect: "confetti" },
-  { code: "galaxy", category: "Visual", title: "Galaxy", popup: "Lost in the stars... 🌌", effect: "stars", color: "#7c5cff" },
+  { code: "galaxy", category: "Visual", title: "Galaxy", popup: "GALAXY MODE ACTIVATED", effect: "stars", color: "#7c9bff", durationMs: 16500, premium: true },
   { code: "retro", category: "Visual", title: "Retro", popup: "◄ INSERT COIN ►", effect: "glitch", color: "#ff2e63", unlocksGame: "dino" },
   { code: "neon", category: "Visual", title: "Neon", popup: "Neon City Online", effect: "aura", color: "#00f0ff" },
   { code: "fire", category: "Visual", title: "Fire", popup: "It's getting hot! 🔥", effect: "rain", emoji: "🔥", color: "#ff5500" },
@@ -47,16 +48,16 @@ export const SECRET_CODES: SecretCode[] = [
   { code: "disco", category: "Visual", title: "Disco", popup: "Disco Fever! 🕺", effect: "disco" },
 
   // ── CATEGORY 2 – Gamer Effects ──
-  { code: "levelup", category: "Gamer", title: "Level Up", popup: "LEVEL UP!", effect: "glow", color: "#4ade80" },
-  { code: "combo", category: "Gamer", title: "Combo", popup: "COMBO x10!", effect: "flash", color: "#f472b6" },
-  { code: "winner", category: "Gamer", title: "Winner", popup: "🏆 WINNER!", effect: "confetti" },
-  { code: "speedrun", category: "Gamer", title: "Speedrun", popup: "⏱ Timer started!", effect: "flash", color: "#38bdf8", unlocksGame: "aimtrainer" },
-  { code: "checkpoint", category: "Gamer", title: "Checkpoint", popup: "Checkpoint Saved ✅", effect: "glow", color: "#22d3ee" },
-  { code: "bossfight", category: "Gamer", title: "Boss Fight", popup: "A WILD BOSS APPEARS!", effect: "silhouette", emoji: "👹", color: "#ef4444" },
-  { code: "respawn", category: "Gamer", title: "Respawn", popup: "You have respawned!", effect: "flash", color: "#a3e635" },
-  { code: "ultimate", category: "Gamer", title: "Ultimate", popup: "ULTIMATE UNLEASHED!", effect: "aura", color: "#facc15", unlocksGame: "runner" },
-  { code: "legend", category: "Gamer", title: "Legend", popup: "A Legend Appears 👑", effect: "glow", color: "#fbbf24" },
-  { code: "champion", category: "Gamer", title: "Champion", popup: "CHAMPION! 🏅", effect: "confetti" },
+  { code: "levelup", category: "Gamer", title: "Level Up", popup: "LEVEL UP!", effect: "glow", color: "#4ade80", durationMs: 12000, premium: true },
+  { code: "combo", category: "Gamer", title: "Combo", popup: "COMBO STARTED", effect: "flash", color: "#fb923c", durationMs: 15000, premium: true },
+  { code: "winner", category: "Gamer", title: "Winner", popup: "YOU WIN!", effect: "confetti", color: "#facc15", durationMs: 10000, premium: true },
+  { code: "speedrun", category: "Gamer", title: "Speedrun", popup: "SPEEDRUN MODE", effect: "flash", color: "#facc15", durationMs: 20000, premium: true, unlocksGame: "aimtrainer" },
+  { code: "checkpoint", category: "Gamer", title: "Checkpoint", popup: "CHECKPOINT SAVED", effect: "glow", color: "#38bdf8", durationMs: 6000, premium: true },
+  { code: "bossfight", category: "Gamer", title: "Boss Fight", popup: "BOSS APPROACHING", effect: "silhouette", emoji: "👹", color: "#ef4444", durationMs: 15000, premium: true },
+  { code: "respawn", category: "Gamer", title: "Respawn", popup: "RESPAWNED", effect: "flash", color: "#4ade80", durationMs: 7000, premium: true },
+  { code: "ultimate", category: "Gamer", title: "Ultimate", popup: "ULTIMATE UNLEASHED", effect: "aura", color: "#facc15", durationMs: 14500, premium: true, unlocksGame: "runner" },
+  { code: "legend", category: "Gamer", title: "Legend", popup: "LEGEND", effect: "glow", color: "#fbbf24", durationMs: 10500, premium: true },
+  { code: "champion", category: "Gamer", title: "Champion", popup: "CHAMPION", effect: "confetti", color: "#facc15", durationMs: 10500, premium: true },
 
   // ── CATEGORY 3 – Hidden Features ──
   { code: "portal", category: "Hidden", title: "Portal", popup: "A portal opens...", effect: "portal", color: "#a855f7", unlocksGame: "maze" },

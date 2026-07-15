@@ -3,6 +3,7 @@
 
 import { useSearch } from "@/lib/search-context";
 import { useSecretCodes } from "@/lib/secret-codes-context";
+import { SECRET_CODE_MAP } from "@/lib/secretCodes";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -44,6 +45,7 @@ export default function Header() {
   const { searchTerm, setSearchTerm } = useSearch();
   const { triggerCode } = useSecretCodes();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [arming, setArming] = useState<string | null>(null); // hex color while "arming" a matched code
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -141,18 +143,25 @@ export default function Header() {
   };
 
   // ── SECRET CODE CHECK ──
-  // Enter నొక్కినప్పుడు, typed text ఏదైనా 50 secret codes లో ఒకటి match
-  // అయితే ఆ effect fire అవుతుంది మరియు ఇది normal game-search గా count
-  // avvadu. Match కాకపోతే మామూలుగా /search?q=... కి వెళ్తుంది — so random
-  // game searches ("car racing" లాంటివి) ki "Nothing happened" toast raadu.
+  // Step 1 of the code's design: typing an exact match and pressing
+  // Enter first "arms" the search bar (border glows the code's color +
+  // a tiny spinner replaces the search icon) for ~450ms, THEN the full
+  // effect (popup → ambient → end) fires via triggerCode(). A normal
+  // game search ("car racing") has no match, so it skips the arm delay
+  // and behaves exactly as before — no "Nothing happened" spam.
   const handleSearchSubmit = () => {
     const trimmed = searchTerm.trim();
-    if (!trimmed) return;
+    if (!trimmed || arming) return;
 
-    const result = triggerCode(trimmed);
-    if (result.status === "new" || result.status === "repeat") {
-      setSearchTerm("");
-      setIsExpanded(false);
+    const match = SECRET_CODE_MAP[trimmed.toLowerCase()];
+    if (match) {
+      setArming(match.color ?? "#ffffff");
+      setTimeout(() => {
+        triggerCode(trimmed);
+        setArming(null);
+        setSearchTerm("");
+        setIsExpanded(false);
+      }, 450);
       return;
     }
 
@@ -199,7 +208,12 @@ export default function Header() {
                 animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                 exit={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-10 rounded-xl px-3 flex items-center gap-2 bg-black/40 border border-white/10"
+                className="w-full h-10 rounded-xl px-3 flex items-center gap-2 bg-black/40 border transition-shadow"
+                style={
+                  arming
+                    ? { borderColor: arming, boxShadow: `0 0 16px ${arming}aa, inset 0 0 8px ${arming}55` }
+                    : { borderColor: "rgba(255,255,255,0.1)" }
+                }
               >
                 <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -209,6 +223,7 @@ export default function Header() {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  disabled={!!arming}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && searchTerm.trim()) {
                       handleSearchSubmit();
@@ -216,15 +231,24 @@ export default function Header() {
                   }}
                   placeholder="Search games... (or try a secret code 👀)"
                   aria-label="Search games"
-                  className="w-full bg-transparent text-xs font-semibold text-white placeholder-slate-500 outline-none"
+                  className="w-full bg-transparent text-xs font-semibold text-white placeholder-slate-500 outline-none disabled:opacity-60"
                 />
-                <button
-                  onClick={(e) => { e.stopPropagation(); setIsExpanded(false); }}
-                  aria-label="Close search"
-                  className="text-slate-500 hover:text-white px-1"
-                >
-                  ✕
-                </button>
+                {arming ? (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 0.6, repeat: Infinity, ease: "linear" }}
+                    className="w-3.5 h-3.5 rounded-full border-2 border-t-transparent shrink-0"
+                    style={{ borderColor: `${arming} transparent ${arming} ${arming}` }}
+                  />
+                ) : (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setIsExpanded(false); }}
+                    aria-label="Close search"
+                    className="text-slate-500 hover:text-white px-1"
+                  >
+                    ✕
+                  </button>
+                )}
               </motion.div>
             ) : (
               <motion.button
