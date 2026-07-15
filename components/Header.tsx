@@ -2,6 +2,7 @@
 "use client";
 
 import { useSearch } from "@/lib/search-context";
+import { useSecretCodes } from "@/lib/secret-codes-context";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -41,6 +42,7 @@ function OverlaySkeletonTile() {
 
 export default function Header() {
   const { searchTerm, setSearchTerm } = useSearch();
+  const { triggerCode } = useSecretCodes();
   const [isExpanded, setIsExpanded] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -138,6 +140,26 @@ export default function Header() {
     router.push("/admin");
   };
 
+  // ── SECRET CODE CHECK ──
+  // Enter నొక్కినప్పుడు, typed text ఏదైనా 50 secret codes లో ఒకటి match
+  // అయితే ఆ effect fire అవుతుంది మరియు ఇది normal game-search గా count
+  // avvadu. Match కాకపోతే మామూలుగా /search?q=... కి వెళ్తుంది — so random
+  // game searches ("car racing" లాంటివి) ki "Nothing happened" toast raadu.
+  const handleSearchSubmit = () => {
+    const trimmed = searchTerm.trim();
+    if (!trimmed) return;
+
+    const result = triggerCode(trimmed);
+    if (result.status === "new" || result.status === "repeat") {
+      setSearchTerm("");
+      setIsExpanded(false);
+      return;
+    }
+
+    setIsExpanded(false);
+    router.push(`/search?q=${encodeURIComponent(trimmed)}`);
+  };
+
   const showOverlayPanel = isExpanded && searchTerm.trim().length > 0;
 
   return (
@@ -189,11 +211,10 @@ export default function Header() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && searchTerm.trim()) {
-                      setIsExpanded(false);
-                      router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+                      handleSearchSubmit();
                     }
                   }}
-                  placeholder="Search games..."
+                  placeholder="Search games... (or try a secret code 👀)"
                   aria-label="Search games"
                   className="w-full bg-transparent text-xs font-semibold text-white placeholder-slate-500 outline-none"
                 />

@@ -3,7 +3,9 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import { AuthProvider } from "@/lib/auth-context";
 import { SearchProvider } from "@/lib/search-context";
+import { SecretCodesProvider } from "@/lib/secret-codes-context";
 import Header from "@/components/Header";
+import SecretEffectsOverlay from "@/components/SecretEffectsOverlay";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
@@ -95,12 +97,20 @@ export default function RootLayout({
       >
         <AuthProvider>
           <SearchProvider>
-            <div className="min-h-screen flex flex-col relative">
-              <Header />
-              <main className="flex-1 w-full">
-                {children}
-              </main>
-            </div>
+            <SecretCodesProvider>
+              <div className="min-h-screen flex flex-col relative">
+                <Header />
+                <main className="flex-1 w-full">
+                  {children}
+                </main>
+              </div>
+
+              {/* Renders all 50 secret code effects, toasts, achievement
+                  banners and the mini-game modal. Mounted once here so it
+                  works from any page (Header search + /search page both
+                  call triggerCode()). */}
+              <SecretEffectsOverlay />
+            </SecretCodesProvider>
           </SearchProvider>
         </AuthProvider>
 

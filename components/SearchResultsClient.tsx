@@ -5,6 +5,7 @@ import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GamePixGame } from "@/lib/gamepix";
+import { useSecretCodes } from "@/lib/secret-codes-context";
 
 interface Props {
   initialGames: GamePixGame[];
@@ -24,6 +25,7 @@ function formatCategoryName(id: string): string {
 export default function SearchResultsClient({ initialGames, newestGames, categories }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { triggerCode } = useSecretCodes();
 
   const [query, setQuery] = useState(searchParams.get("q") ?? "");
   const [category, setCategory] = useState(searchParams.get("category") ?? "all");
@@ -66,6 +68,17 @@ export default function SearchResultsClient({ initialGames, newestGames, categor
     return list;
   }, [initialGames, newestGames, category, debouncedQuery, sort]);
 
+  // Secret code check — Enter నొక్కినప్పుడు exact text ఒక code తో match
+  // అయితే effect fire అవుతుంది, box clear అవుతుంది. Match కాకపోతే
+  // మామూలు filtering (already happening live) కొనసాగుతుంది.
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter" || !query.trim()) return;
+    const result = triggerCode(query.trim());
+    if (result.status === "new" || result.status === "repeat") {
+      setQuery("");
+    }
+  };
+
   return (
     <div className="w-full">
       {/* SEARCH + FILTER BAR */}
@@ -78,6 +91,7 @@ export default function SearchResultsClient({ initialGames, newestGames, categor
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Search games by name..."
             className="w-full h-12 pl-11 pr-4 rounded-2xl bg-white/70 border border-black/10 focus:border-black outline-none font-bold text-sm transition-all"
           />
