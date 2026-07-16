@@ -3,6 +3,7 @@
 
 import { useSearch } from "@/lib/search-context";
 import { useSecretCodes } from "@/lib/secret-codes-context";
+import { SECRET_CODE_MAP } from "@/lib/secretCodes";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -142,25 +143,18 @@ export default function Header() {
   };
 
   // ── SECRET CODE CHECK ──
-  // triggerCode() fires immediately on Enter — this is the exact
-  // pattern that was confirmed working. If it's a known code, the
-  // popup/effect fires and we skip navigation. Otherwise it behaves
-  // exactly like a normal search (no "Nothing happened" spam, since
-  // an unmatched game-name search never reaches that toast path).
+  // Exact match check happens FIRST (against SECRET_CODE_MAP) before
+  // ever calling triggerCode() — so a normal game search ("car racing")
+  // never touches the secret-code path and never shows the "Nothing
+  // happened" toast. Only an exact code fires triggerCode() + the effect.
   const handleSearchSubmit = () => {
     const trimmed = searchTerm.trim();
     if (!trimmed) return;
 
-    console.log("[secret-code] submitted:", JSON.stringify(trimmed));
+    const isKnownCode = !!SECRET_CODE_MAP[trimmed.toLowerCase()];
 
-    // Call triggerCode IMMEDIATELY (this is the exact pattern that was
-    // confirmed working before) — no setTimeout gating the actual call.
-    const result = triggerCode(trimmed);
-    console.log("[secret-code] result:", result.status, result.entry?.code);
-
-    if (result.status === "new" || result.status === "repeat") {
-      // Cosmetic-only glow flash — purely visual, does NOT gate the
-      // trigger above (which already fired).
+    if (isKnownCode) {
+      const result = triggerCode(trimmed);
       if (result.entry) {
         setArming(result.entry.color ?? "#ffffff");
         setTimeout(() => setArming(null), 450);
