@@ -3,7 +3,6 @@
 
 import { useSearch } from "@/lib/search-context";
 import { useSecretCodes } from "@/lib/secret-codes-context";
-import { SECRET_CODE_MAP } from "@/lib/secretCodes";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -143,44 +142,34 @@ export default function Header() {
   };
 
   // ── SECRET CODE CHECK ──
-  // Step 1 of the code's design: typing an exact match and pressing
-  // Enter first "arms" the search bar (border glows the code's color +
-  // a tiny spinner replaces the search icon) for ~450ms, THEN the full
-  // effect (popup → ambient → end) fires via triggerCode(). A normal
-  // game search ("car racing") has no match, so it skips the arm delay
-  // and behaves exactly as before — no "Nothing happened" spam.
+  // triggerCode() fires immediately on Enter — this is the exact
+  // pattern that was confirmed working. If it's a known code, the
+  // popup/effect fires and we skip navigation. Otherwise it behaves
+  // exactly like a normal search (no "Nothing happened" spam, since
+  // an unmatched game-name search never reaches that toast path).
   const handleSearchSubmit = () => {
     const trimmed = searchTerm.trim();
-    if (!trimmed || arming) return;
+    if (!trimmed) return;
 
-    const key = trimmed.toLowerCase();
-    const match = SECRET_CODE_MAP[key];
-
-    // TEMP DEBUG — open browser console (F12 → Console tab) and check
-    // these lines after pressing Enter. Remove this block once confirmed
-    // working. If you don't see "[secret-code]" logs AT ALL, the click/
-    // Enter handler itself isn't firing (JS bundle issue). If you see
-    // "match: false" for a real code like "galaxy", the code registry
-    // isn't loading correctly.
     console.log("[secret-code] submitted:", JSON.stringify(trimmed));
-    console.log("[secret-code] lookup key:", JSON.stringify(key));
-    console.log("[secret-code] match:", !!match, match);
-    console.log("[secret-code] total codes loaded:", Object.keys(SECRET_CODE_MAP).length);
 
-    if (match) {
-      console.log("[secret-code] arming effect for:", match.code);
-      setArming(match.color ?? "#ffffff");
-      setTimeout(() => {
-        console.log("[secret-code] firing triggerCode:", match.code);
-        triggerCode(trimmed);
-        setArming(null);
-        setSearchTerm("");
-        setIsExpanded(false);
-      }, 450);
+    // Call triggerCode IMMEDIATELY (this is the exact pattern that was
+    // confirmed working before) — no setTimeout gating the actual call.
+    const result = triggerCode(trimmed);
+    console.log("[secret-code] result:", result.status, result.entry?.code);
+
+    if (result.status === "new" || result.status === "repeat") {
+      // Cosmetic-only glow flash — purely visual, does NOT gate the
+      // trigger above (which already fired).
+      if (result.entry) {
+        setArming(result.entry.color ?? "#ffffff");
+        setTimeout(() => setArming(null), 450);
+      }
+      setSearchTerm("");
+      setIsExpanded(false);
       return;
     }
 
-    console.log("[secret-code] no match — falling back to normal search");
     setIsExpanded(false);
     router.push(`/search?q=${encodeURIComponent(trimmed)}`);
   };
