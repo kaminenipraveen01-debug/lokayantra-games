@@ -32,6 +32,13 @@ export default function SecretEffectsOverlay() {
     closeGame,
   } = useSecretCodes();
 
+  // TEMP DEBUG — remove once confirmed working.
+  useEffect(() => {
+    if (activeEvent) {
+      console.log("[secret-code] activeEvent received:", activeEvent.entry.code, "premium:", activeEvent.entry.premium);
+    }
+  }, [activeEvent]);
+
   // Auto-dismiss the active effect after its duration.
   // Premium codes (galaxy, godmode, levelup...champion) run their own
   // multi-phase timeline in PremiumEffects.tsx and call dismissEvent
@@ -57,7 +64,10 @@ export default function SecretEffectsOverlay() {
         {activeEvent && activeEvent.entry.premium ? (
           (() => {
             const PremiumComponent = PREMIUM_EFFECTS[activeEvent.entry.code];
-            if (!PremiumComponent) return null;
+            if (!PremiumComponent) {
+              console.log("[secret-code] NO premium component registered for:", activeEvent.entry.code);
+              return null;
+            }
             return (
               <PremiumComponent
                 key={activeEvent.id}

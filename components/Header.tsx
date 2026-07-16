@@ -153,10 +153,25 @@ export default function Header() {
     const trimmed = searchTerm.trim();
     if (!trimmed || arming) return;
 
-    const match = SECRET_CODE_MAP[trimmed.toLowerCase()];
+    const key = trimmed.toLowerCase();
+    const match = SECRET_CODE_MAP[key];
+
+    // TEMP DEBUG — open browser console (F12 → Console tab) and check
+    // these lines after pressing Enter. Remove this block once confirmed
+    // working. If you don't see "[secret-code]" logs AT ALL, the click/
+    // Enter handler itself isn't firing (JS bundle issue). If you see
+    // "match: false" for a real code like "galaxy", the code registry
+    // isn't loading correctly.
+    console.log("[secret-code] submitted:", JSON.stringify(trimmed));
+    console.log("[secret-code] lookup key:", JSON.stringify(key));
+    console.log("[secret-code] match:", !!match, match);
+    console.log("[secret-code] total codes loaded:", Object.keys(SECRET_CODE_MAP).length);
+
     if (match) {
+      console.log("[secret-code] arming effect for:", match.code);
       setArming(match.color ?? "#ffffff");
       setTimeout(() => {
+        console.log("[secret-code] firing triggerCode:", match.code);
         triggerCode(trimmed);
         setArming(null);
         setSearchTerm("");
@@ -165,6 +180,7 @@ export default function Header() {
       return;
     }
 
+    console.log("[secret-code] no match — falling back to normal search");
     setIsExpanded(false);
     router.push(`/search?q=${encodeURIComponent(trimmed)}`);
   };
