@@ -2,14 +2,11 @@
 "use client";
 
 import { useSearch } from "@/lib/search-context";
-import { useSecretCodes } from "@/lib/secret-codes-context";
-import { SECRET_CODE_MAP } from "@/lib/secretCodes";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { fetchSearchIndex } from "@/lib/gamepix";
 
 function PandaLogo() {
   return (
@@ -43,9 +40,7 @@ function OverlaySkeletonTile() {
 
 export default function Header() {
   const { searchTerm, setSearchTerm } = useSearch();
-  const { triggerCode } = useSecretCodes();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [arming, setArming] = useState<string | null>(null); // hex color while "arming" a matched code
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -64,10 +59,10 @@ export default function Header() {
     if (!isExpanded || gamesLoaded) return;
     async function fetchGames() {
       try {
-        const [{ collection, getDocs }, { db }, gpList] = await Promise.all([
+        const [{ collection, getDocs }, { db }, idxRes] = await Promise.all([
           import("firebase/firestore"),
           import("@/lib/firebase"),
-          fetchSearchIndex("q"),
+          fetch("/api/search-index"),
         ]);
 
         const snap = await getDocs(collection(db, "games"));
@@ -78,21 +73,22 @@ export default function Header() {
           }))
           .filter((g: any) => typeof g.title === "string" && g.title.trim().length > 0) as SearchGame[];
 
-        // Merge — duplicates తీసేయి. gpList ఇప్పుడు fetchSearchIndex
-        // నుండి వస్తుంది (~2000 games వరకు), motham GamePix catalogue
-        // ని cover చేస్తుంది, కేవలం మొదటి 120 games కాదు.
+        const idxData = await idxRes.json();
+        const gpList: SearchGame[] = (idxData.games ?? [])
+          .filter((g: any) => g && g.id && g.title)
+          .map((g: any) => ({
+            id: g.id,
+            title: g.title,
+            slug: g.slug || g.id,
+            thumbnail: g.thumbnail,
+            category: g.category,
+          }));
+
+        // Merge — duplicates తీసేయి
         const seen = new Set(fbList.map((g) => g.id));
         const merged = [
           ...fbList,
-          ...gpList
-            .filter((g) => g && g.id && g.title && !seen.has(g.id))
-            .map((g) => ({
-              id: g.id,
-              title: g.title,
-              slug: g.slug || g.id,
-              thumbnail: g.thumbnail,
-              category: g.category,
-            })),
+          ...gpList.filter((g) => !seen.has(g.id)),
         ];
         setAllGames(merged);
       } catch (err) {
@@ -142,32 +138,6 @@ export default function Header() {
     router.push("/admin");
   };
 
-  // ── SECRET CODE CHECK ──
-  // Exact match check happens FIRST (against SECRET_CODE_MAP) before
-  // ever calling triggerCode() — so a normal game search ("car racing")
-  // never touches the secret-code path and never shows the "Nothing
-  // happened" toast. Only an exact code fires triggerCode() + the effect.
-  const handleSearchSubmit = () => {
-    const trimmed = searchTerm.trim();
-    if (!trimmed) return;
-
-    const isKnownCode = !!SECRET_CODE_MAP[trimmed.toLowerCase()];
-
-    if (isKnownCode) {
-      const result = triggerCode(trimmed);
-      if (result.entry) {
-        setArming(result.entry.color ?? "#ffffff");
-        setTimeout(() => setArming(null), 450);
-      }
-      setSearchTerm("");
-      setIsExpanded(false);
-      return;
-    }
-
-    setIsExpanded(false);
-    router.push(`/search?q=${encodeURIComponent(trimmed)}`);
-  };
-
   const showOverlayPanel = isExpanded && searchTerm.trim().length > 0;
 
   return (
@@ -207,12 +177,7 @@ export default function Header() {
                 animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                 exit={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-10 rounded-xl px-3 flex items-center gap-2 bg-black/40 border transition-shadow"
-                style={
-                  arming
-                    ? { borderColor: arming, boxShadow: `0 0 16px ${arming}aa, inset 0 0 8px ${arming}55` }
-                    : { borderColor: "rgba(255,255,255,0.1)" }
-                }
+                className="w-full h-10 rounded-xl px-3 flex items-center gap-2 bg-black/40 border border-white/10"
               >
                 <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -222,32 +187,23 @@ export default function Header() {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  disabled={!!arming}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && searchTerm.trim()) {
-                      handleSearchSubmit();
+                      setIsExpanded(false);
+                      router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
                     }
                   }}
-                  placeholder="Search games... (or try a secret code 👀)"
+                  placeholder="Search games..."
                   aria-label="Search games"
-                  className="w-full bg-transparent text-xs font-semibold text-white placeholder-slate-500 outline-none disabled:opacity-60"
+                  className="w-full bg-transparent text-xs font-semibold text-white placeholder-slate-500 outline-none"
                 />
-                {arming ? (
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 0.6, repeat: Infinity, ease: "linear" }}
-                    className="w-3.5 h-3.5 rounded-full border-2 border-t-transparent shrink-0"
-                    style={{ borderColor: `${arming} transparent ${arming} ${arming}` }}
-                  />
-                ) : (
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setIsExpanded(false); }}
-                    aria-label="Close search"
-                    className="text-slate-500 hover:text-white px-1"
-                  >
-                    ✕
-                  </button>
-                )}
+                <button
+                  onClick={(e) => { e.stopPropagation(); setIsExpanded(false); }}
+                  aria-label="Close search"
+                  className="text-slate-500 hover:text-white px-1"
+                >
+                  ✕
+                </button>
               </motion.div>
             ) : (
               <motion.button

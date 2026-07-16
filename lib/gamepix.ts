@@ -241,28 +241,44 @@ export async function fetchMostPlayedGames(): Promise<GamePixGame[]> {
   }
 }
 
-// Search page కోసం — GamePix యొక్క limit-1000 endpoint వాడి, పెద్ద
-// coverage తో (v2/json feed లో page-by-page fetch చేసేకంటే చాలా faster,
-// ఎక్కువ games) index build చేస్తున్నాం. Rendu offset batches (0, 1000)
-// fetch చేసి, up to ~2000 games వరకు cover చేస్తుంది.
+// Search కోసం — v2/json feed నే వాడతాం (ఇది నిజంగా పనిచేస్తుందని site
+// motham లో already confirm అయ్యింది), కానీ pages ni parallel batches లో
+// fetch చేసి (sequential కంటే chాలా faster), ఎక్కువ coverage (~60 pages ×
+// 12 = ~720 games per order) ఇస్తున్నాం.
 export async function fetchSearchIndex(order: "q" | "d" = "q"): Promise<GamePixGame[]> {
+  const legacyOrder = order === "d" ? "pubdate" : "quality";
   const allGames: GamePixGame[] = [];
   const seen = new Set<string>();
-  const offsets = [0, 1000];
+  const MAX_PAGES = 60;
+  const BATCH_SIZE = 15;
 
-  for (const offset of offsets) {
-    try {
-      const res = await fetch(
-        `https://games.gamepix.com/games?sid=${SID}&order=${order}&limit=1000&offset=${offset}`,
-        { next: { revalidate: 1800 } }
-      );
-      if (!res.ok) break;
-      const data = await res.json();
-      const items = data.items ?? data.games ?? data ?? [];
-      if (!Array.isArray(items) || items.length === 0) break;
+  for (let batchStart = 1; batchStart <= MAX_PAGES; batchStart += BATCH_SIZE) {
+    const pageNumbers = Array.from(
+      { length: Math.min(BATCH_SIZE, MAX_PAGES - batchStart + 1) },
+      (_, i) => batchStart + i
+    );
 
+    const batchResults = await Promise.all(
+      pageNumbers.map(async (page) => {
+        try {
+          const res = await fetch(
+            `https://feeds.gamepix.com/v2/json/?order=${legacyOrder}&pagination=12&sid=${SID}&page=${page}`,
+            { next: { revalidate: 1800 } }
+          );
+          if (!res.ok) return [];
+          const data = await res.json();
+          return data.items ?? [];
+        } catch {
+          return [];
+        }
+      })
+    );
+
+    let gotAny = false;
+    for (const items of batchResults) {
+      if (items.length > 0) gotAny = true;
       for (const item of items) {
-        const id = item.namespace ?? String(item.id ?? "");
+        const id = item.namespace ?? String(item.id);
         if (!id || seen.has(id)) continue;
         seen.add(id);
         allGames.push({
@@ -270,7 +286,7 @@ export async function fetchSearchIndex(order: "q" | "d" = "q"): Promise<GamePixG
           title: item.title ?? "",
           description: item.description ?? "",
           category: item.category ?? "",
-          thumbnail: resizeThumb(item.image ?? item.banner?.landscape ?? ""),
+          thumbnail: resizeThumb(item.image ?? ""),
           embedUrl: item.url ?? "",
           namespace: item.namespace ?? "",
           slug: id,
@@ -278,50 +294,10 @@ export async function fetchSearchIndex(order: "q" | "d" = "q"): Promise<GamePixG
           height: item.height ?? 600,
         });
       }
-
-      if (items.length < 1000) break; // last page
-    } catch (err) {
-      console.error("fetchSearchIndex error:", err);
-      break;
     }
-  }
 
-  // Fallback — పైన API ఏదైనా కారణంతో ఏమీ ఇవ్వకపోతే, పాత v2/json feed
-  // (15 pages) ద్వారా కనీసం ~180 games అయినా చూపిద్దాం, పూర్తిగా ఖాళీగా
-  // కాకుండా.
-  if (allGames.length === 0) {
-    const legacyOrder = order === "d" ? "pubdate" : "quality";
-    for (let page = 1; page <= 15; page++) {
-      try {
-        const res = await fetch(
-          `https://feeds.gamepix.com/v2/json/?order=${legacyOrder}&pagination=12&sid=${SID}&page=${page}`,
-          { next: { revalidate: 1800 } }
-        );
-        if (!res.ok) break;
-        const data = await res.json();
-        const items = data.items ?? [];
-        if (items.length === 0) break;
-        for (const item of items) {
-          const id = item.namespace ?? String(item.id);
-          if (seen.has(id)) continue;
-          seen.add(id);
-          allGames.push({
-            id,
-            title: item.title ?? "",
-            description: item.description ?? "",
-            category: item.category ?? "",
-            thumbnail: resizeThumb(item.image ?? ""),
-            embedUrl: item.url ?? "",
-            namespace: item.namespace ?? "",
-            slug: id,
-            width: item.width ?? 800,
-            height: item.height ?? 600,
-          });
-        }
-      } catch {
-        break;
-      }
-    }
+    // catalog అయిపోతే (ఏ page లోనూ items రాకపోతే) ఇక ఆగిపోదాం
+    if (!gotAny) break;
   }
 
   return allGames;

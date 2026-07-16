@@ -50,6 +50,18 @@ function usePhases(steps: number[], onEnd: () => void): number {
   return phase;
 }
 
+/** Delays becoming true by `delayMs` — used to hold back a POPUP's
+ *  appearance briefly so the spec's "search bar glows, THEN popup shows"
+ *  beat is visible, without delaying triggerCode() itself (that part
+ *  stays instant — see Header.tsx). */
+function useArmed(delayMs = 500): boolean {
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setArmed(true), delayMs);
+    return () => clearTimeout(t);
+  }, [delayMs]);
+  return armed;
+}
 /** Toggles a body class + CSS var so the navbar pill / .btn-primary
  *  buttons pick up a matching glow while an ambient effect is active. */
 function useAmbientGlow(color: string | undefined, active: boolean) {
@@ -252,17 +264,25 @@ function EdgeLightning({ color }: { color: string }) {
 function GalaxyEffect({ entry, onEnd }: PremiumEffectProps) {
   // Step2 popup ~2s, Step3 ambient ~13s, Step4 end message ~1.5s
   const phase = usePhases([2000, 13000, 1500], onEnd);
+  const armed = useArmed(500); // Step1: 0-0.5s is search-bar-glow only, no overlay yet
   useAmbientGlow(entry.color, phase === 1);
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[9998] pointer-events-none overflow-hidden">
       {(phase === 0 || phase === 1) && <CanvasEffect kind="galaxy" color="#e6ecff" />}
+
+      {/* Step 2 (0.5-2s): page dims ~20-30% behind the popup */}
+      {phase === 0 && armed && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.25 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black" />}
+
       {phase === 1 && (
-        <motion.div animate={{ opacity: [0.15, 0.3, 0.15] }} transition={{ duration: 3, repeat: Infinity }} className="absolute inset-0" style={{ boxShadow: `inset 0 0 160px 30px ${entry.color}44` }} />
+        <>
+          <motion.div animate={{ opacity: [0.15, 0.3, 0.15] }} transition={{ duration: 3, repeat: Infinity }} className="absolute inset-0" style={{ boxShadow: `inset 0 0 160px 30px ${entry.color}44` }} />
+          <ParticleField mode="emoji" emoji="✨" />
+        </>
       )}
 
       <AnimatePresence>
-        {phase === 0 && <GlassPopup key="popup" icon="🌌" title="GALAXY MODE ACTIVATED" color={entry.color ?? "#7c9bff"} />}
+        {phase === 0 && armed && <GlassPopup key="popup" icon="🌌" title="GALAXY MODE ACTIVATED" color={entry.color ?? "#7c9bff"} />}
       </AnimatePresence>
 
       <AnimatePresence>
@@ -290,6 +310,7 @@ function GodmodeEffect({ entry, isNew, onPlayGame, onEnd }: PremiumEffectProps) 
   const color = entry.color ?? "#ffd700";
   // popup 2s (screen dims 10%), ambient 12s, fade 1s
   const phase = usePhases([2000, 12000, 1000], onEnd);
+  const armed = useArmed(1000); // 0-1s: dim + search glow only, THEN popup at 1s
   useAmbientGlow(color, phase === 1);
 
   return (
@@ -304,7 +325,7 @@ function GodmodeEffect({ entry, isNew, onPlayGame, onEnd }: PremiumEffectProps) 
         </>
       )}
       <AnimatePresence>
-        {phase === 0 && <GlassPopup key="popup" icon="⚡" title="GOD MODE ACTIVATED ⚡" color={color} />}
+        {phase === 0 && armed && <GlassPopup key="popup" icon="⚡" title="GOD MODE ACTIVATED ⚡" color={color} />}
       </AnimatePresence>
       {phase === 1 && isNew && entry.unlocksGame && (
         <button onClick={onPlayGame} className="pointer-events-auto absolute bottom-10 left-1/2 -translate-x-1/2 px-5 py-2 rounded-full bg-white text-black text-xs font-black uppercase tracking-wide shadow-lg hover:scale-105 active:scale-95 transition-transform">
