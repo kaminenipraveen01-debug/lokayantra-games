@@ -103,13 +103,13 @@ export default function GamePlayer({ game }: { game: GameData }) {
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_2px_rgba(52,211,153,0.5)] animate-pulse" />
-          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-black/40">LIVE</span>
-          <span className="text-[9px] font-black text-black/70 uppercase tracking-wider truncate max-w-[160px] sm:max-w-xs">
+          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40">LIVE</span>
+          <span className="text-[9px] font-black text-white/70 uppercase tracking-wider truncate max-w-[160px] sm:max-w-xs">
             {game.title}
           </span>
         </div>
         {game.category && (
-          <span className="text-[8px] font-black uppercase tracking-widest text-black/30 bg-black/5 px-2 py-1 rounded-lg border border-black/8">
+          <span className="text-[8px] font-black uppercase tracking-widest text-white/40 bg-white/5 px-2 py-1 rounded-lg border border-white/10">
             {game.category}
           </span>
         )}
@@ -118,7 +118,7 @@ export default function GamePlayer({ game }: { game: GameData }) {
       {/* GAME STAGE */}
       <div
         ref={stageRef}
-        className={`relative w-full rounded-[20px] overflow-hidden bg-neutral-950 border border-black/20 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.4)] ${
+        className={`relative w-full rounded-[20px] overflow-hidden bg-neutral-950 border border-white/10 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.4)] ${
           isFullscreen ? "h-screen rounded-none border-0" : ""
         }`}
       >
@@ -216,14 +216,14 @@ export default function GamePlayer({ game }: { game: GameData }) {
 
       {/* YOUTUBE GUIDE */}
       {game.youtubeEmbedUrl && (
-        <div className="mt-1 w-full border border-black/10 p-4 rounded-[18px] bg-white/50 backdrop-blur-md">
+        <div className="mt-1 w-full border border-white/10 p-4 rounded-[18px] bg-white/5 backdrop-blur-md">
           <div className="flex items-center gap-2 mb-3">
             <svg className="w-3.5 h-3.5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
               <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93 0.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-0.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
             </svg>
-            <span className="text-[10px] font-black uppercase tracking-widest text-black/50">Gameplay Guide</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-white/50">Gameplay Guide</span>
           </div>
-          <div className="relative w-full aspect-video rounded-[14px] overflow-hidden border border-black/10">
+          <div className="relative w-full aspect-video rounded-[14px] overflow-hidden border border-white/10">
             <iframe
               src={game.youtubeEmbedUrl}
               title={`${game.title} Guide`}

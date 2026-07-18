@@ -196,7 +196,7 @@ if (!game) {
   };
 
   return (
-    <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
+    <main className="w-full min-h-screen text-white font-sans pb-12 relative overflow-hidden select-none bg-[#0a0a0d]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -204,26 +204,26 @@ if (!game) {
 
       <PlayCounter gameId={game.id} />
 
-      {/* BLACK BUBBLES */}
+      {/* WHITE BUBBLES */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-black/20" />
-        <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-black/15" />
-        <div className="absolute top-[20px] left-[35%] w-[80px] h-[80px] rounded-full bg-black/20" />
-        <div className="absolute top-[-30px] right-[35%] w-[140px] h-[140px] rounded-full bg-black/20" />
-        <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-black/10" />
-        <div className="absolute top-[180px] left-[2%] w-[60px] h-[60px] rounded-full bg-black/15" />
-        <div className="absolute top-[130px] right-[25%] w-[90px] h-[90px] rounded-full bg-black/10" />
-        <div className="absolute top-[280px] left-[12%] w-[110px] h-[110px] rounded-full bg-black/10" />
-        <div className="absolute top-[290px] right-[18%] w-[100px] h-[100px] rounded-full bg-black/15" />
-        <div className="absolute top-[400px] left-[25%] w-[130px] h-[130px] rounded-full bg-black/15" />
-        <div className="absolute top-[480px] right-[5%] w-[170px] h-[170px] rounded-full bg-black/15" />
-        <div className="absolute top-[580px] left-[3%] w-[125px] h-[125px] rounded-full bg-black/15" />
-        <div className="absolute top-[650px] right-[28%] w-[140px] h-[140px] rounded-full bg-black/10" />
-        <div className="absolute top-[750px] right-[12%] w-[150px] h-[150px] rounded-full bg-black/15" />
-        <div className="absolute bottom-[320px] left-[5%] w-[180px] h-[180px] rounded-full bg-black/15" />
-        <div className="absolute bottom-[220px] right-[15%] w-[210px] h-[210px] rounded-full bg-black/10" />
-        <div className="absolute bottom-[-30px] left-[12%] w-[190px] h-[190px] rounded-full bg-black/10" />
-        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-black/20" />
+        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-white/10" />
+        <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-white/8" />
+        <div className="absolute top-[20px] left-[35%] w-[80px] h-[80px] rounded-full bg-white/10" />
+        <div className="absolute top-[-30px] right-[35%] w-[140px] h-[140px] rounded-full bg-white/10" />
+        <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-white/5" />
+        <div className="absolute top-[180px] left-[2%] w-[60px] h-[60px] rounded-full bg-white/8" />
+        <div className="absolute top-[130px] right-[25%] w-[90px] h-[90px] rounded-full bg-white/5" />
+        <div className="absolute top-[280px] left-[12%] w-[110px] h-[110px] rounded-full bg-white/5" />
+        <div className="absolute top-[290px] right-[18%] w-[100px] h-[100px] rounded-full bg-white/8" />
+        <div className="absolute top-[400px] left-[25%] w-[130px] h-[130px] rounded-full bg-white/8" />
+        <div className="absolute top-[480px] right-[5%] w-[170px] h-[170px] rounded-full bg-white/8" />
+        <div className="absolute top-[580px] left-[3%] w-[125px] h-[125px] rounded-full bg-white/8" />
+        <div className="absolute top-[650px] right-[28%] w-[140px] h-[140px] rounded-full bg-white/5" />
+        <div className="absolute top-[750px] right-[12%] w-[150px] h-[150px] rounded-full bg-white/8" />
+        <div className="absolute bottom-[320px] left-[5%] w-[180px] h-[180px] rounded-full bg-white/8" />
+        <div className="absolute bottom-[220px] right-[15%] w-[210px] h-[210px] rounded-full bg-white/5" />
+        <div className="absolute bottom-[-30px] left-[12%] w-[190px] h-[190px] rounded-full bg-white/5" />
+        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-white/10" />
       </div>
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-2 sm:px-3 pt-[100px] sm:pt-[115px]">
@@ -231,7 +231,7 @@ if (!game) {
 
           {/* LEFT AD */}
           <div className="hidden xl:flex flex-col items-center w-[160px] shrink-0 pt-32">
-            <div className="w-[160px] h-[600px] rounded-[20px] bg-white/40 backdrop-blur-md border border-black/10 flex items-center justify-center overflow-hidden sticky top-28">
+            <div className="w-[160px] h-[600px] rounded-[20px] bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center overflow-hidden sticky top-28">
               <AdBanner adKey="c8f88403481c59512559028424f05501" width={160} height={600} />
             </div>
           </div>
@@ -252,7 +252,7 @@ if (!game) {
             }} />
 
             {/* MOBILE AD */}
-            <div className="lg:hidden w-full rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden flex items-center justify-center py-2 min-h-[70px]">
+            <div className="lg:hidden w-full rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden flex items-center justify-center py-2 min-h-[70px]">
               <AdBanner adKey="900cf53b97a3af8bcbb34b562255e073" width={320} height={50} />
             </div>
 
@@ -261,8 +261,8 @@ if (!game) {
               <div className="mt-1">
                 <div className="flex items-center justify-between mb-2.5 px-0.5">
                   <div className="flex items-center gap-2">
-                    <span className="w-1 h-4 rounded-full bg-black/25" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black/50">
+                    <span className="w-1 h-4 rounded-full bg-white/25" />
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50">
                       More {game.category || "Games"}
                     </span>
                   </div>
@@ -270,16 +270,16 @@ if (!game) {
                 <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-7 gap-2">
                   {relatedGames.map((rg) => (
                     <Link key={rg.id} href={`/games/${rg.id}`}
-                      className="group relative rounded-[16px] overflow-hidden border border-black/10 hover:border-black/50 bg-white/35 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                      className="group relative rounded-[16px] overflow-hidden border border-white/10 hover:border-white/50 bg-white/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
                     >
                       <div className="relative w-full aspect-square">
                         {rg.thumbnail ? (
                           <img src={optimizeThumb(rg.thumbnail)} alt={rg.title} loading="lazy"
-                            className="absolute inset-0 w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105 transition-all duration-300"
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
                         ) : (
-                          <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
-                            <span className="text-[7px] font-black text-black/25 uppercase">NO IMG</span>
+                          <div className="absolute inset-0 bg-white/10 flex items-center justify-center">
+                            <span className="text-[7px] font-black text-white/25 uppercase">NO IMG</span>
                           </div>
                         )}
                         <div className="absolute inset-0 bg-black/55 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
@@ -290,8 +290,8 @@ if (!game) {
                           </div>
                         </div>
                       </div>
-                      <div className="px-2 py-1.5 bg-white/55 border-t border-black/5">
-                        <p className="text-[9px] font-black text-black uppercase tracking-wide truncate leading-tight">{rg.title}</p>
+                      <div className="px-2 py-1.5 bg-white/8 border-t border-white/5">
+                        <p className="text-[9px] font-black text-white uppercase tracking-wide truncate leading-tight">{rg.title}</p>
                       </div>
                     </Link>
                   ))}
@@ -302,43 +302,43 @@ if (!game) {
             {/* INFO */}
             <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-3">
               <div className="md:col-span-2 flex flex-col gap-3">
-                <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] border border-black/10 p-5 shadow-sm">
+                <div className="bg-white/5 backdrop-blur-2xl rounded-[24px] border border-white/10 p-5 shadow-sm">
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div>
-                      <span className="text-[9px] font-black uppercase tracking-[0.25em] text-black/40">
+                      <span className="text-[9px] font-black uppercase tracking-[0.25em] text-white/40">
                         {game.category || "Arcade"}
                       </span>
-                      <h1 className="text-base sm:text-lg font-black text-black uppercase tracking-tight leading-tight mt-0.5">
+                      <h1 className="text-base sm:text-lg font-black text-white uppercase tracking-tight leading-tight mt-0.5">
                         {game.title}
                       </h1>
                     </div>
-                    <span className="shrink-0 text-[9px] font-black uppercase tracking-widest text-black/50 bg-black/5 border border-black/10 rounded-lg px-2 py-1.5 mt-1">
+                    <span className="shrink-0 text-[9px] font-black uppercase tracking-widest text-white/50 bg-white/5 border border-white/10 rounded-lg px-2 py-1.5 mt-1">
                       by GamePix
                     </span>
                   </div>
 
                   {game.description && (
-                    <p className="text-xs text-black/60 font-semibold leading-relaxed">
+                    <p className="text-xs text-white/60 font-semibold leading-relaxed">
                       {game.description}
                     </p>
                   )}
 
                   {/* Firebase నుండి howToPlay */}
                   {stats.howToPlay && (
-                    <div className="mt-4 pt-4 border-t border-black/8">
-                      <h3 className="text-[9px] font-black text-black/40 uppercase tracking-[0.25em] mb-2">How to Play</h3>
-                      <p className="text-xs text-black/60 font-semibold leading-relaxed">{stats.howToPlay}</p>
+                    <div className="mt-4 pt-4 border-t border-white/8">
+                      <h3 className="text-[9px] font-black text-white/40 uppercase tracking-[0.25em] mb-2">How to Play</h3>
+                      <p className="text-xs text-white/60 font-semibold leading-relaxed">{stats.howToPlay}</p>
                     </div>
                   )}
 
                   {/* Firebase నుండి tips */}
                   {stats.tips && stats.tips.length > 0 && (
-                    <div className="mt-4 pt-4 border-t border-black/8">
-                      <h3 className="text-[9px] font-black text-black/40 uppercase tracking-[0.25em] mb-2">Tips &amp; Tricks</h3>
+                    <div className="mt-4 pt-4 border-t border-white/8">
+                      <h3 className="text-[9px] font-black text-white/40 uppercase tracking-[0.25em] mb-2">Tips &amp; Tricks</h3>
                       <ul className="flex flex-col gap-1.5">
                         {stats.tips.map((tip: string, i: number) => (
-                          <li key={i} className="flex items-start gap-2 text-xs text-black/60 font-semibold leading-relaxed">
-                            <span className="mt-0.5 shrink-0 w-4 h-4 rounded-full bg-black/8 border border-black/10 flex items-center justify-center text-[8px] font-black text-black/40">
+                          <li key={i} className="flex items-start gap-2 text-xs text-white/60 font-semibold leading-relaxed">
+                            <span className="mt-0.5 shrink-0 w-4 h-4 rounded-full bg-white/8 border border-white/10 flex items-center justify-center text-[8px] font-black text-white/40">
                               {i + 1}
                             </span>
                             {tip}
@@ -351,8 +351,8 @@ if (!game) {
 
                 {/* Firebase నుండి faqs */}
                 {stats.faqs && stats.faqs.length > 0 && (
-                  <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] border border-black/10 p-5 shadow-sm">
-                    <h4 className="text-[9px] font-black text-black/40 uppercase tracking-[0.25em] mb-3">FAQ INDEX</h4>
+                  <div className="bg-white/5 backdrop-blur-2xl rounded-[24px] border border-white/10 p-5 shadow-sm">
+                    <h4 className="text-[9px] font-black text-white/40 uppercase tracking-[0.25em] mb-3">FAQ INDEX</h4>
                     <FaqAccordion items={stats.faqs} />
                   </div>
                 )}
@@ -360,40 +360,40 @@ if (!game) {
 
               {/* SIDEBAR */}
               <div>
-                <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] border border-black/10 p-5 shadow-sm md:sticky md:top-4">
-                  <h4 className="text-[10px] font-black text-black uppercase tracking-[0.2em] border-b border-black/10 pb-2.5 mb-3">
+                <div className="bg-white/5 backdrop-blur-2xl rounded-[24px] border border-white/10 p-5 shadow-sm md:sticky md:top-4">
+                  <h4 className="text-[10px] font-black text-white uppercase tracking-[0.2em] border-b border-white/10 pb-2.5 mb-3">
                     Game Info
                   </h4>
                   <div className="flex flex-col gap-3 text-[10px] font-black uppercase tracking-wider">
                     <div className="flex justify-between items-center">
-                      <span className="text-black/40">Developer</span>
-                      <span className="text-black/80 normal-case font-bold">GamePix</span>
+                      <span className="text-white/40">Developer</span>
+                      <span className="text-white/80 normal-case font-bold">GamePix</span>
                     </div>
                     {game.category && (
                       <div className="flex justify-between items-center">
-                        <span className="text-black/40">Category</span>
-                        <span className="text-black/80">{game.category}</span>
+                        <span className="text-white/40">Category</span>
+                        <span className="text-white/80">{game.category}</span>
                       </div>
                     )}
                     <div className="flex justify-between items-center">
-                      <span className="text-black/40">Plays</span>
-                      <span className="text-black/80">{formatCount(stats.playCount)}</span>
+                      <span className="text-white/40">Plays</span>
+                      <span className="text-white/80">{formatCount(stats.playCount)}</span>
                     </div>
                   </div>
 
                   {/* Firebase నుండి controls */}
                   {stats.controls && (
-                    <div className="mt-4 pt-3 border-t border-black/8">
-                      <span className="text-[9px] font-black text-black/35 uppercase tracking-widest block mb-2">Controls</span>
-                      <p className="text-[11px] text-black/60 font-semibold leading-relaxed normal-case bg-black/5 rounded-xl p-3 border border-black/8">
+                    <div className="mt-4 pt-3 border-t border-white/8">
+                      <span className="text-[9px] font-black text-white/35 uppercase tracking-widest block mb-2">Controls</span>
+                      <p className="text-[11px] text-white/60 font-semibold leading-relaxed normal-case bg-white/5 rounded-xl p-3 border border-white/8">
                         {stats.controls}
                       </p>
                     </div>
                   )}
 
-                  <div className="mt-4 pt-3 border-t border-black/8 flex flex-col gap-1.5">
-                    <span className="text-[9px] font-black text-black/35 uppercase tracking-widest mb-1">More Games</span>
-                    <Link href="/" className="text-[10px] font-black text-black/50 hover:text-black transition-colors uppercase tracking-wider">
+                  <div className="mt-4 pt-3 border-t border-white/8 flex flex-col gap-1.5">
+                    <span className="text-[9px] font-black text-white/35 uppercase tracking-widest mb-1">More Games</span>
+                    <Link href="/" className="text-[10px] font-black text-white/50 hover:text-white transition-colors uppercase tracking-wider">
                       → All Games
                     </Link>
                   </div>
@@ -404,22 +404,22 @@ if (!game) {
 
           {/* RIGHT ADS */}
           <div className="hidden lg:flex flex-col gap-4 w-[300px] shrink-0 mt-32 sticky top-28">
-            <div className="w-[300px] h-[250px] rounded-[20px] bg-white/40 backdrop-blur-md border border-black/10 flex items-center justify-center overflow-hidden">
+            <div className="w-[300px] h-[250px] rounded-[20px] bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center overflow-hidden">
               <AdBanner adKey="24f1c20fd366825da4e73b27e9b523b0" width={300} height={250} />
             </div>
-            <div className="w-[300px] flex items-center justify-center rounded-[20px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden p-3">
+            <div className="w-[300px] flex items-center justify-center rounded-[20px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden p-3">
               <NativeBanner />
             </div>
           </div>
         </div>
 
         {/* CATEGORIES GRID — square tiles, lucide icons, girls tీసేసిన list */}
-        <div className="mt-6 bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-black/10 p-5 sm:p-8 shadow-sm">
+        <div className="mt-6 bg-white/5 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-5 sm:p-8 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-black/50">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50">
               Browse by Category
             </h2>
-            <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/70 hover:text-black transition-colors">
+            <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-white/70 hover:text-white transition-colors">
               All Categories →
             </Link>
           </div>
@@ -430,12 +430,12 @@ if (!game) {
                 <Link
                   key={cat.id}
                   href={`/category/${cat.id}`}
-                  className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-black/10 bg-white/50 hover:bg-white/80 hover:border-black/20 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.14)] transition-all duration-200"
+                  className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.2)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.3)] transition-all duration-200"
                 >
-                  <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-black/5 group-hover:bg-black group-hover:text-white text-black/70 flex items-center justify-center transition-colors duration-200">
+                  <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-white/10 group-hover:bg-white/20 text-white/70 group-hover:text-white flex items-center justify-center transition-colors duration-200">
                     <Icon className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={1.75} />
                   </div>
-                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-black/80 group-hover:text-black text-center leading-tight line-clamp-2">
+                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-white/80 group-hover:text-white text-center leading-tight line-clamp-2">
                     {cat.name}
                   </span>
                 </Link>
@@ -443,9 +443,9 @@ if (!game) {
             })}
             <Link
               href="/categories"
-              className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-black/30 bg-[#161920] text-white hover:bg-black hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.2)] transition-all duration-200"
+              className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-white/10 bg-white text-black hover:bg-white/90 hover:-translate-y-1 shadow-[0_4px_20px_rgba(255,255,255,0.08)] hover:shadow-[0_10px_28px_rgba(255,255,255,0.14)] transition-all duration-200"
             >
-              <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-white/10 flex items-center justify-center">
+              <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-black/8 flex items-center justify-center">
                 <Grid3x3 className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={1.75} />
               </div>
               <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-center leading-tight">
@@ -456,20 +456,20 @@ if (!game) {
         </div>
 
         {/* BRAND STRIP */}
-        <div className="mt-6 border border-black/10 p-6 sm:p-10 rounded-[28px] sm:rounded-[32px] shadow-xl space-y-3 bg-white/60 text-center">
-          <span className="text-xs font-black uppercase tracking-widest text-black/60">LOKAYANTRA ARCADE STATION</span>
-          <h2 className="text-xl sm:text-3xl font-black text-black tracking-tight">No Downloads. No Clutter. Just Magic.</h2>
-          <p className="max-w-2xl mx-auto text-xs sm:text-sm text-black/70 font-semibold leading-relaxed">
+        <div className="mt-6 border border-white/10 p-6 sm:p-10 rounded-[28px] sm:rounded-[32px] shadow-xl space-y-3 bg-white/5 text-center">
+          <span className="text-xs font-black uppercase tracking-widest text-white/60">LOKAYANTRA ARCADE STATION</span>
+          <h2 className="text-xl sm:text-3xl font-black text-white tracking-tight">No Downloads. No Clutter. Just Magic.</h2>
+          <p className="max-w-2xl mx-auto text-xs sm:text-sm text-white/70 font-semibold leading-relaxed">
             Welcome to LokaYantra. We smashed the boring web grids to build a living, breathing playground of free HTML5 games.
           </p>
         </div>
 
         {/* FOOTER */}
-        <footer className="mt-4 border border-black/10 p-6 sm:p-10 rounded-[28px] sm:rounded-[32px] shadow-2xl bg-white/65 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4">
+        <footer className="mt-4 border border-white/10 p-6 sm:p-10 rounded-[28px] sm:rounded-[32px] shadow-2xl bg-white/5 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4">
           <div className="md:col-span-5 flex flex-col justify-between space-y-6 md:space-y-0">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#f0f0f0] rounded-full flex items-center justify-center border border-black/10">
+                <div className="w-10 h-10 bg-[#f0f0f0] rounded-full flex items-center justify-center border border-white/10">
                   <svg viewBox="0 0 100 100" className="w-8 h-8" fill="none">
                     <circle cx="50" cy="55" r="36" fill="#000" />
                     <circle cx="26" cy="24" r="13" fill="#000" />
@@ -479,14 +479,14 @@ if (!game) {
                     <circle cx="61" cy="55" r="6" fill="#000" />
                   </svg>
                 </div>
-                <span className="text-2xl font-black uppercase tracking-tighter text-[#161920]">LokaYantra</span>
+                <span className="text-2xl font-black uppercase tracking-tighter text-white">LokaYantra</span>
               </div>
-              <p className="text-xs font-bold uppercase tracking-wide text-black/60 max-w-sm leading-relaxed italic">
+              <p className="text-xs font-bold uppercase tracking-wide text-white/60 max-w-sm leading-relaxed italic">
                 &ldquo;Boring grids are dead. Welcome to the infinite monochrome playground.&rdquo;
               </p>
               <div className="flex items-center gap-2.5 pt-1">
                 <Link href="https://www.instagram.com/lokayantraofficial?utm_source=qr&igsh=MXBndWQ3MG9uaDE1bw%3D%3D" target="_blank" rel="noopener noreferrer" aria-label="LokaYantra on Instagram"
-                  className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all shadow-md hover:bg-black/80">
+                  className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black hover:scale-110 active:scale-95 transition-all shadow-md hover:bg-white/80">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -494,36 +494,36 @@ if (!game) {
                   </svg>
                 </Link>
                 <Link href="https://youtube.com/@official.lokayantra?si=0SE7fSqRAd5WxW3h" target="_blank" rel="noopener noreferrer" aria-label="LokaYantra on YouTube"
-                  className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all shadow-md hover:bg-black/80">
+                  className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black hover:scale-110 active:scale-95 transition-all shadow-md hover:bg-white/80">
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                   </svg>
                 </Link>
               </div>
             </div>
-            <div className="text-[10px] font-black uppercase tracking-widest text-black/50 pt-4">© 2026 LOKAYANTRA. ALL RIGHTS RESERVED.</div>
+            <div className="text-[10px] font-black uppercase tracking-widest text-white/50 pt-4">© 2026 LOKAYANTRA. ALL RIGHTS RESERVED.</div>
           </div>
           <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 md:gap-4 pt-4 md:pt-0">
             <div className="space-y-4">
-              <h3 className="text-xs font-black uppercase tracking-widest text-black/90 border-b border-black/10 pb-1">Explore</h3>
-              <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-black/60">
-                <li><Link href="/" className="hover:text-black transition-colors">All Games</Link></li>
-                <li><Link href="/trending" className="hover:text-black transition-colors">Trending Games</Link></li>
-                <li><Link href="/new-releases" className="hover:text-black transition-colors">New Releases</Link></li>
+              <h3 className="text-xs font-black uppercase tracking-widest text-white/90 border-b border-white/10 pb-1">Explore</h3>
+              <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-white/60">
+                <li><Link href="/" className="hover:text-white transition-colors">All Games</Link></li>
+                <li><Link href="/trending" className="hover:text-white transition-colors">Trending Games</Link></li>
+                <li><Link href="/new-releases" className="hover:text-white transition-colors">New Releases</Link></li>
               </ul>
             </div>
             <div className="space-y-4">
-              <h3 className="text-xs font-black uppercase tracking-widest text-black/90 border-b border-black/10 pb-1">Studio</h3>
-              <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-black/60">
-                <li><Link href="/about" className="hover:text-black transition-colors">About Us</Link></li>
-                <li><Link href="/contact" className="hover:text-black transition-colors">Contact Station</Link></li>
+              <h3 className="text-xs font-black uppercase tracking-widest text-white/90 border-b border-white/10 pb-1">Studio</h3>
+              <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-white/60">
+                <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
+                <li><Link href="/contact" className="hover:text-white transition-colors">Contact Station</Link></li>
               </ul>
             </div>
             <div className="space-y-4">
-              <h3 className="text-xs font-black uppercase tracking-widest text-black/90 border-b border-black/10 pb-1">Legal</h3>
-              <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-black/60">
-                <li><Link href="/privacy-policy" className="hover:text-black transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/terms" className="hover:text-black transition-colors">Terms &amp; Conditions</Link></li>
+              <h3 className="text-xs font-black uppercase tracking-widest text-white/90 border-b border-white/10 pb-1">Legal</h3>
+              <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-white/60">
+                <li><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="hover:text-white transition-colors">Terms &amp; Conditions</Link></li>
               </ul>
             </div>
           </div>
