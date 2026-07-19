@@ -66,7 +66,7 @@ export default function CategoryGamesClient({
       {loading ? (
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-1.5 sm:gap-2">
           {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="aspect-square rounded-[16px] bg-white/30 animate-pulse" />
+            <div key={i} className="aspect-square rounded-[16px] bg-white/5 animate-pulse" />
           ))}
         </div>
       ) : (
@@ -75,17 +75,17 @@ export default function CategoryGamesClient({
             <Link
               key={game.id}
               href={`/games/${game.slug || game.id}`}
-              className="group relative aspect-square overflow-hidden rounded-[16px] sm:rounded-[20px] bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
+              className="group relative aspect-square overflow-hidden rounded-[16px] sm:rounded-[20px] bg-white/5 border border-white/10 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
             >
               {game.thumbnail ? (
                 <img
                   src={game.thumbnail}
                   alt={game.title}
                   loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-200"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                 />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-black/60 bg-gray-100">
+                <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-white/60 bg-white/10">
                   {game.title}
                 </div>
               )}
@@ -104,7 +104,7 @@ export default function CategoryGamesClient({
           <button
             onClick={() => fetchPage(currentPage - 1)}
             disabled={currentPage === 1 || loading}
-            className="w-9 h-9 rounded-full border border-black/10 bg-white/60 flex items-center justify-center text-black/50 hover:bg-[#161920] hover:text-white disabled:opacity-30 transition-colors text-sm font-black"
+            className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:bg-white hover:text-black disabled:opacity-30 transition-colors text-sm font-black"
           >
             ‹
           </button>
@@ -112,7 +112,7 @@ export default function CategoryGamesClient({
           {/* Page numbers */}
           {getPageNumbers().map((p, i) =>
             p === "..." ? (
-              <span key={`dots-${i}`} className="w-9 h-9 flex items-center justify-center text-black/40 text-sm font-black">
+              <span key={`dots-${i}`} className="w-9 h-9 flex items-center justify-center text-white/40 text-sm font-black">
                 ...
               </span>
             ) : (
@@ -122,8 +122,8 @@ export default function CategoryGamesClient({
                 disabled={loading}
                 className={`w-9 h-9 rounded-full border text-[11px] font-black transition-colors ${
                   currentPage === p
-                    ? "bg-[#161920] text-white border-black shadow-md"
-                    : "border-black/10 bg-white/60 text-black/70 hover:bg-[#161920] hover:text-white"
+                    ? "bg-white text-black border-white shadow-md"
+                    : "border-white/10 bg-white/5 text-white/70 hover:bg-white hover:text-black"
                 }`}
               >
                 {p}
@@ -135,7 +135,7 @@ export default function CategoryGamesClient({
           <button
             onClick={() => fetchPage(currentPage + 1)}
             disabled={currentPage === totalPages || loading}
-            className="w-9 h-9 rounded-full border border-black/10 bg-white/60 flex items-center justify-center text-black/50 hover:bg-[#161920] hover:text-white disabled:opacity-30 transition-colors text-sm font-black"
+            className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:bg-white hover:text-black disabled:opacity-30 transition-colors text-sm font-black"
           >
             ›
           </button>

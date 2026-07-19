@@ -186,7 +186,7 @@ if (snap.exists()) {
   return (
     <div className="relative w-full">
       {shareToast && (
-        <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-xl z-50">
+        <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-xl z-50">
           LINK COPIED ✓
         </div>
       )}
