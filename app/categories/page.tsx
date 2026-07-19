@@ -187,37 +187,37 @@ export default async function CategoriesPage() {
   const secondHalf = categories.slice(midpoint);
 
   return (
-    <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
+    <main className="w-full min-h-screen text-white font-sans pb-12 relative overflow-hidden select-none bg-[#0a0a0d]">
 
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-black/20" />
-        <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-black/15" />
-        <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-black/10" />
-        <div className="absolute bottom-[320px] left-[5%] w-[180px] h-[180px] rounded-full bg-black/15" />
-        <div className="absolute bottom-[-30px] left-[12%] w-[190px] h-[190px] rounded-full bg-black/10" />
-        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-black/20" />
+        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-white/10" />
+        <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-white/8" />
+        <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-white/5" />
+        <div className="absolute bottom-[320px] left-[5%] w-[180px] h-[180px] rounded-full bg-white/8" />
+        <div className="absolute bottom-[-30px] left-[12%] w-[190px] h-[190px] rounded-full bg-white/5" />
+        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-white/10" />
       </div>
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-3 sm:px-4 pt-[105px] sm:pt-[115px]">
 
-        <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-black/10 p-6 sm:p-10 shadow-sm mb-6">
-          <span className="text-[9px] font-black uppercase tracking-[0.25em] text-black/40">
+        <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-6 sm:p-10 shadow-sm mb-6">
+          <span className="text-[9px] font-black uppercase tracking-[0.25em] text-white/40">
             LokaYantra Arcade Station
           </span>
-          <h1 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-tight mt-1 mb-3">
+          <h1 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight mt-1 mb-3">
             All Game Categories
           </h1>
-          <p className="text-xs sm:text-sm text-black/60 font-semibold leading-relaxed max-w-3xl">
+          <p className="text-xs sm:text-sm text-white/60 font-semibold leading-relaxed max-w-3xl">
             At LokaYantra we organize thousands of free browser games into clear, easy-to-browse categories.
             Whether you&apos;re after heart-pounding action, brain-teasing puzzles, high-speed racing, or relaxing
             simulation games — every category links to a curated collection of HTML5 games that load instantly,
             no downloads, no installs.
           </p>
-          <p className="text-[10px] font-bold text-black/40 mt-3">{categories.length} categories available</p>
+          <p className="text-[10px] font-bold text-white/40 mt-3">{categories.length} categories available</p>
         </div>
 
         {/* AD SLOT 1 — intro box tarwatha, grid mundu */}
-        <div className="w-full flex items-center justify-center py-2 mb-6 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+        <div className="w-full flex items-center justify-center py-2 mb-6 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
           <AdBanner adKey="1964a0ad17560680bdab1ffb00859133" width={468} height={60} />
         </div>
 
@@ -228,12 +228,12 @@ export default async function CategoriesPage() {
                 <Link
                   key={catId}
                   href={`/category/${catId}`}
-                  className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-black/10 bg-white/50 hover:bg-white/80 hover:border-black/20 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.14)] transition-all duration-200"
+                  className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.14)] transition-all duration-200"
                 >
-                  <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-black/5 group-hover:bg-black group-hover:text-white text-black/70 flex items-center justify-center transition-colors duration-200">
+                  <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-white/10 group-hover:bg-white/20 text-white/70 group-hover:text-white flex items-center justify-center transition-colors duration-200">
                     <CategoryIcon id={catId} />
                   </div>
-                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-black/80 group-hover:text-black text-center leading-tight line-clamp-2">
+                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-white/80 group-hover:text-white text-center leading-tight line-clamp-2">
                     {formatCategoryName(catId)}
                   </span>
                 </Link>
@@ -242,7 +242,7 @@ export default async function CategoriesPage() {
 
             {/* AD SLOT 2 — grid madhyalo */}
             {secondHalf.length > 0 && (
-              <div className="w-full flex items-center justify-center py-2 my-6 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+              <div className="w-full flex items-center justify-center py-2 my-6 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
                 <AdBanner adKey="b0af7b8091bb9ba523dec2416736fdaa" width={728} height={90} />
               </div>
             )}
@@ -252,12 +252,12 @@ export default async function CategoriesPage() {
                 <Link
                   key={catId}
                   href={`/category/${catId}`}
-                  className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-black/10 bg-white/50 hover:bg-white/80 hover:border-black/20 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.14)] transition-all duration-200"
+                  className="group relative flex flex-col items-center justify-center gap-2 p-3 sm:p-4 aspect-square rounded-[20px] sm:rounded-[24px] border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.14)] transition-all duration-200"
                 >
-                  <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-black/5 group-hover:bg-black group-hover:text-white text-black/70 flex items-center justify-center transition-colors duration-200">
+                  <div className="shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-white/10 group-hover:bg-white/20 text-white/70 group-hover:text-white flex items-center justify-center transition-colors duration-200">
                     <CategoryIcon id={catId} />
                   </div>
-                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-black/80 group-hover:text-black text-center leading-tight line-clamp-2">
+                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-white/80 group-hover:text-white text-center leading-tight line-clamp-2">
                     {formatCategoryName(catId)}
                   </span>
                 </Link>
@@ -265,18 +265,18 @@ export default async function CategoriesPage() {
             </div>
           </>
         ) : (
-          <div className="text-center font-bold py-20 bg-white/20 rounded-[24px] border border-black/10 uppercase tracking-wider text-xs">
+          <div className="text-center font-bold py-20 bg-white/5 rounded-[24px] border border-white/10 uppercase tracking-wider text-xs">
             Categories loading failed. Please try again later.
           </div>
         )}
 
         {/* AD SLOT 3 — back-link mundu */}
-        <div className="w-full flex items-center justify-center py-3 mt-8 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+        <div className="w-full flex items-center justify-center py-3 mt-8 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
           <NativeBanner />
         </div>
 
         <div className="mt-8">
-          <Link href="/" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black transition-colors">
+          <Link href="/" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white transition-colors">
             ← Back to All Games
           </Link>
         </div>

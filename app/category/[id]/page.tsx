@@ -49,32 +49,32 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   if (initialGames.length === 0) notFound();
 
   return (
-    <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
+    <main className="w-full min-h-screen text-white font-sans pb-12 relative overflow-hidden select-none bg-[#0a0a0d]">
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-black/20" />
-        <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-black/15" />
-        <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-black/10" />
-        <div className="absolute bottom-[320px] left-[5%] w-[180px] h-[180px] rounded-full bg-black/15" />
-        <div className="absolute bottom-[-30px] left-[12%] w-[190px] h-[190px] rounded-full bg-black/10" />
-        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-black/20" />
+        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-white/10" />
+        <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-white/8" />
+        <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-white/5" />
+        <div className="absolute bottom-[320px] left-[5%] w-[180px] h-[180px] rounded-full bg-white/8" />
+        <div className="absolute bottom-[-30px] left-[12%] w-[190px] h-[190px] rounded-full bg-white/5" />
+        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-white/10" />
       </div>
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-3 sm:px-4 pt-[105px] sm:pt-[115px]">
-        <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-black/10 p-6 sm:p-10 shadow-sm mb-6">
-          <span className="text-[9px] font-black uppercase tracking-[0.25em] text-black/40">
+        <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-6 sm:p-10 shadow-sm mb-6">
+          <span className="text-[9px] font-black uppercase tracking-[0.25em] text-white/40">
             Game Category
           </span>
-          <h1 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-tight mt-1 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight mt-1 mb-2">
             {name} Games
           </h1>
-          <p className="text-xs sm:text-sm text-black/60 font-semibold leading-relaxed max-w-2xl">
+          <p className="text-xs sm:text-sm text-white/60 font-semibold leading-relaxed max-w-2xl">
             Browse our growing collection of free {name.toLowerCase()} games — all playable
             instantly in your browser with no downloads or installs needed.
           </p>
         </div>
 
         {/* AD SLOT 1 — intro tarwatha, games grid mundu */}
-        <div className="w-full flex items-center justify-center py-2 mb-6 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+        <div className="w-full flex items-center justify-center py-2 mb-6 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
           <AdBanner adKey="1964a0ad17560680bdab1ffb00859133" width={468} height={60} />
         </div>
 
@@ -86,21 +86,21 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         />
 
         {/* AD SLOT 2 — games grid tarwatha */}
-        <div className="w-full flex items-center justify-center py-2 mt-8 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+        <div className="w-full flex items-center justify-center py-2 mt-8 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
           <AdBanner adKey="b0af7b8091bb9ba523dec2416736fdaa" width={728} height={90} />
         </div>
 
         <div className="mt-6 flex gap-4">
-          <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black transition-colors">
+          <Link href="/categories" className="text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white transition-colors">
             ← All Categories
           </Link>
-          <Link href="/" className="text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black transition-colors">
+          <Link href="/" className="text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white transition-colors">
             ← All Games
           </Link>
         </div>
 
         {/* AD SLOT 3 — page pathaka */}
-        <div className="w-full flex items-center justify-center py-3 mt-6 rounded-[16px] bg-white/40 backdrop-blur-md border border-black/10 overflow-hidden">
+        <div className="w-full flex items-center justify-center py-3 mt-6 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
           <NativeBanner />
         </div>
       </div>
