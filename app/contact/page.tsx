@@ -71,32 +71,34 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
-      {/* BLACK BUBBLES — migatha pages tho consistent */}
+    <main className="w-full min-h-screen text-white font-sans pb-12 relative overflow-hidden select-none bg-[#0a0a0d]">
+      {/* WHITE BUBBLES — migatha pages tho consistent */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-black/20" />
-        <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-black/15" />
-        <div className="absolute top-[20px] right-[10%] w-[160px] h-[160px] rounded-full bg-black/10" />
-        <div className="absolute top-[280px] left-[8%] w-[110px] h-[110px] rounded-full bg-black/10" />
-        <div className="absolute bottom-[220px] right-[8%] w-[200px] h-[200px] rounded-full bg-black/10" />
-        <div className="absolute bottom-[-30px] left-[15%] w-[190px] h-[190px] rounded-full bg-black/10" />
-        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-black/20" />
+        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-white/10" />
+        <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-white/8" />
+        <div className="absolute top-[20px] right-[10%] w-[160px] h-[160px] rounded-full bg-white/5" />
+        <div className="absolute top-[280px] left-[8%] w-[110px] h-[110px] rounded-full bg-white/5" />
+        <div className="absolute bottom-[220px] right-[8%] w-[200px] h-[200px] rounded-full bg-white/5" />
+        <div className="absolute bottom-[-30px] left-[15%] w-[190px] h-[190px] rounded-full bg-white/5" />
+        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-white/10" />
       </div>
 
       <div className="w-full max-w-[650px] mx-auto px-4 mt-[110px] sm:mt-[120px] relative z-10">
 
         {/* INTRO */}
         <div className="text-center mb-6">
-          <span className="text-xs font-black uppercase tracking-widest text-black/50">We&apos;d Love to Hear From You</span>
-          <p className="mt-2 text-xs sm:text-sm font-semibold text-black/60 leading-relaxed max-w-lg mx-auto">
+          <span className="text-xs font-black uppercase tracking-widest text-white/50">We&apos;d Love to Hear From You</span>
+          <p className="mt-2 text-xs sm:text-sm font-semibold text-white/60 leading-relaxed max-w-lg mx-auto">
             Bug to report, game to suggest, or a business idea to pitch — LokaYantra is built and run by one
             developer, and every message that comes through here is read personally. Expect a reply within 24–48 hours.
           </p>
         </div>
 
+        {/* FORM CARD — white island (intentional, like other pop-accent
+            elements site-wide) — icons/text inside stay black-on-white */}
         <div
           className="border border-black/10 p-8 sm:p-10 rounded-[32px] shadow-2xl backdrop-blur-xl space-y-6"
-          style={{ backgroundColor: "rgba(255, 255, 255, 0.55)" }}
+          style={{ backgroundColor: "rgba(255, 255, 255, 0.92)" }}
         >
           <div className="text-center space-y-2">
             <span className="text-xs font-black uppercase tracking-widest text-black/60">GET IN TOUCH</span>
@@ -108,11 +110,11 @@ export default function ContactPage() {
           {submitted ? (
             <div className="text-center py-10 space-y-4">
               <div className="text-4xl">🐼</div>
-              <h2 className="text-xl font-black uppercase">Transmission Received!</h2>
+              <h2 className="text-xl font-black uppercase text-black">Transmission Received!</h2>
               <p className="text-xs font-bold text-black/60 uppercase">The LokaYantra team will respond shortly.</p>
               <button
                 onClick={() => setSubmitted(false)}
-                className="text-xs font-black underline uppercase"
+                className="text-xs font-black underline uppercase text-black"
               >
                 Send Another Message
               </button>
@@ -132,7 +134,7 @@ export default function ContactPage() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full h-[46px] px-4 rounded-[16px] bg-white/60 border border-black/10 focus:border-black outline-none font-bold text-sm transition-all"
+                  className="w-full h-[46px] px-4 rounded-[16px] bg-white border border-black/10 focus:border-black outline-none font-bold text-sm text-black placeholder-black/40 transition-all"
                   placeholder="GAMER TAG / NAME"
                 />
               </div>
@@ -144,7 +146,7 @@ export default function ContactPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full h-[46px] px-4 rounded-[16px] bg-white/60 border border-black/10 focus:border-black outline-none font-bold text-sm transition-all"
+                  className="w-full h-[46px] px-4 rounded-[16px] bg-white border border-black/10 focus:border-black outline-none font-bold text-sm text-black placeholder-black/40 transition-all"
                   placeholder="YOU@EXAMPLE.COM"
                 />
               </div>
@@ -160,7 +162,7 @@ export default function ContactPage() {
                       className={`text-[10px] font-black uppercase tracking-wide px-3 py-2 rounded-full border transition-all ${
                         topic === t
                           ? "bg-[#161920] text-white border-[#161920]"
-                          : "bg-white/60 text-black/60 border-black/10 hover:border-black/30"
+                          : "bg-white text-black/60 border-black/10 hover:border-black/30"
                       }`}
                     >
                       {t}
@@ -176,7 +178,7 @@ export default function ContactPage() {
                   required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full p-4 rounded-[16px] bg-white/60 border border-black/10 focus:border-black outline-none font-bold text-sm transition-all resize-none"
+                  className="w-full p-4 rounded-[16px] bg-white border border-black/10 focus:border-black outline-none font-bold text-sm text-black placeholder-black/40 transition-all resize-none"
                   placeholder="WHAT'S ON YOUR MIND?"
                 />
               </div>
@@ -218,14 +220,14 @@ export default function ContactPage() {
 
         {/* MINI FAQ */}
         <div className="mt-8 mb-4">
-          <h2 className="text-center text-[11px] font-black uppercase tracking-[0.2em] text-black/50 mb-4">
+          <h2 className="text-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-4">
             Before You Send — Quick Answers
           </h2>
           <div className="flex flex-col gap-3">
             {CONTACT_FAQS.map((f, i) => (
-              <div key={i} className="rounded-2xl border border-black/10 bg-white/50 p-4">
-                <h3 className="text-[11px] font-black uppercase tracking-wide text-black/80 mb-1">{f.q}</h3>
-                <p className="text-xs text-black/60 font-semibold leading-relaxed">{f.a}</p>
+              <div key={i} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <h3 className="text-[11px] font-black uppercase tracking-wide text-white/80 mb-1">{f.q}</h3>
+                <p className="text-xs text-white/60 font-semibold leading-relaxed">{f.a}</p>
               </div>
             ))}
           </div>
