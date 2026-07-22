@@ -5,8 +5,30 @@ import { fetchGamePixPage } from "@/lib/gamepix";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "New Releases | LokaYantra",
-  description: "Check out the newest games added to LokaYantra — fresh free HTML5 games, no downloads needed.",
+  title: "New Games — Latest Free Online Releases | LokaYantra",
+  description:
+    "Check out the newest free games added to LokaYantra — fresh HTML5 browser games updated daily, no downloads needed, play instantly.",
+  keywords: [
+    "new games online",
+    "latest free games",
+    "new html5 games",
+    "just released games",
+    "free games updated daily",
+    "new browser games 2026",
+  ],
+  alternates: { canonical: "https://lokayantra.vercel.app/new-releases" },
+  openGraph: {
+    title: "New Games — Latest Free Online Releases | LokaYantra",
+    description: "Fresh free games added daily — be the first to play them, no downloads needed.",
+    url: "https://lokayantra.vercel.app/new-releases",
+    siteName: "LokaYantra",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "New Games | LokaYantra",
+    description: "The newest free online games, updated daily — no downloads needed.",
+  },
 };
 
 async function fetchNewReleasesPage(page: number) {
@@ -45,15 +67,15 @@ export default async function NewReleasesPage() {
   }
 
   return (
-    <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
+    <main className="w-full min-h-screen text-white font-sans pb-12 relative overflow-hidden select-none bg-[#0a0a0d]">
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-black/20" />
-        <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-black/15" />
-        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-black/20" />
+        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-white/10" />
+        <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-white/8" />
+        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-white/10" />
       </div>
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-3 sm:px-4 pt-[105px] sm:pt-[115px]">
-        <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-black/10 p-6 sm:p-10 shadow-sm mb-6">
+        <div className="bg-white/5 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-6 sm:p-10 shadow-sm mb-6">
           <div className="flex items-center gap-3 mb-2">
             <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 shadow-sm">
               <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -62,10 +84,10 @@ export default async function NewReleasesPage() {
               <span className="text-[9px] font-black uppercase tracking-widest text-white">New</span>
             </div>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-tight mb-2">
+          <h1 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight mb-2">
             New Releases
           </h1>
-          <p className="text-xs sm:text-sm text-black/60 font-semibold leading-relaxed">
+          <p className="text-xs sm:text-sm text-white/60 font-semibold leading-relaxed">
             Fresh games just added — be the first to play them. Updated daily!
           </p>
         </div>
@@ -75,14 +97,14 @@ export default async function NewReleasesPage() {
             <Link
               key={game.id}
               href={`/games/${game.id}`}
-              className="group relative aspect-square overflow-hidden rounded-[20px] border border-black/10 hover:border-black/30 bg-white/40 hover:bg-white/55 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.18)] hover:-translate-y-1.5 transition-all duration-200"
+              className="group relative aspect-square overflow-hidden rounded-[20px] border border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10 shadow-[0_4px_10px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 transition-all duration-200"
             >
               {game.thumbnail ? (
                 <img src={game.thumbnail} alt={game.title} loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-black/60">
+                <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-white/60">
                   {game.title}
                 </div>
               )}
@@ -102,7 +124,7 @@ export default async function NewReleasesPage() {
         </div>
 
         <div className="mt-8">
-          <Link href="/" className="text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black transition-colors">
+          <Link href="/" className="text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white transition-colors">
             ← Back to All Games
           </Link>
         </div>

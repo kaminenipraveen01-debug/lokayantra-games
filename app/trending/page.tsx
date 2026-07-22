@@ -4,8 +4,30 @@ import Link from "next/link";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Trending Games | LokaYantra",
-  description: "Play the most popular trending games right now on LokaYantra — free, instant, no downloads.",
+  title: "Trending Games — Play Free Online Right Now | LokaYantra",
+  description:
+    "Play the most popular trending games online right now — free, instant, no downloads. Updated regularly with the hottest free browser games on LokaYantra.",
+  keywords: [
+    "trending games online",
+    "popular games right now",
+    "free games to play now",
+    "best online games 2026",
+    "top browser games",
+    "free html5 games",
+  ],
+  alternates: { canonical: "https://lokayantra.vercel.app/trending" },
+  openGraph: {
+    title: "Trending Games — Play Free Online Right Now | LokaYantra",
+    description: "The most popular and highest-rated free games right now — no downloads needed.",
+    url: "https://lokayantra.vercel.app/trending",
+    siteName: "LokaYantra",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending Games | LokaYantra",
+    description: "Play the most popular trending games online right now — free, no downloads.",
+  },
 };
 
 async function fetchTrendingPage(page: number) {
@@ -44,22 +66,22 @@ export default async function TrendingPage() {
   }
 
   return (
-    <main className="w-full min-h-screen text-black font-sans pb-12 relative overflow-hidden select-none bg-[#cfcfcf]">
+    <main className="w-full min-h-screen text-white font-sans pb-12 relative overflow-hidden select-none bg-[#0a0a0d]">
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-black/20" />
-        <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-black/15" />
-        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-black/20" />
+        <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-white/10" />
+        <div className="absolute top-[60px] right-[10%] w-[160px] h-[160px] rounded-full bg-white/8" />
+        <div className="absolute bottom-[-60px] right-[20%] w-[220px] h-[220px] rounded-full bg-white/10" />
       </div>
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-3 sm:px-4 pt-[105px] sm:pt-[115px]">
-        <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-black/10 p-6 sm:p-10 shadow-sm mb-6">
+        <div className="bg-white/5 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-6 sm:p-10 shadow-sm mb-6">
           <div className="flex items-center gap-3 mb-2">
             <span className="text-2xl">🔥</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-tight mb-2">
+          <h1 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight mb-2">
             Trending Games
           </h1>
-          <p className="text-xs sm:text-sm text-black/60 font-semibold leading-relaxed">
+          <p className="text-xs sm:text-sm text-white/60 font-semibold leading-relaxed">
             The most popular and highest-rated games right now — picked fresh for you.
           </p>
         </div>
@@ -69,14 +91,14 @@ export default async function TrendingPage() {
             <Link
               key={game.id}
               href={`/games/${game.id}`}
-              className="group relative aspect-square overflow-hidden rounded-[20px] border border-black/10 hover:border-black/30 bg-white/40 hover:bg-white/55 shadow-[0_4px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.18)] hover:-translate-y-1.5 transition-all duration-200"
+              className="group relative aspect-square overflow-hidden rounded-[20px] border border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10 shadow-[0_4px_10px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 transition-all duration-200"
             >
               {game.thumbnail ? (
                 <img src={game.thumbnail} alt={game.title} loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.15] brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-105 transition-all duration-300"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-black/60">
+                <div className="absolute inset-0 flex items-center justify-center p-3 text-center text-[11px] font-black uppercase tracking-wider text-white/60">
                   {game.title}
                 </div>
               )}
@@ -94,7 +116,7 @@ export default async function TrendingPage() {
         </div>
 
         <div className="mt-8">
-          <Link href="/" className="text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black transition-colors">
+          <Link href="/" className="text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white transition-colors">
             ← Back to All Games
           </Link>
         </div>

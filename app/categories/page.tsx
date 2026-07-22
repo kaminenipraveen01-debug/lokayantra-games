@@ -17,8 +17,33 @@ import NativeBanner from "@/components/NativeBanner";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "All Game Categories | LokaYantra",
-  description: "Browse all game categories on LokaYantra — Action, Racing, Puzzle, Adventure, Sports, and more. Find your favorite type of free online HTML5 games.",
+  title: "All Free Game Categories — Action, Puzzle, Racing & More | LokaYantra",
+  description:
+    "Browse every free online game category on LokaYantra — Action, Racing, Puzzle, Adventure, Sports, Arcade and more. No downloads, no installs, just click and play instantly in your browser.",
+  keywords: [
+    "free online game categories",
+    "browser games by category",
+    "action games online",
+    "puzzle games free",
+    "racing games online",
+    "adventure games free",
+    "html5 games categories",
+    "play games online no download",
+  ],
+  alternates: { canonical: "https://lokayantra.vercel.app/categories" },
+  openGraph: {
+    title: "All Free Game Categories — Action, Puzzle, Racing & More | LokaYantra",
+    description:
+      "Browse every free online game category on LokaYantra — no downloads, no installs, just click and play.",
+    url: "https://lokayantra.vercel.app/categories",
+    siteName: "LokaYantra",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "All Free Game Categories | LokaYantra",
+    description: "Browse every free online game category — no downloads, no installs.",
+  },
 };
 
 // prathi category id ki oka clean, consistent lucide icon — motham okate
@@ -200,7 +225,7 @@ export default async function CategoriesPage() {
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-3 sm:px-4 pt-[105px] sm:pt-[115px]">
 
-        <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-6 sm:p-10 shadow-sm mb-6">
+        <div className="bg-white/5 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-6 sm:p-10 shadow-sm mb-6">
           <span className="text-[9px] font-black uppercase tracking-[0.25em] text-white/40">
             LokaYantra Arcade Station
           </span>

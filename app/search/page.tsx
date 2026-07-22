@@ -5,11 +5,31 @@ import { fetchSearchIndex, fetchAllCategories, GamePixGame } from "@/lib/gamepix
 import { getHomepageGames } from "@/lib/games-admin";
 import SearchResultsClient from "@/components/SearchResultsClient";
 
-export const revalidate = 1800;
-
 export const metadata: Metadata = {
-  title: "Search Games | LokaYantra",
-  description: "Search and filter thousands of free HTML5 games on LokaYantra by name, category, and popularity.",
+  title: "Search Free Online Games — 500+ HTML5 Games | LokaYantra",
+  description:
+    "Search and filter 500+ free online games on LokaYantra by name, category, or popularity. No downloads, no installs — find your next favorite browser game instantly.",
+  keywords: [
+    "search online games",
+    "find free games",
+    "browser games search",
+    "free html5 games",
+    "play games online no download",
+    "game finder",
+  ],
+  alternates: { canonical: "https://lokayantra.vercel.app/search" },
+  openGraph: {
+    title: "Search Free Online Games — 500+ HTML5 Games | LokaYantra",
+    description: "Search and filter free online games by name, category, or popularity — no downloads needed.",
+    url: "https://lokayantra.vercel.app/search",
+    siteName: "LokaYantra",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Search Games | LokaYantra",
+    description: "Search 500+ free online games — no downloads needed.",
+  },
 };
 
 export default async function SearchPage() {
