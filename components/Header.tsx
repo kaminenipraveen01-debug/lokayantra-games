@@ -265,7 +265,7 @@ export default function Header() {
                         alt={game.title}
                         fill
                         sizes="150px"
-                        className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-[9px] font-black uppercase tracking-wider text-white/50">
