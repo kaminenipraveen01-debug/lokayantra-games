@@ -22,10 +22,32 @@ function formatCategoryName(id: string): string {
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { id } = await params;
   const name = formatCategoryName(id);
+  const lower = name.toLowerCase();
+  const url = `https://lokayantra.vercel.app/category/${id}`;
+
+  const title = `${name} Games — Play Free Online, No Download | LokaYantra`;
+  const description =
+    `Play free ${lower} games online instantly — no download, no install needed. ` +
+    `Browse our full collection of ${lower} games and play directly in your browser on LokaYantra.`;
+  const keywords = [
+    `${lower} games`,
+    `free ${lower} games`,
+    `${lower} games online`,
+    `play ${lower} games no download`,
+    `best ${lower} games 2026`,
+    "free browser games",
+    "html5 games online",
+  ];
+
   return {
-    title: `${name} Games - Play Free Online | LokaYantra`,
-    description: `Play free ${name.toLowerCase()} games online on LokaYantra. No downloads, no installs — just click and play instantly in your browser.`,
-    alternates: { canonical: `https://lokayantra.vercel.app/category/${id}` },
+    title,
+    description,
+    keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      title, description, url, siteName: "LokaYantra", type: "website",
+    },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
@@ -60,7 +82,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </div>
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-3 sm:px-4 pt-[105px] sm:pt-[115px]">
-        <div className="bg-white/60 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-6 sm:p-10 shadow-sm mb-6">
+        <div className="bg-white/5 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-6 sm:p-10 shadow-sm mb-6">
           <span className="text-[9px] font-black uppercase tracking-[0.25em] text-white/40">
             Game Category
           </span>

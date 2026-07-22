@@ -102,15 +102,37 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
 
   if (!game) return { title: "Game Not Found | LokaYantra" };
 
-  const title = `${game.title} - Play Online on LokaYantra`;
-  const description = game.description?.slice(0, 160) ||
-    `Play ${game.title} online for free on LokaYantra!`;
+  const category = game.category || "Arcade";
+
+  // Title: game name + category + "free" + "no download" — high-volume,
+  // safe search terms (no "unblocked"/"bypass" language, AdSense-safe)
+  const title = `Play ${game.title} Online Free — No Download | ${category} Game`;
+
+  // Description: keyword-rich but natural, includes "free", "online",
+  // "no download", "browser game" — commonly searched safe phrases
+  const baseDesc = game.description?.trim();
+  const description = baseDesc
+    ? `Play ${game.title} free online, no download needed. ${baseDesc}`.slice(0, 160)
+    : `Play ${game.title} free online instantly — no download, no install. ${category} game you can play directly in your browser on LokaYantra.`.slice(0, 160);
+
+  // Keywords array — helps some search engines / aggregators, safe terms only
+  const keywords = [
+    game.title,
+    `${game.title} online`,
+    `play ${game.title} free`,
+    `${game.title} no download`,
+    `${category} games online`,
+    "free browser games",
+    "html5 games",
+  ];
+
   const gameUrl = `${SITE_URL}/games/${game.id}`;
   const imageUrl = game.thumbnail || `${SITE_URL}/og-image.png`;
 
   return {
     title,
     description,
+    keywords,
     alternates: { canonical: gameUrl },
     openGraph: {
       title, description, url: gameUrl, siteName: "LokaYantra",
