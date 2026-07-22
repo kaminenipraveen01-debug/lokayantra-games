@@ -32,8 +32,8 @@ interface SearchGame {
 // Small skeleton tile for the search overlay grid
 function OverlaySkeletonTile() {
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-black/5 border border-black/5 aspect-square">
-      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_infinite] bg-gradient-to-r from-transparent via-black/5 to-transparent" />
+    <div className="relative overflow-hidden rounded-2xl bg-white/[0.06] border border-white/10 aspect-square">
+      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
     </div>
   );
 }
