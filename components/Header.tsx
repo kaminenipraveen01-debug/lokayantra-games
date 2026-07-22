@@ -51,10 +51,6 @@ export default function Header() {
   const [debouncedTerm, setDebouncedTerm] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Firebase (firestore) motham page load ki eager ga రాకుండా, search box
-  // open chesinappudu matrame dynamic-import chestunnam — idi
-  // firebaseapp.com/auth/iframe.js ni prathi page nunchi తీసేస్తుంది,
-  // search వాడేటప్పుడు మాత్రమే load అవుతుంది.
   useEffect(() => {
     if (!isExpanded || gamesLoaded) return;
     async function fetchGames() {
@@ -84,7 +80,6 @@ export default function Header() {
             category: g.category,
           }));
 
-        // Merge — duplicates తీసేయి
         const seen = new Set(fbList.map((g) => g.id));
         const merged = [
           ...fbList,
@@ -100,7 +95,6 @@ export default function Header() {
     fetchGames();
   }, [isExpanded, gamesLoaded]);
 
-  // Debounce typing → skeleton shows while waiting
   useEffect(() => {
     if (!searchTerm.trim()) {
       setDebouncedTerm("");
@@ -123,7 +117,6 @@ export default function Header() {
       .slice(0, 12);
   }, [debouncedTerm, allGames]);
 
-  // Close overlay on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -247,8 +240,8 @@ export default function Header() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.97 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 mt-3 w-[92vw] max-w-[1000px] max-h-[60vh] overflow-y-auto rounded-[28px] border border-black/10 shadow-2xl p-4 sm:p-5"
-            style={{ backgroundColor: "rgba(207,207,207,0.97)", backdropFilter: "blur(20px)" }}
+            className="absolute top-full left-0 mt-3 w-[92vw] max-w-[1000px] max-h-[60vh] overflow-y-auto rounded-[28px] border border-white/10 shadow-2xl p-4 sm:p-5"
+            style={{ backgroundColor: "rgba(15,16,20,0.97)", backdropFilter: "blur(20px)" }}
           >
             {isSearching || !gamesLoaded ? (
               /* Skeleton grid while debouncing / first fetch */
@@ -264,7 +257,7 @@ export default function Header() {
                     key={game.id}
                     href={`/games/${game.slug || game.id}`}
                     onClick={() => setIsExpanded(false)}
-                    className="group relative overflow-hidden rounded-2xl border border-black/10 hover:border-black/40 bg-white/40 hover:-translate-y-1 transition-all duration-200 aspect-square"
+                    className="group relative overflow-hidden rounded-2xl border border-white/10 hover:border-white/30 bg-white/[0.06] hover:-translate-y-1 transition-all duration-200 aspect-square"
                   >
                     {game.thumbnail ? (
                       <Image
@@ -275,7 +268,7 @@ export default function Header() {
                         className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
                       />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-[9px] font-black uppercase tracking-wider text-black/50">
+                      <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-[9px] font-black uppercase tracking-wider text-white/50">
                         {game.title}
                       </div>
                     )}
@@ -288,17 +281,17 @@ export default function Header() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-10 text-xs font-black uppercase tracking-wider text-black/40">
+              <div className="text-center py-10 text-xs font-black uppercase tracking-wider text-white/40">
                 No games match &quot;{debouncedTerm}&quot;
               </div>
             )}
 
             {!isSearching && gamesLoaded && debouncedTerm.trim() && (
-              <div className="mt-4 pt-4 border-t border-black/10 text-center">
+              <div className="mt-4 pt-4 border-t border-white/10 text-center">
                 <Link
                   href={`/search?q=${encodeURIComponent(debouncedTerm.trim())}`}
                   onClick={() => setIsExpanded(false)}
-                  className="text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black transition-colors"
+                  className="text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white transition-colors"
                 >
                   See all results in Search →
                 </Link>
