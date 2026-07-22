@@ -8,6 +8,11 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "maintained node versions"
+  ],
   "dependencies": {
     "dotenv": "^17.4.2",
     "firebase": "^10.14.1",

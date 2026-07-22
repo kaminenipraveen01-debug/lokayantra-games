@@ -7,14 +7,7 @@ import {
   useState,
   ReactNode,
 } from "react";
-import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithPopup,
-  signOut,
-  User,
-} from "firebase/auth";
-import { auth } from "./firebase";
+import type { User } from "firebase/auth";
 
 interface AuthContextValue {
   user: User | null;
@@ -33,19 +26,52 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
-      setLoading(false);
-    });
-    return unsubscribe;
+    let unsubscribe: (() => void) | undefined;
+    let cancelled = false;
+
+    // Firebase Auth SDK ni idle time lo matrame load chestunnam — idi
+    // page LCP/critical-render path ni block cheyakunda chestundi.
+    // Sadharana users (games aade vallu) ki idi ekkuvasari 0-1 second
+    // delay tho load avutundi, kani anta varaku site instant ga
+    // interactive ga untundi.
+    const init = async () => {
+      const { onAuthStateChanged } = await import("firebase/auth");
+      const { auth } = await import("./firebase");
+      if (cancelled) return;
+      unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+        setUser(firebaseUser);
+        setLoading(false);
+      });
+    };
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      const idleId = (window as any).requestIdleCallback(init, { timeout: 2000 });
+      return () => {
+        cancelled = true;
+        (window as any).cancelIdleCallback?.(idleId);
+        unsubscribe?.();
+      };
+    } else {
+      // Safari/older browsers ki fallback — chinna setTimeout tho
+      const timeoutId = setTimeout(init, 200);
+      return () => {
+        cancelled = true;
+        clearTimeout(timeoutId);
+        unsubscribe?.();
+      };
+    }
   }, []);
 
   const signInWithGoogle = async () => {
+    const { GoogleAuthProvider, signInWithPopup } = await import("firebase/auth");
+    const { auth } = await import("./firebase");
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
   };
 
   const logout = async () => {
+    const { signOut } = await import("firebase/auth");
+    const { auth } = await import("./firebase");
     await signOut(auth);
   };
 
