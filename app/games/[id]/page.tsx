@@ -15,17 +15,13 @@ import {
   Zap, Car, Puzzle, Compass, Trophy, Crosshair, Gamepad2, Building2,
   Brain, Network, Swords, Grid3x3, type LucideIcon,
 } from "lucide-react";
+import gameContentData from "@/data/game-content.json";
 
 export const revalidate = 3600;
 export const dynamicParams = true;
 
 const SITE_URL = "https://lokayantra.vercel.app";
 
-// prathi category id ki oka clean, consistent lucide icon — homepage
-// mariyu categories page lo unna style tone match avutundi.
-// GamePix thumbnails already resize అవుతాయి (lib/gamepix.ts లో w=256), కానీ
-// Cloudinary (admin-uploaded games) raw uncompressed PNG గా వస్తాయి — ఇక్కడ
-// on-the-fly resize + auto-compress transform inject చేస్తున్నాం.
 function optimizeThumb(url?: string): string | undefined {
   if (!url) return url;
   if (url.includes("res.cloudinary.com") && url.includes("/upload/")) {
@@ -58,9 +54,6 @@ interface GamePageProps {
   params: Promise<{ id: string }>;
 }
 
-// games/[id]/page.tsx లో — getGameStats function పైన add చెయ్యి
-import gameContentData from "@/data/game-content.json";
-
 interface GameContent {
   howToPlay: string;
   tips: string[];
@@ -68,6 +61,9 @@ interface GameContent {
   controls: string;
 }
 
+// Static JSON (Groq generate చేసినది) నుండి content చదవడం — idి Firebase
+// తో సంబంధం లేని, పూర్తిగా వేరే, build-time/filesystem read. Firestore
+// reads ఏమీ ఇక్కడ perగవు.
 function getStaticGameContent(id: string): GameContent {
   const raw = (gameContentData as unknown as Record<string, any>)[id];
   if (
@@ -88,7 +84,9 @@ function getStaticGameContent(id: string): GameContent {
   return { howToPlay: "", tips: [], faqs: [], controls: "" };
 }
 
-// Firebase నుండి stats + extra data
+// Firebase నుండి stats + extra data (admin-uploaded games కి matrame
+// content untundi ikkada; GamePix games ki ivi ఖాళీగా వస్తాయి, అప్పుడు
+// static JSON fallback గా వాడతాం కింద)
 async function getGameStats(id: string) {
   try {
     const db = getFirestore(adminApp);
@@ -133,19 +131,12 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
   if (!game) return { title: "Game Not Found | LokaYantra" };
 
   const category = game.category || "Arcade";
-
-  // Title: game name + category + "free" + "no download" — high-volume,
-  // safe search terms (no "unblocked"/"bypass" language, AdSense-safe)
   const title = `Play ${game.title} Online Free — No Download | ${category} Game`;
-
-  // Description: keyword-rich but natural, includes "free", "online",
-  // "no download", "browser game" — commonly searched safe phrases
   const baseDesc = game.description?.trim();
   const description = baseDesc
     ? `Play ${game.title} free online, no download needed. ${baseDesc}`.slice(0, 160)
     : `Play ${game.title} free online instantly — no download, no install. ${category} game you can play directly in your browser on LokaYantra.`.slice(0, 160);
 
-  // Keywords array — helps some search engines / aggregators, safe terms only
   const keywords = [
     game.title,
     `${game.title} online`,
@@ -176,50 +167,53 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
 export default async function GamePage({ params }: GamePageProps) {
   const { id } = await params;
 
-  // 1. ముందు GamePix లో చూడు
-  // GamePix నుండి fetch try చేయి
-let game = await fetchGamePixGame(id);
+  let game = await fetchGamePixGame(id);
 
-// GamePix feed లో లేకపోతే Firebase చూడు (admin uploaded games)
-if (!game) {
-  try {
-    const fb = await getGameAdmin(id);
-    if (fb) {
-      game = {
-        id: fb.id,
-        title: fb.title,
-        description: fb.description,
-        category: fb.category,
-        thumbnail: fb.thumbnail,
-        embedUrl: fb.embedUrl || fb.gameUrl,
-        slug: fb.slug || fb.id,
-      };
-    }
-  } catch {}
-}
+  if (!game) {
+    try {
+      const fb = await getGameAdmin(id);
+      if (fb) {
+        game = {
+          id: fb.id,
+          title: fb.title,
+          description: fb.description,
+          category: fb.category,
+          thumbnail: fb.thumbnail,
+          embedUrl: fb.embedUrl || fb.gameUrl,
+          slug: fb.slug || fb.id,
+        };
+      }
+    } catch {}
+  }
 
-// ఇంకా లేకపోతే — namespace నుండి directly construct చేయి
-// GamePix లో అన్ని games namespace తో accessible గా ఉంటాయి
-if (!game) {
-  game = {
-    id: id,
-    title: id
-      .split("-")
-      .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(" "),
-    description: "",
-    category: "",
-    thumbnail: `https://img.gamepix.com/games/${id}/icon/${id}.png?w=512`,
-    embedUrl: `https://play.gamepix.com/${id}/embed?sid=A3ALT`,
-    namespace: id,
-    slug: id,
-  };
-}
+  if (!game) {
+    game = {
+      id: id,
+      title: id
+        .split("-")
+        .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" "),
+      description: "",
+      category: "",
+      thumbnail: `https://img.gamepix.com/games/${id}/icon/${id}.png?w=512`,
+      embedUrl: `https://play.gamepix.com/${id}/embed?sid=A3ALT`,
+      namespace: id,
+      slug: id,
+    };
+  }
 
-  // Firebase నుండి stats + faqs/howToPlay/tips/controls
   const stats = await getGameStats(id);
 
-  // Related games
+  // Static JSON content (Groq తో generate చేసినది) — Firestore లో ఖాళీగా
+  // unte dీన్ని fallback గా వాడతాం. Admin-uploaded games కి Firestore లోనే
+  // content ఉంటుంది కాబట్టి, ఆ data ki priority istham (mొదట Firestore
+  // చెక్ చేసి, ఖాళీగా unte matrame static JSON వాడుతుంది).
+  const staticContent = getStaticGameContent(id);
+  const displayHowToPlay = stats.howToPlay || staticContent.howToPlay;
+  const displayTips = stats.tips.length > 0 ? stats.tips : staticContent.tips;
+  const displayFaqs = stats.faqs.length > 0 ? stats.faqs : staticContent.faqs;
+  const displayControls = stats.controls || staticContent.controls;
+
   let relatedGames: GamePixGame[] = [];
   try {
     const [p1, p2, p3] = await Promise.all([
@@ -256,7 +250,6 @@ if (!game) {
 
       <PlayCounter gameId={game.id} />
 
-      {/* WHITE BUBBLES */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-50px] left-[20%] w-[180px] h-[180px] rounded-full bg-white/10" />
         <div className="absolute top-[50px] left-[5%] w-[150px] h-[150px] rounded-full bg-white/8" />
@@ -281,14 +274,12 @@ if (!game) {
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-2 sm:px-3 pt-[100px] sm:pt-[115px]">
         <div className="flex gap-3 items-start">
 
-          {/* LEFT AD */}
           <div className="hidden xl:flex flex-col items-center w-[160px] shrink-0 pt-32">
             <div className="w-[160px] h-[600px] rounded-[20px] bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center overflow-hidden sticky top-28">
               <AdBanner adKey="c8f88403481c59512559028424f05501" width={160} height={600} />
             </div>
           </div>
 
-          {/* CENTER */}
           <div className="flex-1 min-w-0 flex flex-col gap-3">
             <GamePlayer game={{
               id: game.id,
@@ -303,12 +294,10 @@ if (!game) {
               youtubeEmbedUrl: "",
             }} />
 
-            {/* MOBILE AD */}
             <div className="lg:hidden w-full rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden flex items-center justify-center py-2 min-h-[70px]">
               <AdBanner adKey="900cf53b97a3af8bcbb34b562255e073" width={320} height={50} />
             </div>
 
-            {/* RELATED GAMES */}
             {relatedGames.length > 0 && (
               <div className="mt-1">
                 <div className="flex items-center justify-between mb-2.5 px-0.5">
@@ -351,7 +340,6 @@ if (!game) {
               </div>
             )}
 
-            {/* INFO */}
             <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-3">
               <div className="md:col-span-2 flex flex-col gap-3">
                 <div className="bg-white/5 backdrop-blur-2xl rounded-[24px] border border-white/10 p-5 shadow-sm">
@@ -375,20 +363,18 @@ if (!game) {
                     </p>
                   )}
 
-                  {/* Firebase నుండి howToPlay */}
-                  {stats.howToPlay && (
+                  {displayHowToPlay && (
                     <div className="mt-4 pt-4 border-t border-white/8">
                       <h3 className="text-[9px] font-black text-white/40 uppercase tracking-[0.25em] mb-2">How to Play</h3>
-                      <p className="text-xs text-white/60 font-semibold leading-relaxed">{stats.howToPlay}</p>
+                      <p className="text-xs text-white/60 font-semibold leading-relaxed">{displayHowToPlay}</p>
                     </div>
                   )}
 
-                  {/* Firebase నుండి tips */}
-                  {stats.tips && stats.tips.length > 0 && (
+                  {displayTips && displayTips.length > 0 && (
                     <div className="mt-4 pt-4 border-t border-white/8">
                       <h3 className="text-[9px] font-black text-white/40 uppercase tracking-[0.25em] mb-2">Tips &amp; Tricks</h3>
                       <ul className="flex flex-col gap-1.5">
-                        {stats.tips.map((tip: string, i: number) => (
+                        {displayTips.map((tip: string, i: number) => (
                           <li key={i} className="flex items-start gap-2 text-xs text-white/60 font-semibold leading-relaxed">
                             <span className="mt-0.5 shrink-0 w-4 h-4 rounded-full bg-white/8 border border-white/10 flex items-center justify-center text-[8px] font-black text-white/40">
                               {i + 1}
@@ -401,16 +387,14 @@ if (!game) {
                   )}
                 </div>
 
-                {/* Firebase నుండి faqs */}
-                {stats.faqs && stats.faqs.length > 0 && (
+                {displayFaqs && displayFaqs.length > 0 && (
                   <div className="bg-white/5 backdrop-blur-2xl rounded-[24px] border border-white/10 p-5 shadow-sm">
                     <h4 className="text-[9px] font-black text-white/40 uppercase tracking-[0.25em] mb-3">FAQ INDEX</h4>
-                    <FaqAccordion items={stats.faqs} />
+                    <FaqAccordion items={displayFaqs} />
                   </div>
                 )}
               </div>
 
-              {/* SIDEBAR */}
               <div>
                 <div className="bg-white/5 backdrop-blur-2xl rounded-[24px] border border-white/10 p-5 shadow-sm md:sticky md:top-4">
                   <h4 className="text-[10px] font-black text-white uppercase tracking-[0.2em] border-b border-white/10 pb-2.5 mb-3">
@@ -433,12 +417,11 @@ if (!game) {
                     </div>
                   </div>
 
-                  {/* Firebase నుండి controls */}
-                  {stats.controls && (
+                  {displayControls && (
                     <div className="mt-4 pt-3 border-t border-white/8">
                       <span className="text-[9px] font-black text-white/35 uppercase tracking-widest block mb-2">Controls</span>
                       <p className="text-[11px] text-white/60 font-semibold leading-relaxed normal-case bg-white/5 rounded-xl p-3 border border-white/8">
-                        {stats.controls}
+                        {displayControls}
                       </p>
                     </div>
                   )}
@@ -454,7 +437,6 @@ if (!game) {
             </div>
           </div>
 
-          {/* RIGHT ADS */}
           <div className="hidden lg:flex flex-col gap-4 w-[300px] shrink-0 mt-32 sticky top-28">
             <div className="w-[300px] h-[250px] rounded-[20px] bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center overflow-hidden">
               <AdBanner adKey="24f1c20fd366825da4e73b27e9b523b0" width={300} height={250} />
@@ -465,7 +447,6 @@ if (!game) {
           </div>
         </div>
 
-        {/* CATEGORIES GRID — square tiles, lucide icons, girls tీసేసిన list */}
         <div className="mt-6 bg-white/5 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-5 sm:p-8 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50">
@@ -507,7 +488,6 @@ if (!game) {
           </div>
         </div>
 
-        {/* BRAND STRIP */}
         <div className="mt-6 border border-white/10 p-6 sm:p-10 rounded-[28px] sm:rounded-[32px] shadow-xl space-y-3 bg-white/5 text-center">
           <span className="text-xs font-black uppercase tracking-widest text-white/60">LOKAYANTRA ARCADE STATION</span>
           <h2 className="text-xl sm:text-3xl font-black text-white tracking-tight">No Downloads. No Clutter. Just Magic.</h2>
@@ -516,7 +496,6 @@ if (!game) {
           </p>
         </div>
 
-        {/* FOOTER */}
         <footer className="mt-4 border border-white/10 p-6 sm:p-10 rounded-[28px] sm:rounded-[32px] shadow-2xl bg-white/5 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4">
           <div className="md:col-span-5 flex flex-col justify-between space-y-6 md:space-y-0">
             <div className="space-y-4">
