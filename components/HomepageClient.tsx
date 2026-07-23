@@ -22,6 +22,9 @@ function optimizeThumb(url?: string): string | undefined {
   if (url.includes("res.cloudinary.com") && url.includes("/upload/")) {
     return url.replace("/upload/", "/upload/w_320,q_auto,f_auto/");
   }
+  if (url.includes("img.gamepix.com") && url.includes("?w=256")) {
+    return url.replace("?w=256", "?w=220");
+  }
   return url;
 }
 

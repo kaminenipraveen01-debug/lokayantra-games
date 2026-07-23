@@ -91,6 +91,7 @@ export default function RootLayout({
         <link rel="icon" href="/logo.svg" type="image/svg+xml" />
         <link rel="shortcut icon" href="/logo.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/logo.svg" type="image/svg+xml" />
+        <link rel="preconnect" href="https://pl30274834.effectivecpmnetwork.com" />
       </head>
       <body
         className={`${inter.className} bg-[#cfcfcf] text-black antialiased selection:bg-black selection:text-white overflow-x-hidden`}
