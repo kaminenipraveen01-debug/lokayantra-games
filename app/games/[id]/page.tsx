@@ -58,6 +58,36 @@ interface GamePageProps {
   params: Promise<{ id: string }>;
 }
 
+// games/[id]/page.tsx లో — getGameStats function పైన add చెయ్యి
+import gameContentData from "@/data/game-content.json";
+
+interface GameContent {
+  howToPlay: string;
+  tips: string[];
+  faqs: { q: string; a: string }[];
+  controls: string;
+}
+
+function getStaticGameContent(id: string): GameContent {
+  const raw = (gameContentData as unknown as Record<string, any>)[id];
+  if (
+    raw &&
+    typeof raw === "object" &&
+    !Array.isArray(raw) &&
+    typeof raw.howToPlay === "string" &&
+    Array.isArray(raw.tips) &&
+    Array.isArray(raw.faqs)
+  ) {
+    return {
+      howToPlay: raw.howToPlay,
+      tips: raw.tips,
+      faqs: raw.faqs,
+      controls: typeof raw.controls === "string" ? raw.controls : "",
+    };
+  }
+  return { howToPlay: "", tips: [], faqs: [], controls: "" };
+}
+
 // Firebase నుండి stats + extra data
 async function getGameStats(id: string) {
   try {
