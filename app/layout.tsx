@@ -94,7 +94,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://pl30274834.effectivecpmnetwork.com" />
       </head>
       <body
-        className={`${inter.className} bg-[#cfcfcf] text-black antialiased selection:bg-black selection:text-white overflow-x-hidden`}
+        className={`${inter.className} bg-[#0a0a0d] text-white antialiased selection:bg-black selection:text-white overflow-x-hidden`}
       >
         <AuthProvider>
           <SearchProvider>
@@ -124,6 +124,20 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="lazyOnload"
         />
+        {/* Google Analytics (GA4) — page fully interactive అయ్యాక load అవుతుంది,
+    AdSense script లానే, LCP/performance ki నష్టం లేకుండా */}
+<Script
+  src="https://www.googletagmanager.com/gtag/js?id=G-WE5ZJDP37W"
+  strategy="lazyOnload"
+/>
+<Script id="ga4-init" strategy="lazyOnload">
+  {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WE5ZJDP37W');
+  `}
+</Script>
       </body>
     </html>
   );
