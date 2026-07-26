@@ -5,11 +5,25 @@ import { fetchGamePixPage } from "@/lib/gamepix";
 import CategoryGamesClient from "@/components/CategoryGamesClient";
 import AdBanner from "@/components/AdBanner";
 import NativeBanner from "@/components/NativeBanner";
+import categoryContentData from "@/data/category-content.json";
 
 export const revalidate = 3600;
 
 interface CategoryPageProps {
   params: Promise<{ id: string }>;
+}
+
+interface CategoryContent {
+  intro: string;
+  highlights: string[];
+}
+
+function getCategoryContent(id: string): CategoryContent | null {
+  const raw = (categoryContentData as Record<string, any>)[id];
+  if (raw && typeof raw.intro === "string" && Array.isArray(raw.highlights)) {
+    return { intro: raw.intro, highlights: raw.highlights };
+  }
+  return null;
 }
 
 function formatCategoryName(id: string): string {
@@ -54,6 +68,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { id } = await params;
   const name = formatCategoryName(id);
+  const categoryContent = getCategoryContent(id);
 
   let initialGames: any[] = [];
   try {
@@ -93,9 +108,25 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             Browse our growing collection of free {name.toLowerCase()} games — all playable
             instantly in your browser with no downloads or installs needed.
           </p>
+
+          {categoryContent && (
+            <>
+              <p className="text-xs sm:text-sm text-white/60 font-semibold leading-relaxed max-w-2xl mt-3">
+                {categoryContent.intro}
+              </p>
+              {categoryContent.highlights.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {categoryContent.highlights.map((h, i) => (
+                    <span key={i} className="text-[10px] font-black uppercase tracking-wide px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/60">
+                      {h}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
         </div>
 
-        {/* AD SLOT 1 — intro tarwatha, games grid mundu */}
         <div className="w-full flex items-center justify-center py-2 mb-6 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
           <AdBanner adKey="1964a0ad17560680bdab1ffb00859133" width={468} height={60} />
         </div>
@@ -107,7 +138,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           initialTotalPages={50}
         />
 
-        {/* AD SLOT 2 — games grid tarwatha */}
         <div className="w-full flex items-center justify-center py-2 mt-8 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
           <AdBanner adKey="b0af7b8091bb9ba523dec2416736fdaa" width={728} height={90} />
         </div>
@@ -121,7 +151,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </Link>
         </div>
 
-        {/* AD SLOT 3 — page pathaka */}
         <div className="w-full flex items-center justify-center py-3 mt-6 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
           <NativeBanner />
         </div>
