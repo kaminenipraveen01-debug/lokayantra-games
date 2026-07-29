@@ -138,6 +138,33 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           initialTotalPages={50}
         />
 
+        {/* POPULAR IN THIS CATEGORY — real games నుండి (GamePix), AI generated కాదు,
+    కాబట్టి links ఎప్పుడూ working గా ఉంటాయి, fake game names risk లేదు */}
+{initialGames.length > 0 && (
+  <div className="mt-6 bg-white/5 backdrop-blur-2xl rounded-[24px] border border-white/10 p-5 sm:p-8 shadow-sm">
+    <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50 mb-4">
+      Most Popular {name} Games Right Now
+    </h3>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+      {initialGames.slice(0, 5).map((g: any) => (
+        <Link
+          key={g.id}
+          href={`/games/${g.id}`}
+          className="group flex flex-col gap-2 hover:-translate-y-1 transition-all duration-200"
+        >
+          <div className="relative aspect-square rounded-[16px] overflow-hidden border border-white/10 group-hover:border-white/30">
+            {g.thumbnail && (
+              <img src={g.thumbnail} alt={g.title} loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+            )}
+          </div>
+          <p className="text-[10px] font-black text-white/70 group-hover:text-white uppercase tracking-wide truncate">{g.title}</p>
+        </Link>
+      ))}
+    </div>
+  </div>
+)}
+
         <div className="w-full flex items-center justify-center py-2 mt-8 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
           <AdBanner adKey="b0af7b8091bb9ba523dec2416736fdaa" width={728} height={90} />
         </div>
