@@ -116,22 +116,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             instantly in your browser with no downloads or installs needed.
           </p>
 
-          {categoryContent && (
-            <>
-              <p className="text-xs sm:text-sm text-white/60 font-semibold leading-relaxed max-w-2xl mt-3">
-                {categoryContent.intro}
-              </p>
-              {categoryContent.highlights.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {categoryContent.highlights.map((h, i) => (
-                    <span key={i} className="text-[10px] font-black uppercase tracking-wide px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/60">
-                      {h}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </>
-          )}
         </div>
 
         <div className="w-full flex items-center justify-center py-2 mb-6 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
@@ -167,22 +151,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </div>
           <p className="text-[10px] font-black text-white/70 group-hover:text-white uppercase tracking-wide truncate">{g.title}</p>
         </Link>
-      ))}
-    </div>
-  </div>
-)}
-
-{categoryContent?.subgenres && categoryContent.subgenres.length > 0 && (
-  <div className="mt-6 bg-white/5 backdrop-blur-2xl rounded-[24px] border border-white/10 p-5 sm:p-8 shadow-sm">
-    <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50 mb-4">
-      Types of {name} Games
-    </h3>
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      {categoryContent.subgenres.map((s, i) => (
-        <div key={i} className="bg-white/[0.03] rounded-2xl border border-white/5 p-4">
-          <h4 className="text-xs font-black text-white uppercase tracking-wide mb-1.5">{s.name}</h4>
-          <p className="text-[11px] text-white/50 font-semibold leading-relaxed">{s.desc}</p>
-        </div>
       ))}
     </div>
   </div>
