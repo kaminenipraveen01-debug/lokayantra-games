@@ -16,12 +16,19 @@ interface CategoryPageProps {
 interface CategoryContent {
   intro: string;
   highlights: string[];
+  subgenres: { name: string; desc: string }[];
+  faqs: { q: string; a: string }[];
 }
 
 function getCategoryContent(id: string): CategoryContent | null {
   const raw = (categoryContentData as Record<string, any>)[id];
   if (raw && typeof raw.intro === "string" && Array.isArray(raw.highlights)) {
-    return { intro: raw.intro, highlights: raw.highlights };
+    return {
+      intro: raw.intro,
+      highlights: raw.highlights,
+      subgenres: Array.isArray(raw.subgenres) ? raw.subgenres : [],
+      faqs: Array.isArray(raw.faqs) ? raw.faqs : [],
+    };
   }
   return null;
 }
@@ -160,6 +167,22 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </div>
           <p className="text-[10px] font-black text-white/70 group-hover:text-white uppercase tracking-wide truncate">{g.title}</p>
         </Link>
+      ))}
+    </div>
+  </div>
+)}
+
+{categoryContent?.subgenres && categoryContent.subgenres.length > 0 && (
+  <div className="mt-6 bg-white/5 backdrop-blur-2xl rounded-[24px] border border-white/10 p-5 sm:p-8 shadow-sm">
+    <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50 mb-4">
+      Types of {name} Games
+    </h3>
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {categoryContent.subgenres.map((s, i) => (
+        <div key={i} className="bg-white/[0.03] rounded-2xl border border-white/5 p-4">
+          <h4 className="text-xs font-black text-white uppercase tracking-wide mb-1.5">{s.name}</h4>
+          <p className="text-[11px] text-white/50 font-semibold leading-relaxed">{s.desc}</p>
+        </div>
       ))}
     </div>
   </div>
