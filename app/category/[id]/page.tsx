@@ -116,6 +116,22 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             instantly in your browser with no downloads or installs needed.
           </p>
 
+          {categoryContent && (
+            <>
+              <p className="text-xs sm:text-sm text-white/60 font-semibold leading-relaxed max-w-2xl mt-3">
+                {categoryContent.intro}
+              </p>
+              {categoryContent.highlights.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {categoryContent.highlights.map((h, i) => (
+                    <span key={i} className="text-[10px] font-black uppercase tracking-wide px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/60">
+                      {h}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         <div className="w-full flex items-center justify-center py-2 mb-6 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
