@@ -117,21 +117,51 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </p>
 
           {categoryContent && (
-            <>
-              <p className="text-xs sm:text-sm text-white/60 font-semibold leading-relaxed max-w-2xl mt-3">
-                {categoryContent.intro}
+  <div className="mt-6 bg-white/5 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-6 sm:p-10 shadow-sm">
+    {/* Main intro — already unna paragraph ni ikkade move చేద్దాం, article feel కోసం */}
+    <h2 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight mb-4">
+      About {name} Games
+    </h2>
+    <p className="text-sm text-white/70 font-semibold leading-relaxed max-w-4xl">
+      {categoryContent.intro}
+    </p>
+
+    {categoryContent.subgenres && categoryContent.subgenres.length > 0 && (
+      <div className="mt-8 pt-8 border-t border-white/10">
+        <h3 className="text-lg sm:text-xl font-black text-white uppercase tracking-tight mb-5">
+          Types of {name} Games
+        </h3>
+        <div className="space-y-5 max-w-4xl">
+          {categoryContent.subgenres.map((s, i) => (
+            <div key={i}>
+              <h4 className="text-sm font-black text-white/90 uppercase tracking-wide mb-1.5">
+                {s.name}
+              </h4>
+              <p className="text-sm text-white/60 font-semibold leading-relaxed">
+                {s.desc}
               </p>
-              {categoryContent.highlights.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {categoryContent.highlights.map((h, i) => (
-                    <span key={i} className="text-[10px] font-black uppercase tracking-wide px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/60">
-                      {h}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </>
-          )}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {categoryContent.highlights && categoryContent.highlights.length > 0 && (
+      <div className="mt-8 pt-8 border-t border-white/10">
+        <h3 className="text-lg sm:text-xl font-black text-white uppercase tracking-tight mb-4">
+          What Makes {name} Games Fun
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {categoryContent.highlights.map((h, i) => (
+            <span key={i} className="text-xs font-bold px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/70">
+              {h}
+            </span>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+)}
         </div>
 
         <div className="w-full flex items-center justify-center py-2 mb-6 rounded-[16px] bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
