@@ -18706,5 +18706,1925 @@
       }
     ],
     "controls": "Typical controls for this game include using the mouse to slice and interact with ingredients on the conveyor belt."
+  },
+  "gravity-merge": {
+    "howToPlay": "In Gravity Merge, players combine objects of the same type to create new, heavier objects, which are then merged to progress through levels. The goal is to reach the target weight by merging objects in the most efficient way possible. As players advance, the game introduces new challenges and objects to merge.",
+    "tips": [
+      "Start by merging the lightest objects to build momentum",
+      "Plan ahead to create the most efficient merge paths",
+      "Use the game's gravity to your advantage by placing objects strategically",
+      "Focus on creating the heaviest objects possible to reach the target weight quickly"
+    ],
+    "faqs": [
+      {
+        "q": "Is Gravity Merge free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of game is Gravity Merge?",
+        "a": "Puzzle"
+      },
+      {
+        "q": "Can I play Gravity Merge on my browser?",
+        "a": "Yes, it is available to play in your browser"
+      }
+    ],
+    "controls": "Typical controls for Gravity Merge include using your mouse to drag and drop objects to merge them, with some games possibly using keyboard shortcuts for additional actions"
+  },
+  "lotl-spa": {
+    "howToPlay": "In Lotl Spa, players engage in a clicker game where they manage a spa, clicking to progress through levels, upgrade facilities, and serve customers. The goal is to accumulate points, level up, and unlock new items or services. As players advance, the game may introduce new challenges or objectives to achieve.",
+    "tips": [
+      "Click regularly to maintain progress and accumulate points",
+      "Upgrade facilities to increase point generation and customer satisfaction",
+      "Focus on unlocking new services or items to expand the spa's offerings",
+      "Balance upgrades and point accumulation to achieve the best results"
+    ],
+    "faqs": [
+      {
+        "q": "Is Lotl Spa free to play?",
+        "a": "Yes, Lotl Spa is free to play"
+      },
+      {
+        "q": "What type of game is Lotl Spa?",
+        "a": "Lotl Spa is a clicker game"
+      },
+      {
+        "q": "Do I need to register to play Lotl Spa?",
+        "a": "No registration is required to play Lotl Spa"
+      }
+    ],
+    "controls": "Typical controls for Lotl Spa involve clicking on the screen to interact with the game, such as upgrading facilities, serving customers, or accumulating points."
+  },
+  "cauldron-counter": {
+    "howToPlay": "In Cauldron Counter, players manage a magical cauldron, serving customers and brewing potions. The goal is to efficiently manage ingredients and timing to fulfill orders and earn rewards. As the game progresses, the pace quickens and the challenge grows.",
+    "tips": [
+      "Start by focusing on a few key potions to master their recipes and timings",
+      "Keep an eye on your ingredient stocks and replenish them before they run out",
+      "Practice your timing to serve customers quickly and minimize delays",
+      "Experiment with different potion combinations to find the most profitable ones"
+    ],
+    "faqs": [
+      {
+        "q": "Is Cauldron Counter free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of game is Cauldron Counter?",
+        "a": "Simulation"
+      },
+      {
+        "q": "Do I need to register to play Cauldron Counter?",
+        "a": "No registration is required"
+      }
+    ],
+    "controls": "Typical controls for simulation games like Cauldron Counter often involve mouse clicks to manage inventory, serve customers, and interact with the game environment."
+  },
+  "baby-hazel-birthday-party": {
+    "howToPlay": "In Baby Hazel Birthday Party, you'll use point-and-click mechanics to fulfill Hazel's desires and keep her happy. As you progress through the game, you'll encounter various activities and surprises that will help Hazel have a wonderful birthday. By interacting with the environment and characters, you'll create a joyful adventure for Hazel.",
+    "tips": [
+      "Pay attention to Hazel's expressions and reactions to determine what she needs",
+      "Explore the environment to find hidden surprises and activities",
+      "Fulfill Hazel's desires quickly to keep her happiness level up",
+      "Be prepared for unexpected twists and turns in the game"
+    ],
+    "faqs": [
+      {
+        "q": "Is Baby Hazel Birthday Party free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of gameplay can I expect from Baby Hazel Birthday Party?",
+        "a": "Point-and-click interactive play"
+      },
+      {
+        "q": "Is Baby Hazel Birthday Party suitable for all ages?",
+        "a": "Yes"
+      }
+    ],
+    "controls": "Typical point-and-click controls are used to interact with the game environment and characters."
+  },
+  "street-cafe-mahjong": {
+    "howToPlay": "In Mahjong Street Cafe, players match free tiles to clear the board, with the goal of achieving high scores through strategic moves and chain reactions. The game combines traditional tile-matching with modern match-3 excitement, offering a unique puzzle experience. As players progress, they must think ahead to maximize their scores.",
+    "tips": [
+      "Focus on matching tiles that will free up the most other tiles",
+      "Try to create chain reactions to boost your score",
+      "Plan your moves in advance to maximize your score",
+      "Use your time wisely to think through each move carefully"
+    ],
+    "faqs": [
+      {
+        "q": "Is Mahjong Street Cafe free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of game is Mahjong Street Cafe?",
+        "a": "It is a board game, specifically a tile-matching puzzle game"
+      },
+      {
+        "q": "Do I need to download anything to play Mahjong Street Cafe?",
+        "a": "No, it can be played directly in your browser"
+      }
+    ],
+    "controls": "Typical controls for this genre include using your mouse to select and match tiles, with some games possibly offering keyboard shortcuts or touchscreen controls for mobile devices."
+  },
+  "doll-queen-designer": {
+    "howToPlay": "Guide delightful dolls to wardrobe perfection by collecting fashionable outfits and dodging obstacles on the runway. Timing is key to success, as you aim to craft the perfect look to score big at the finish line. As you progress, unleash your inner stylist to create stunning outfits.",
+    "tips": [
+      "Collect as many outfits as possible to increase your score",
+      "Focus on timing your movements to avoid obstacles",
+      "Experiment with different combinations of outfits to find the highest-scoring looks",
+      "Stay alert and adapt to changing obstacles on the runway"
+    ],
+    "faqs": [
+      {
+        "q": "Is Doll Queen Designer free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What is the main goal of the game?",
+        "a": "To guide dolls to wardrobe perfection and score big at the finish line"
+      },
+      {
+        "q": "Do I need to be fast to play the game?",
+        "a": "No, timing triumphs over speed in Doll Queen Designer"
+      }
+    ],
+    "controls": "Typical controls include using the mouse or keyboard to navigate the doll and collect outfits while avoiding obstacles"
+  },
+  "emberdeck": {
+    "howToPlay": "In Emberdeck, players engage in a strategic card game where they collect and trade cards to build powerful decks. The goal is to outmaneuver opponents by using a combination of cards with unique abilities and strengths. As players progress, they can unlock new cards and master various deck-building strategies.",
+    "tips": [
+      "Start by building a well-rounded deck with a mix of card types",
+      "Experiment with different deck combinations to find what works best for you",
+      "Pay attention to the cards your opponents are playing to anticipate their strategy",
+      "Use your cards wisely, as each one has a limited number of uses"
+    ],
+    "faqs": [
+      {
+        "q": "Is Emberdeck free to play?",
+        "a": "Yes, Emberdeck is free to play"
+      },
+      {
+        "q": "Can I play Emberdeck on my mobile device?",
+        "a": "Yes, Emberdeck is available on a variety of devices, including mobile phones and tablets"
+      },
+      {
+        "q": "How do I get new cards in Emberdeck?",
+        "a": "You can collect new cards by winning matches, completing challenges, or purchasing them with in-game currency"
+      }
+    ],
+    "controls": "Typical controls for Emberdeck include using your mouse to select and play cards, and navigating through the game's menus to manage your deck and settings"
+  },
+  "join-skibidi-clash-3d-1": {
+    "howToPlay": "Join Skibidi Clash 3D is played by navigating through vibrant terrains, using shooting skills and power-ups to overcome challenging levels and quirky monster battles. Players must dash, strategize, and perfect their skills to conquer the game's eccentric foes. The goal is to outmaneuver and outshoot the chaos in each level.",
+    "tips": [
+      "Master your shooting skills for effective monster battles",
+      "Utilize power-ups strategically to gain an upper hand",
+      "Dash through terrains quickly to avoid obstacles",
+      "Conquer each level by outsmarting the quirky foes"
+    ],
+    "faqs": [
+      {
+        "q": "Is Join Skibidi Clash 3D free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of game is Join Skibidi Clash 3D?",
+        "a": "A 3D parkour and monster battle game"
+      },
+      {
+        "q": "Do I need to register to play Join Skibidi Clash 3D?",
+        "a": "No registration is required"
+      }
+    ],
+    "controls": "Typical controls for this genre include using the mouse or keyboard to move, jump, and shoot, with possible additional keys for special power-ups or abilities."
+  },
+  "muscle-clicker-2": {
+    "howToPlay": "In Muscle Clicker 2, you build your virtual body by tapping to perform strength training activities like bench presses and squats. As you progress, you earn upgrades and compete in challenges to achieve balance and power. Your goal is to become a muscle mastery champion through strategic upgrades and adrenaline-pumping challenges.",
+    "tips": [
+      "Focus on upgrading your equipment to increase your strength",
+      "Participate in challenges to earn rewards and bonuses",
+      "Balance your strength training activities for overall muscle growth",
+      "Use your upgrades strategically to maximize your progress"
+    ],
+    "faqs": [
+      {
+        "q": "Is Muscle Clicker 2 free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What is the main objective of the game?",
+        "a": "To build your virtual body and become a muscle mastery champion"
+      },
+      {
+        "q": "Can I compete with other players?",
+        "a": "Yes, you can compete in challenges and compare your progress with others"
+      }
+    ],
+    "controls": "Typical controls for this game involve tapping or clicking to perform actions, with optional keyboard shortcuts for some actions"
+  },
+  "among-spider-at-easter": {
+    "howToPlay": "In Among Spider at Easter, players are assigned roles on a spaceship where they must work together to complete tasks or secretly sabotage the crew's efforts. As the game unfolds, players gather information and make deductions to figure out who is a trustworthy crewmate and who is an impostor. The game requires strategic thinking and social deduction to achieve victory.",
+    "tips": [
+      "Pay close attention to other players' behavior and actions",
+      "Complete tasks efficiently to contribute to the crew's progress",
+      "Be cautious of players who seem overly suspicious or evasive",
+      "Use your abilities wisely, whether as a crewmate or an impostor"
+    ],
+    "faqs": [
+      {
+        "q": "Is Among Spider at Easter free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "How many players can play Among Spider at Easter together?",
+        "a": "Multiple players can join the same game"
+      },
+      {
+        "q": "What type of game is Among Spider at Easter?",
+        "a": "Strategy and social deduction"
+      }
+    ],
+    "controls": "The game typically uses mouse and keyboard controls for navigation, task completion, and player interactions."
+  },
+  "air-wars": {
+    "howToPlay": "In Air Wars, you navigate your plane through the skies, engaging in dogfights with enemy planes. Your goal is to outmaneuver your foes while collecting essential resources like fuel and ammo to keep your flight going. As you play, your piloting skills and quick reflexes will be put to the test.",
+    "tips": [
+      "Keep an eye on your fuel and ammo levels to avoid running out during critical moments.",
+      "Mastering precision piloting is key to outmaneuvering your enemies.",
+      "Stay alert for incoming enemy planes and be ready to react quickly.",
+      "Collecting power-ups and resources efficiently can give you an edge in battle."
+    ],
+    "faqs": [
+      {
+        "q": "Is Air Wars free to play?",
+        "a": "Yes, it is."
+      },
+      {
+        "q": "What do I need to play Air Wars?",
+        "a": "A web browser and an internet connection."
+      },
+      {
+        "q": "Can I play Air Wars on any device?",
+        "a": "Air Wars can be played on devices with a compatible web browser."
+      }
+    ],
+    "controls": "The game typically uses keyboard controls for movement and actions, with automatic firing for intense action sequences."
+  },
+  "christmas-brain-teasers": {
+    "howToPlay": "Players participate in a series of Christmas-themed puzzles and brain teasers, using problem-solving skills to progress through the game. Each puzzle presents a unique challenge, such as pattern recognition, logic, or riddles. The goal is to solve each puzzle to advance and enjoy the festive experience.",
+    "tips": [
+      "Read each puzzle carefully to understand the challenge",
+      "Take your time to think through each problem",
+      "Look for patterns or clues that can help you solve the puzzle",
+      "Don't be afraid to try different approaches"
+    ],
+    "faqs": [
+      {
+        "q": "Is Christmas Brain Teasers free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "Can I play Christmas Brain Teasers with my family?",
+        "a": "Yes, it's suitable for all ages"
+      },
+      {
+        "q": "Do I need to create an account to play Christmas Brain Teasers?",
+        "a": "No, you can play as a guest"
+      }
+    ],
+    "controls": "Typical controls include using your mouse to interact with the game, such as clicking on buttons or dragging pieces to solve puzzles."
+  },
+  "geometric-game": {
+    "howToPlay": "In Geo-Metric Run, players control a character as it automatically runs through a geometric world, requiring precise jumps and turns to navigate through intricate patterns and escalating challenges. The goal is to survive as long as possible by avoiding obstacles and mastering the game's rapid pace. Quick reflexes and sharp timing are essential to success.",
+    "tips": [
+      "Master the timing of your jumps to clear gaps and avoid obstacles",
+      "Keep an eye on the track ahead to anticipate upcoming challenges",
+      "Practice makes perfect - the more you play, the better you'll get at navigating the geometric worlds",
+      "Stay focused and adapt quickly to changing patterns and obstacles"
+    ],
+    "faqs": [
+      {
+        "q": "Is Geo-Metric Run free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of skills are required to play Geo-Metric Run?",
+        "a": "Quick reflexes, sharp timing, and good hand-eye coordination"
+      },
+      {
+        "q": "Can I play Geo-Metric Run on my mobile device?",
+        "a": "Yes, Geo-Metric Run can be played on a variety of devices, including desktops and mobile devices"
+      }
+    ],
+    "controls": "Typical controls for Geo-Metric Run include using the arrow keys or space bar to jump and navigate through the geometric world"
+  },
+  "stickman-huggy-escape": {
+    "howToPlay": "Guide the Stickman Huggy brothers through a pixelated prison, using stealth and strategy to evade guards and find secret paths. Each level presents a new challenge, requiring players to think critically and solve puzzles to progress. By collecting keys and avoiding detection, players can help the brothers escape.",
+    "tips": [
+      "Take your time and observe guard patterns",
+      "Use shadows and hiding spots to remain undetected",
+      "Explore each level carefully to find hidden paths and keys",
+      "Stay alert and adapt to changing level conditions"
+    ],
+    "faqs": [
+      {
+        "q": "Is Stickman Huggy Escape free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of game is Stickman Huggy Escape?",
+        "a": "Adventure/Stealth"
+      },
+      {
+        "q": "Do I need to register to play Stickman Huggy Escape?",
+        "a": "No registration is required"
+      }
+    ],
+    "controls": "Typical controls include using the mouse or keyboard to navigate and interact with the game environment"
+  },
+  "baby-injection": {
+    "howToPlay": "In Baby Injection, players guide a baby's health journey by making crucial choices and solving puzzles. As players progress, their decisions affect the baby's well-being, leading to unique consequences. The game combines engaging challenges and educational fun in an arcade-style exploration.",
+    "tips": [
+      "Make informed decisions to ensure the baby's health and well-being",
+      "Solve puzzles carefully to progress through the game",
+      "Pay attention to the consequences of your choices",
+      "Balance challenges and educational content for a fun experience"
+    ],
+    "faqs": [
+      {
+        "q": "Is Baby Injection free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Baby Injection?",
+        "a": "Arcade-style puzzle-adventure game"
+      },
+      {
+        "q": "Is Baby Injection suitable for all ages?",
+        "a": "Yes"
+      }
+    ],
+    "controls": "Typical controls for this genre include using the mouse or keyboard to navigate and interact with the game environment."
+  },
+  "flip-bird-online-game": {
+    "howToPlay": "In Flip Bird, players tap to control the bird's flight, navigating through gaps and obstacles to collect points. The goal is to fly as far as possible without crashing, requiring precise timing and quick reflexes. As the game progresses, the speed and difficulty increase, challenging players to master their skills.",
+    "tips": [
+      "Tap at the right moment to flip the bird and avoid obstacles",
+      "Keep an eye on the upcoming gaps and plan your flips accordingly",
+      "Stay focused and maintain a steady rhythm to achieve the best results",
+      "Practice makes perfect, so keep playing to improve your skills"
+    ],
+    "faqs": [
+      {
+        "q": "Is Flip Bird free to play?",
+        "a": "Yes, Flip Bird is free to play"
+      },
+      {
+        "q": "What type of device can I play Flip Bird on?",
+        "a": "You can play Flip Bird on your browser"
+      },
+      {
+        "q": "Do I need to register to play Flip Bird?",
+        "a": "No registration is required to play Flip Bird"
+      }
+    ],
+    "controls": "Typical controls for Flip Bird involve tapping or clicking to control the bird's flight, with the game responding to the player's input to navigate through the obstacles."
+  },
+  "cooking-korean-lesson": {
+    "howToPlay": "In Cooking Korean Lesson, players follow step-by-step instructions to prepare and cook authentic Korean dishes. As players progress through the game, new recipes and ingredients are introduced, and challenges become more complex. By completing cooking challenges, players earn rewards and master various flavors and techniques.",
+    "tips": [
+      "Follow the recipe instructions carefully",
+      "Pay attention to ingredient quantities",
+      "Complete challenges quickly to earn bonus rewards",
+      "Experiment with different ingredients to create unique dishes"
+    ],
+    "faqs": [
+      {
+        "q": "Is Cooking Korean Lesson free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "Do I need to have prior cooking knowledge to play?",
+        "a": "No"
+      },
+      {
+        "q": "Can I play Cooking Korean Lesson on my mobile device?",
+        "a": "Yes, it is available to play in your web browser"
+      }
+    ],
+    "controls": "Typical controls for this game include using your mouse to select ingredients, follow recipes, and interact with the game environment."
+  },
+  "popit-vs-spinner": {
+    "howToPlay": "In Popit vs Spinner, players create matches to clear popits from the board, utilizing strategic skills to progress through three dynamic levels. When no moves are left, the spinner mode can be activated to refresh the board and continue the game. The goal is to keep the adventure alive by clearing as many popits as possible.",
+    "tips": [
+      "Create matches quickly to earn more points",
+      "Use spinner mode strategically to refresh the board when needed",
+      "Plan ahead to set up future matches",
+      "Focus on clearing the most populated areas first"
+    ],
+    "faqs": [
+      {
+        "q": "Is Popit vs Spinner free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What happens when I run out of moves?",
+        "a": "You can activate spinner mode to refresh the board"
+      },
+      {
+        "q": "How many levels does the game have?",
+        "a": "Three dynamic levels"
+      }
+    ],
+    "controls": "Typical controls for this genre include using the mouse to select and create matches"
+  },
+  "rainbow-friends-hide-and-seek": {
+    "howToPlay": "In Rainbow Friends Chapter 2, you'll assemble a team of characters and navigate through a series of quests, puzzles, and battles. As you progress, you'll uncover a captivating narrative and enhance your strategy through strong friendships. By leveraging each character's unique abilities, you'll overcome challenges and achieve your goals.",
+    "tips": [
+      "Experiment with different character combinations to find the best team for each quest",
+      "Pay attention to each character's abilities and use them strategically",
+      "Forge strong friendships to enhance your team's overall performance",
+      "Explore the game's world to discover hidden secrets and items"
+    ],
+    "faqs": [
+      {
+        "q": "Is Rainbow Friends Chapter 2 free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Rainbow Friends Chapter 2?",
+        "a": "Adventure/RPG"
+      },
+      {
+        "q": "Can I play Rainbow Friends Chapter 2 on my browser?",
+        "a": "Yes"
+      }
+    ],
+    "controls": "Typical controls for this game include using your mouse to navigate menus and interact with the game world, with potential additional keyboard shortcuts for actions like attacking or using abilities."
+  },
+  "slime-color": {
+    "howToPlay": "In Slime Color, players navigate through levels, collecting paint spots to color a grayscale world while avoiding obstacles. The goal is to run as far as possible, mastering running skills and unleashing creativity. As players progress, the game becomes increasingly challenging, requiring quick reflexes and strategy.",
+    "tips": [
+      "Collect all paint spots to maximize coloring",
+      "Master jumping and dodging to avoid obstacles",
+      "Keep an eye on upcoming challenges to plan ahead",
+      "Stay focused to achieve high scores"
+    ],
+    "faqs": [
+      {
+        "q": "Is Slime Color free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What is the main objective of Slime Color?",
+        "a": "To collect paint spots and color a grayscale world"
+      },
+      {
+        "q": "Does Slime Color require any special skills?",
+        "a": "Quick reflexes and basic running game skills are helpful"
+      }
+    ],
+    "controls": "Typical controls for this arcade game include using the keyboard's arrow keys or space bar to jump, dodge, and navigate through levels."
+  },
+  "basketball": {
+    "howToPlay": "BasketBall is played by using your skills to score points by throwing a ball through a hoop. The game can be played in timed matches, and the player with the most points at the end wins. Execute perfect shots and outmaneuver your opponents to become the champion.",
+    "tips": [
+      "Aim carefully before shooting to increase your chances of scoring",
+      "Move quickly to outmaneuver your opponents",
+      "Keep an eye on the timer to plan your shots strategically",
+      "Practice your shots to improve your skills"
+    ],
+    "faqs": [
+      {
+        "q": "Is BasketBall free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "Can I play BasketBall on my mobile device?",
+        "a": "Yes, it is compatible with most devices"
+      },
+      {
+        "q": "Do I need to register to play BasketBall?",
+        "a": "No, you can play as a guest"
+      }
+    ],
+    "controls": "Typical controls for this game include using the mouse or touch to aim and shoot, and possibly keyboard keys for additional actions"
+  },
+  "wall-painter": {
+    "howToPlay": "In Wall Painter, you use your brush to transform every surface into a colorful masterpiece by navigating through intricate structures. As you progress, the levels become more complex, requiring strategy and precision to complete. Your goal is to repaint the world, one wall at a time, by covering every surface with your brush.",
+    "tips": [
+      "Start with simpler levels to get a feel for the game",
+      "Plan your brushstrokes carefully to avoid missing spots",
+      "Use the game's terrain to your advantage to cover hard-to-reach areas",
+      "Take your time and be patient, especially on more complex levels"
+    ],
+    "faqs": [
+      {
+        "q": "Is Wall Painter free to play?",
+        "a": "Yes, it is"
+      },
+      {
+        "q": "Do I need to create an account to play?",
+        "a": "No, you can play as a guest"
+      },
+      {
+        "q": "Can I play Wall Painter on my mobile device?",
+        "a": "Yes, it is accessible on most devices with a web browser"
+      }
+    ],
+    "controls": "Typical controls for Wall Painter include using your mouse or touchscreen to navigate and control your brush."
+  },
+  "my-ice-cream-shop": {
+    "howToPlay": "In My Ice Cream Shop, players manage their ice cream truck by taking orders, crafting unique frozen treats, and serving customers in a timely manner. As the game progresses, players must master time management and strategic planning to overcome challenges and grow their business. By delighting customers and boosting their shop's charm, players can earn rewards and create a thriving ice cream shop.",
+    "tips": [
+      "Keep an eye on customer orders and prioritize them to ensure timely service",
+      "Experiment with different ingredients to create unique and popular ice cream flavors",
+      "Upgrade your shop and equipment to increase efficiency and charm",
+      "Balance your inventory and resources to minimize waste and maximize profits"
+    ],
+    "faqs": [
+      {
+        "q": "Is My Ice Cream Shop free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "Can I customize my ice cream shop?",
+        "a": "Yes, you can upgrade and customize your shop as you progress through the game"
+      },
+      {
+        "q": "Are there different types of customers in the game?",
+        "a": "Yes, different customers have unique preferences and orders to fulfill"
+      }
+    ],
+    "controls": "Typical controls for this game include using your mouse to navigate menus, take orders, and serve customers, with some optional keyboard shortcuts for efficiency"
+  },
+  "counter-craft-2-zombies": {
+    "howToPlay": "In Counter Craft 2 Zombies, players must survive relentless zombie onslaughts by strategically choosing weapons and making precise headshots. As the game progresses, the challenges increase, requiring players to navigate dynamic environments with skill and precision. The goal is to endure the thrilling fight for survival.",
+    "tips": [
+      "Choose the right weapon for each wave of zombies",
+      "Aim for headshots to conserve ammo and maximize damage",
+      "Keep moving to avoid getting cornered by zombies",
+      "Explore the environment to find the best vantage points"
+    ],
+    "faqs": [
+      {
+        "q": "Is Counter Craft 2 Zombies free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Counter Craft 2 Zombies?",
+        "a": "A pixelated survival combat game"
+      },
+      {
+        "q": "Do I need to register to play Counter Craft 2 Zombies?",
+        "a": "No, you can play as a guest"
+      }
+    ],
+    "controls": "Typical controls include using the mouse to aim and shoot, and the keyboard to move and switch between weapons."
+  },
+  "wood-chopping-game": {
+    "howToPlay": "In Wood Chopping Game, you play as a lumberjack aiming to chop through forests while avoiding obstacles. Your goal is to time your chops perfectly to clear the path and progress. The game requires quick reflexes and good timing to succeed.",
+    "tips": [
+      "Focus on the timing of your chops to avoid hitting branches",
+      "Keep an eye on your progress to anticipate upcoming obstacles",
+      "Stay alert and adapt quickly to changing environments",
+      "Practice makes perfect, so keep playing to improve your skills"
+    ],
+    "faqs": [
+      {
+        "q": "Is Wood Chopping Game free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What kind of skills do I need to play Wood Chopping Game?",
+        "a": "You need quick reflexes and sharp timing"
+      },
+      {
+        "q": "Can I play Wood Chopping Game on my browser?",
+        "a": "Yes, it is available to play on your browser"
+      }
+    ],
+    "controls": "Typical controls for this game include using the mouse or keyboard to time and execute your chops."
+  },
+  "noob-huggy": {
+    "howToPlay": "In Noob Huggy, players navigate through vibrant, blocky mazes, dodging obstacles like mischievous slimes to solve puzzles and find hidden keys. The game requires timing and exploration, utilizing controls like the double-jump to overcome challenges. As players progress, levels become increasingly complex, testing their skills and reaction time.",
+    "tips": [
+      "Use the double-jump wisely to access hard-to-reach areas",
+      "Explore each level thoroughly to find all hidden keys",
+      "Timing is crucial when avoiding obstacles like slimes",
+      "Take your time to observe the level layout before acting"
+    ],
+    "faqs": [
+      {
+        "q": "Is Noob Huggy free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What kind of challenges can I expect in Noob Huggy?",
+        "a": "Maze navigation, puzzle-solving, and avoiding obstacles"
+      },
+      {
+        "q": "Are the controls easy to learn?",
+        "a": "Yes, the game has seamless and intuitive controls"
+      }
+    ],
+    "controls": "The game features standard platformer controls, including movement and a double-jump ability, allowing for precise navigation through the blocky mazes."
+  },
+  "prado-car-driving": {
+    "howToPlay": "In Prado Car Driving, players navigate through challenging tracks while customizing their vehicle for optimal performance. The game offers engaging offline modes, allowing players to enjoy the thrill of racing anytime. Continuous updates ensure a fresh and exciting experience.",
+    "tips": [
+      "Choose the right vehicle for each track to optimize performance",
+      "Customize your car to improve speed and handling",
+      "Practice offline to master driving skills",
+      "Stay updated with the latest game patches for new features"
+    ],
+    "faqs": [
+      {
+        "q": "Is Prado Car Driving free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "Can I play Prado Car Driving offline?",
+        "a": "Yes, the game offers offline modes"
+      },
+      {
+        "q": "Are there regular updates for Prado Car Driving?",
+        "a": "Yes, the game receives continuous updates"
+      }
+    ],
+    "controls": "Typical controls include using the arrow keys or WASD keys to steer, accelerate, and brake, with additional options for customization and upgrades"
+  },
+  "deep-worm": {
+    "howToPlay": "In Deep Worm, players guide a worm as it burrows underground and emerges to devour objects on the surface while avoiding human enemies. The goal is to survive and thrive by strategically deciding when to emerge and when to hide. Players must balance hunger and safety to progress.",
+    "tips": [
+      "Timing is crucial when deciding to emerge for food",
+      "Keep an eye on your surroundings to anticipate enemy movements",
+      "Use underground tunnels to escape danger",
+      "Manage your hunger level to avoid unnecessary risks"
+    ],
+    "faqs": [
+      {
+        "q": "Is Deep Worm free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What is the main objective of the game?",
+        "a": "Survive by eating and avoiding enemies"
+      },
+      {
+        "q": "Can I play Deep Worm on my browser?",
+        "a": "Yes"
+      }
+    ],
+    "controls": "Typical controls for this genre usually involve using the arrow keys or WASD keys to move the worm and possibly space or a mouse click for specific actions."
+  },
+  "ninja-hero-cats": {
+    "howToPlay": "Lead your agile hero cats through a magical realm, avoiding projectiles and launching attacks to defeat demons. Gather fish to unlock upgrades and dash through mystical portals to escape enemy territory. Strategically maneuver your feline fighters to succeed.",
+    "tips": [
+      "Use your ninja skills to dodge enemy attacks",
+      "Gather as much fish as possible to unlock powerful upgrades",
+      "Master the art of dashing through mystical portals",
+      "Keep an eye on your surroundings to avoid taking damage"
+    ],
+    "faqs": [
+      {
+        "q": "Is Ninja Hero Cats free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What do I need to gather to unlock upgrades?",
+        "a": "Fish"
+      },
+      {
+        "q": "How do I escape enemy territory?",
+        "a": "By dashing through mystical portals"
+      }
+    ],
+    "controls": "Typical controls include using the keyboard to move and perform actions, with the specific keys varying depending on the game's settings."
+  },
+  "safety-sheriff-labrador": {
+    "howToPlay": "In Safety Sheriff Labrador, players guide the character through various safety scenarios using drag-and-drop mechanics, helping kids learn essential safety tips in a fun and engaging way. The game aims to teach children how to make smart choices in everyday situations, such as crossing streets and bicycle safety. By completing levels and scenarios, kids can develop good safety habits and confidence.",
+    "tips": [
+      "Always look both ways before crossing the street",
+      "Wear a helmet when riding a bicycle",
+      "Hold someone's hand when walking in a busy area",
+      "Be aware of surroundings and potential hazards"
+    ],
+    "faqs": [
+      {
+        "q": "Is Safety Sheriff Labrador free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What is the main goal of the game?",
+        "a": "To teach children vital safety tips and habits"
+      },
+      {
+        "q": "What type of mechanics does the game use?",
+        "a": "Drag-and-drop"
+      }
+    ],
+    "controls": "The game uses intuitive drag-and-drop controls, making it easy for kids to navigate and play."
+  },
+  "basketball-master-2": {
+    "howToPlay": "In Basketball Master 2, players aim to score points by throwing the ball into the hoop, navigating through obstacles and defenders to achieve the highest score possible. The game requires precision and strategy, as players must time their shots perfectly and adjust for dynamic defenders. As players progress, the game becomes increasingly challenging, demanding better aim and quicker reflexes.",
+    "tips": [
+      "Aim for the center of the hoop for the highest chance of scoring",
+      "Time your shots carefully to avoid hitting obstacles or defenders",
+      "Adjust your shooting strategy as the defenders and obstacles change",
+      "Keep practicing to improve your aim and reaction time"
+    ],
+    "faqs": [
+      {
+        "q": "Is Basketball Master 2 free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "Can I play Basketball Master 2 on any device?",
+        "a": "Yes, the game is designed for seamless play on any device"
+      },
+      {
+        "q": "Does the game require internet connection to play?",
+        "a": "Please check the game's requirements for the most accurate information"
+      }
+    ],
+    "controls": "Typical controls for this genre include using the mouse to aim and click to shoot, with some games also allowing for keyboard controls"
+  },
+  "target-gun-game-fps-shooting": {
+    "howToPlay": "In Target Gun Game - FPS Shooting, players aim to hit targets in a 3D environment, focusing on precision and strategy to achieve high scores. The game requires eliminating targets with the given ammunition, making each shot count. As players progress, they can unlock various guns and challenges to test their skills.",
+    "tips": [
+      "Focus on your aim and take your time for each shot",
+      "Choose the right gun for each challenge",
+      "Pay attention to the targets' distances and sizes",
+      "Keep practicing to improve your accuracy"
+    ],
+    "faqs": [
+      {
+        "q": "Is Target Gun Game - FPS Shooting free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Target Gun Game - FPS Shooting?",
+        "a": "A first-person shooter game"
+      },
+      {
+        "q": "Can I unlock new guns in the game?",
+        "a": "Yes, as you progress through the game"
+      }
+    ],
+    "controls": "Typical controls include using the mouse to aim and shoot, and keyboard keys for movement and other actions"
+  },
+  "solitaire-tripeaks-garden": {
+    "howToPlay": "In Solitaire TriPeaks Garden, players stack cards in ascending or descending order to clear the board and unlock new levels. The goal is to earn coins and achieve three stars per scenario by completing levels efficiently. As the game progresses, the challenges grow, and intuitive hints are provided to aid in advanced gameplay.",
+    "tips": [
+      "Use the hints provided to overcome challenging levels",
+      "Focus on clearing the peaks to unlock new cards and levels",
+      "Stack cards strategically to maximize coin earnings",
+      "Aim to achieve three stars in each level for optimal progression"
+    ],
+    "faqs": [
+      {
+        "q": "Is Solitaire TriPeaks Garden free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What is the main objective of the game?",
+        "a": "To clear the board by stacking cards in ascending or descending order"
+      },
+      {
+        "q": "Are there any aids to help with challenging levels?",
+        "a": "Yes, intuitive hints are provided"
+      }
+    ],
+    "controls": "Typical controls for this genre include using the mouse to select and move cards around the board."
+  },
+  "juicy-run-1": {
+    "howToPlay": "In Juicy Run, players embark on a dynamic dash through a vibrant world, using shadow powers to slice fruits while avoiding obstacles. The goal is to progress as far as possible, requiring precision and timing to succeed. As players advance, the game becomes increasingly challenging and exciting.",
+    "tips": [
+      "Master your shadow powers to efficiently slice fruits",
+      "Keep an eye on upcoming obstacles to plan your moves",
+      "Timing is everything, so practice your dodging skills",
+      "Stay focused and adapt to the increasing difficulty"
+    ],
+    "faqs": [
+      {
+        "q": "Is Juicy Run free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of game is Juicy Run?",
+        "a": "A casual running game"
+      },
+      {
+        "q": "Are there any special abilities in the game?",
+        "a": "Yes, players have shadow powers to slice fruits"
+      }
+    ],
+    "controls": "Typical controls for this genre include using the mouse or keyboard to navigate and perform actions, with specific controls possibly including space to jump or slash and arrow keys to move"
+  },
+  "fidget-spinner-creator": {
+    "howToPlay": "Design and customize your own fidget spinner, then spin it to earn coins. Use your earnings to upgrade and enhance your spinner's performance. As you progress, you can unlock new parts and designs to create the ultimate fidget toy.",
+    "tips": [
+      "Experiment with different designs and parts to find the perfect combination",
+      "Upgrade your spinner regularly to improve its spin time and coin earnings",
+      "Try out new spinning techniques to maximize your coin rewards",
+      "Save up your coins to unlock rare and unique spinner parts"
+    ],
+    "faqs": [
+      {
+        "q": "Is Fidget Spinner Creator free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "Can I play Fidget Spinner Creator on my mobile device?",
+        "a": "Yes, it is accessible from any device"
+      },
+      {
+        "q": "Do I need to register or sign in to play Fidget Spinner Creator?",
+        "a": "No, you can play as a guest"
+      }
+    ],
+    "controls": "Typical controls include mouse or touch input to design and customize your spinner, and clicking or tapping to spin it"
+  },
+  "it-clicker": {
+    "howToPlay": "In IT Clicker, players progress by clicking to earn points, which can then be used to purchase upgrades such as ClickBoost to increase efficiency. As the game advances, the player's clicking transforms into a rhythmic pursuit of growth, blending engaging mechanics with satisfying upgrades. The goal is to strategize and make the most out of each click to achieve maximum productivity.",
+    "tips": [
+      "Start with basic upgrades to build a strong foundation",
+      "Focus on ClickBoost upgrades to speed up progress",
+      "Experiment with different upgrade combinations to optimize growth",
+      "Keep a balance between upgrading and clicking to maximize points earned"
+    ],
+    "faqs": [
+      {
+        "q": "Is IT Clicker free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What is the main objective of IT Clicker?",
+        "a": "To progress by clicking and upgrading"
+      },
+      {
+        "q": "Are there any specific strategies for playing IT Clicker?",
+        "a": "Yes, focusing on upgrades and balancing clicking with upgrading is key"
+      }
+    ],
+    "controls": "Typical controls for IT Clicker include mouse clicks to progress and navigate through the game's menu to purchase upgrades."
+  },
+  "naval-battle-infinite-war": {
+    "howToPlay": "In Battleship - Infinity War, players navigate a 14x14 grid, strategically placing ships and using tools like air strikes to outmaneuver opponents. The goal is to sink all enemy ships before they sink yours. Players must adapt and use cunning to emerge victorious.",
+    "tips": [
+      "Plan your ship placement carefully to maximize protection and attack potential",
+      "Use air strikes and special tools wisely to gain an advantage",
+      "Pay attention to the leaderboard to track your progress and set goals",
+      "Stay flexible and adjust your strategy as the game unfolds"
+    ],
+    "faqs": [
+      {
+        "q": "Is Battleship - Infinity War free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "Can I play Battleship - Infinity War with friends?",
+        "a": "Yes, the game features global multiplayer matches"
+      },
+      {
+        "q": "Are there leaderboards to track my progress?",
+        "a": "Yes, the game includes leaderboards to track your progress and compete with others"
+      }
+    ],
+    "controls": "Typical controls for Battleship - Infinity War include using your mouse to select and place ships, and keyboard shortcuts to access special tools and menus."
+  },
+  "bowling-stars": {
+    "howToPlay": "In Bowling Stars, you play by swiping to control your bowling ball, aiming to knock down as many pins as possible with each shot. As you progress, you'll face escalating challenges that require mastering curve shots and choosing the right bowling ball for the job. Perfecting your technique will help you rise to become a bowling legend.",
+    "tips": [
+      "Practice your swiping technique to achieve consistent results",
+      "Experiment with different bowling balls to find the one that suits your style",
+      "Pay attention to the lane conditions to adjust your shots accordingly",
+      "Stay focused and try to maintain a high score streak"
+    ],
+    "faqs": [
+      {
+        "q": "Is Bowling Stars free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What is the objective of the game?",
+        "a": "To score points by knocking down pins"
+      },
+      {
+        "q": "Can I unlock new bowling balls?",
+        "a": "Yes, through triumph and progress in the game"
+      }
+    ],
+    "controls": "Typical controls involve swiping on the screen to control the direction, speed, and spin of your bowling ball"
+  },
+  "aidol-k-pop-adventure": {
+    "howToPlay": "In Aidol K-pop Adventure, you guide your group to stardom by perfecting their style, choreography, and music. As you progress, you unlock new looks, outfits, and melodies to create the perfect K-pop performance. By exploring your creativity, you can showcase your pop idols' charisma on stage and climb to the top of the K-pop world.",
+    "tips": [
+      "Experiment with different outfits and makeup to find the perfect look for your group",
+      "Practice your choreography to get flawless performances",
+      "Try out different melodies and music styles to find what works best for your group",
+      "Engage with the game's community to get inspiration and share your own creations"
+    ],
+    "faqs": [
+      {
+        "q": "Is Aidol K-pop Adventure free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "Can I customize my group's appearance?",
+        "a": "Yes, you can customize their outfits, makeup, and more"
+      },
+      {
+        "q": "Are there different music styles to choose from?",
+        "a": "Yes, you can explore various melodies and genres to find the perfect fit for your group"
+      }
+    ],
+    "controls": "Typical controls for this game include using your mouse to navigate menus, select outfits, and customize your group's appearance, as well as using keyboard inputs to interact with the game world and perform actions."
+  },
+  "ring-fall-puzzle": {
+    "howToPlay": "In Ring Fall Puzzle, players rotate intricate mazes using simple controls to guide circles to their target, testing their reflexes and problem-solving skills. The goal is to successfully maneuver the circles through the maze to reach the target. As levels progress, puzzles grow increasingly complex, requiring strategy and precision to overcome.",
+    "tips": [
+      "Start with slower movements to get a feel for the maze",
+      "Plan ahead to anticipate potential obstacles",
+      "Use the game's simplicity to your advantage, focusing on one circle at a time",
+      "Take your time, as patience is key to solving the puzzles"
+    ],
+    "faqs": [
+      {
+        "q": "Is Ring Fall Puzzle free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Ring Fall Puzzle?",
+        "a": "Puzzle game"
+      },
+      {
+        "q": "Is Ring Fall Puzzle suitable for all ages?",
+        "a": "Yes"
+      }
+    ],
+    "controls": "Typical controls for Ring Fall Puzzle include rotating the maze using mouse or keyboard inputs to guide the circles to their target."
+  },
+  "noob-guys": {
+    "howToPlay": "In Noob vs Guys, players must navigate a pixelated world filled with obstacles, using agility and quick reflexes to outrun opponents. The goal is to be the last one standing, requiring strategic decisions and adaptability. As the game progresses, the challenges evolve, demanding constant attention and swift reactions.",
+    "tips": [
+      "Master your timing to overcome obstacles efficiently",
+      "Stay focused on the path ahead to anticipate upcoming challenges",
+      "Develop strategies to outmaneuver your opponents",
+      "Practice regularly to improve your reflexes and agility in the game"
+    ],
+    "faqs": [
+      {
+        "q": "Is Noob vs Guys free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What kind of skills are required to play Noob vs Guys?",
+        "a": "Agility, quick reflexes, and strategic thinking"
+      },
+      {
+        "q": "Can I play Noob vs Guys on any device?",
+        "a": "It can be played on a browser, making it accessible on most devices with an internet connection"
+      }
+    ],
+    "controls": "Typical controls for this action game include using the arrow keys or space bar to navigate and jump, although specific controls may vary"
+  },
+  "yummy-hotdog": {
+    "howToPlay": "In Yummy Hotdog, players create their dream hotdog by selecting ingredients, crafting a perfect batter, and customizing with diverse toppings. The goal is to unlock achievements by melding taste and presentation. As players progress, they can experiment with various combinations to create their personalized gourmet delight.",
+    "tips": [
+      "Choose ingredients that complement each other in terms of flavor and texture",
+      "Experiment with different batter recipes to find the perfect one",
+      "Don't be afraid to try new and unusual topping combinations",
+      "Pay attention to presentation to maximize your score"
+    ],
+    "faqs": [
+      {
+        "q": "Is Yummy Hotdog free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "Can I play Yummy Hotdog on my mobile device?",
+        "a": "Please check the game's compatibility with your device"
+      },
+      {
+        "q": "Do I need to register to play Yummy Hotdog?",
+        "a": "No registration is required to play"
+      }
+    ],
+    "controls": "Typical controls for this game include using your mouse to select ingredients, drag and drop toppings, and navigate through the game's menus."
+  },
+  "yummy-waffle-ice-cream": {
+    "howToPlay": "In Yummy Waffle Ice Cream, players use drag-and-drop controls to craft and customize waffle desserts with various toppings and flavors. The goal is to create unique and delicious treats, exploring endless combinations. As players progress, they can unlock new ingredients and flavors to enhance their creations.",
+    "tips": [
+      "Experiment with different topping combinations to find your favorite flavors",
+      "Try to balance flavors and textures for the most appealing desserts",
+      "Save your favorite creations to share or recreate later",
+      "Don't be afraid to try new and unusual flavor combinations"
+    ],
+    "faqs": [
+      {
+        "q": "Is Yummy Waffle Ice Cream free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "Can I play Yummy Waffle Ice Cream on my mobile device?",
+        "a": "Yes, the game is available on various devices"
+      },
+      {
+        "q": "Do I need to register or log in to play Yummy Waffle Ice Cream?",
+        "a": "No registration is required to play"
+      }
+    ],
+    "controls": "Typical controls for this game include intuitive drag-and-drop interactions, allowing players to easily select and arrange toppings and flavors."
+  },
+  "archery-hero": {
+    "howToPlay": "In Archery Hero, players aim to hit targets by timing their shots perfectly, taking into account dynamic weather conditions and moving targets. As players progress through levels, the challenges increase, requiring sharper precision and focus. The goal is to hit the bullseye to achieve the highest scores.",
+    "tips": [
+      "Adjust your aim according to the weather conditions",
+      "Focus on the target's movement pattern to predict its position",
+      "Practice your timing to release the arrow at the perfect moment",
+      "Stay calm and patient, especially in challenging levels"
+    ],
+    "faqs": [
+      {
+        "q": "Is Archery Hero free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What makes Archery Hero challenging?",
+        "a": "Dynamic weather and moving targets"
+      },
+      {
+        "q": "Can I play Archery Hero on my browser?",
+        "a": "Yes, it is a browser-based game"
+      }
+    ],
+    "controls": "Typical controls for Archery Hero include using the mouse to aim and click to shoot, with some games possibly allowing keyboard adjustments for finer control."
+  },
+  "doctor-teeth": {
+    "howToPlay": "In Doctor Teeth, you'll use various dental tools to treat patients and drive back evil germs through a series of fast-paced mini-games. As you progress, the challenges will become more complex, requiring quick reflexes and sharp puzzle-solving skills. Your goal is to give each patient a perfect smile, becoming the ultimate dental hero.",
+    "tips": [
+      "Stay focused and react quickly to succeed in the mini-games",
+      "Mastering each tool is key to driving back the evil germs",
+      "Keep an eye on the patient's smile to ensure you're on the right track",
+      "Practice makes perfect, so don't be afraid to try again if you fail"
+    ],
+    "faqs": [
+      {
+        "q": "Is Doctor Teeth free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Doctor Teeth?",
+        "a": "Educational puzzle adventure"
+      },
+      {
+        "q": "Are there any age restrictions to play Doctor Teeth?",
+        "a": "No, it's suitable for all ages"
+      }
+    ],
+    "controls": "Typical controls for this game include using your mouse to interact with dental tools and navigate through the mini-games."
+  },
+  "head-soccer-2022-1": {
+    "howToPlay": "Head Soccer 2022 is played by using simple controls to move your player, jump, and kick the ball into the opponent's goal. The goal is to score more goals than your opponent within the given time. Fast-paced matches require quick reflexes and strategic thinking to outmaneuver your opponents.",
+    "tips": [
+      "Master the timing of your jumps to head the ball effectively",
+      "Use the walls to your advantage by bouncing the ball off them to confuse your opponent",
+      "Anticipate your opponent's moves to block their shots and create scoring opportunities",
+      "Practice your kicks to achieve the perfect shot"
+    ],
+    "faqs": [
+      {
+        "q": "Is Head Soccer 2022 free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "Can I play Head Soccer 2022 with my friends?",
+        "a": "Yes, you can challenge your friends or play against AI"
+      },
+      {
+        "q": "Are there different arenas to play in?",
+        "a": "Yes, there are three stunning arenas to choose from"
+      }
+    ],
+    "controls": "Typical controls include using the arrow keys or touch controls to move your player, and buttons to jump and kick the ball."
+  },
+  "island-puzzle": {
+    "howToPlay": "In Island Puzzle, you guide a curious cat through a series of match-and-link challenges, solving puzzles to unlock new areas and rewards. The gameplay involves making connections between matching elements to clear them from the board. As you progress, the puzzles become more complex and intriguing.",
+    "tips": [
+      "Focus on creating long chains of matching elements to earn more points",
+      "Try to clear the board efficiently to unlock special rewards",
+      "Use your moves wisely, as some puzzles have limited attempts",
+      "Experiment with different strategies to find the most effective approach"
+    ],
+    "faqs": [
+      {
+        "q": "Is Island Puzzle free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of puzzles can I expect in Island Puzzle?",
+        "a": "Match-and-link puzzles"
+      },
+      {
+        "q": "Can I play Island Puzzle on my mobile device?",
+        "a": "Island Puzzle is playable on a variety of devices, including desktop and mobile browsers"
+      }
+    ],
+    "controls": "Typical controls for this genre include using your mouse or touchscreen to select and connect matching elements"
+  },
+  "slalom-ski-simulator": {
+    "howToPlay": "In Slalom Ski Simulator, players navigate a snowy descent, maneuvering between gates to beat the clock. The goal is to complete the course as quickly as possible while avoiding penalties and crashes. Players can choose their skier and select a level to start racing.",
+    "tips": [
+      "Choose the right skier for the level",
+      "Practice gate positioning for optimal speed",
+      "Maintain speed control to avoid crashes",
+      "Stay focused on the course to achieve the best time"
+    ],
+    "faqs": [
+      {
+        "q": "Is Slalom Ski Simulator free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "Can I choose different levels in Slalom Ski Simulator?",
+        "a": "Yes"
+      },
+      {
+        "q": "Do I need to register to play Slalom Ski Simulator?",
+        "a": "No"
+      }
+    ],
+    "controls": "Typical controls include using arrows or WASD keys to steer and space bar to perform actions, but may vary depending on the device and game version."
+  },
+  "two-impostor-squid-challenge": {
+    "howToPlay": "In Two Impostor Squid Challenge, players work together to complete intense survival tasks, requiring strategic thinking and quick reflexes to overcome challenges. The game is designed for two players, promoting teamwork and communication to succeed. Each round presents a unique, thrilling experience that demands clever tactics and adaptability.",
+    "tips": [
+      "Communicate effectively with your partner to coordinate actions",
+      "Observe the challenges carefully to understand the requirements for success",
+      "Practice makes perfect; learn from each round to improve your strategy",
+      "Stay focused and ready to adapt your tactics as the game progresses"
+    ],
+    "faqs": [
+      {
+        "q": "Is Two Impostor Squid Challenge free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "Do I need to play with a friend?",
+        "a": "The game is designed for two players, but you can also play with a random partner"
+      },
+      {
+        "q": "What type of challenges can I expect in the game?",
+        "a": "The game features a variety of intense survival tasks inspired by the Squid Game series"
+      }
+    ],
+    "controls": "Typical controls for this action game genre include using the keyboard for movement and actions, with potential additional controls for special abilities or interactions."
+  },
+  "moto-maniac": {
+    "howToPlay": "Players control their off-road bike as they navigate through challenging terrains, using precision and patience to maintain balance and reach the finish line. The goal is to keep the bike upright and avoid obstacles like logs and slopes. By mastering the art of balance, players can overcome the toughest tracks.",
+    "tips": [
+      "Take your time and get used to the bike's handling",
+      "Look ahead and anticipate obstacles",
+      "Adjust your speed according to the terrain",
+      "Practice makes perfect, so don't be afraid to retry levels"
+    ],
+    "faqs": [
+      {
+        "q": "Is Moto Maniac free to play?",
+        "a": "Yes, it is"
+      },
+      {
+        "q": "What kind of skills do I need to play Moto Maniac?",
+        "a": "You'll need good timing, balance, and patience"
+      },
+      {
+        "q": "Can I play Moto Maniac on my browser?",
+        "a": "Yes, you can play it directly in your browser"
+      }
+    ],
+    "controls": "Typical controls include using the arrow keys or WASD keys to steer, accelerate, and brake, although the exact controls may vary"
+  },
+  "pool-8-ball": {
+    "howToPlay": "To play Pool 8 Ball, take turns shooting the cue ball to hit the object balls, aiming to pocket your group of balls first. Plan your shots carefully, considering angles, spin, and speed to execute successful shots. The game ends when a player clears their group and then legally pockets the 8 ball.",
+    "tips": [
+      "Start with easy shots to build confidence and get a feel for the game's physics",
+      "Use English, or spin, to control the cue ball's movement after hitting an object ball",
+      "Pay attention to the layout of the table to plan multiple shots ahead",
+      "Practice your aim and timing to develop muscle memory"
+    ],
+    "faqs": [
+      {
+        "q": "Is Pool 8 Ball free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "Can I play against other players?",
+        "a": "Yes, you can play against both AI and real opponents"
+      },
+      {
+        "q": "Does the game require skill or is it just luck?",
+        "a": "The game requires strategy and skill, as players need to plan and execute precise shots"
+      }
+    ],
+    "controls": "Typical controls for Pool 8 Ball include using the mouse to aim and shoot, with optional keyboard controls for adjusting spin and cue ball placement"
+  },
+  "brainrot-mob-clash-3d": {
+    "howToPlay": "In Brainrot Mob Clash 3D, players navigate through challenging courses while collecting and merging stickman characters to build a strong army. The goal is to outwit and outlast enemies in epic battles. By merging characters, players can create more powerful units to dominate their foes.",
+    "tips": [
+      "Focus on collecting and merging characters to build a strong army",
+      "Navigate the courses carefully to avoid deadly traps",
+      "Use your merged characters strategically in battles",
+      "Keep an eye on your enemies' moves to outwit them"
+    ],
+    "faqs": [
+      {
+        "q": "Is Brainrot Mob Clash 3D free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of game is Brainrot Mob Clash 3D?",
+        "a": "It is a casual, action-packed game"
+      },
+      {
+        "q": "Do I need to register to play Brainrot Mob Clash 3D?",
+        "a": "No registration is required"
+      }
+    ],
+    "controls": "The game typically uses standard keyboard and mouse controls, such as using the arrow keys or mouse to navigate and interact with the game environment."
+  },
+  "slicetall": {
+    "howToPlay": "In SlicetAll, players tap to flip a knife and slice through various obstacles, requiring perfect timing and precision to progress. The goal is to slice through as many obstacles as possible while avoiding mistakes. As players advance, the game becomes increasingly challenging, testing their skills and reaction time.",
+    "tips": [
+      "Focus on timing to ensure accurate slices",
+      "Start with slower speeds to get a feel for the game",
+      "Practice regularly to improve precision and reaction time",
+      "Stay alert for changing obstacle patterns and speeds"
+    ],
+    "faqs": [
+      {
+        "q": "Is SlicetAll free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is SlicetAll?",
+        "a": "Arcade"
+      },
+      {
+        "q": "Do I need to register to play SlicetAll?",
+        "a": "No registration is required"
+      }
+    ],
+    "controls": "Typical controls for SlicetAll involve tapping or clicking to flip the knife and slice through obstacles."
+  },
+  "princess-ready-for-christmas": {
+    "howToPlay": "In Princess Ready For Christmas, players get to style Princess Anna and Elsa for their grand Christmas celebration by choosing from various hairstyles, dresses, and accessories. The goal is to make them look their best for the holiday festivities. Players can explore different creative options to ensure the princesses shine like the brightest holiday lights.",
+    "tips": [
+      "Experiment with different hairstyles to find the perfect look for each princess",
+      "Mix and match dresses and accessories to create a unique holiday style",
+      "Pay attention to the overall theme and atmosphere of the Christmas celebration",
+      "Don't be afraid to try out new and bold fashion combinations"
+    ],
+    "faqs": [
+      {
+        "q": "Is Princess Ready For Christmas free to play?",
+        "a": "Yes, it is"
+      },
+      {
+        "q": "Can I play Princess Ready For Christmas on my mobile device?",
+        "a": "Yes, the game is available to play on various devices"
+      },
+      {
+        "q": "Do I need to create an account to play Princess Ready For Christmas?",
+        "a": "No, you can play as a guest"
+      }
+    ],
+    "controls": "Typical controls for this genre include using your mouse to select and apply different hairstyles, dresses, and accessories to the princesses."
+  },
+  "epic-mine": {
+    "howToPlay": "In Epic Mine, players dig through the Earth's layers to rescue friends and collect treasures. The game requires strategic resource management and quick reflexes to navigate through shadows and obstacles. As players progress, they can upgrade skills and smelt and sell treasures.",
+    "tips": [
+      "Manage resources carefully to upgrade skills and equipment",
+      "Explore carefully to uncover hidden secrets and avoid obstacles",
+      "Smelt and sell treasures to earn rewards and progress",
+      "Use dynamite strategically to overcome challenges"
+    ],
+    "faqs": [
+      {
+        "q": "Is Epic Mine free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What is the goal of the game?",
+        "a": "Rescue friends and collect treasures"
+      },
+      {
+        "q": "Can I upgrade my skills and equipment?",
+        "a": "Yes, as you progress and collect resources"
+      }
+    ],
+    "controls": "Typical controls for this genre include using the mouse or keyboard to dig, move, and interact with the environment."
+  },
+  "funny-nose-surgery": {
+    "howToPlay": "In Funny Nose Surgery, players treat Mia's snotty nose by performing light-hearted medical tasks through simple, interactive play. The game involves basic healthcare routines and allows players to unleash their creativity. Players can adorn Mia's nose with wacky stickers for a fun and engaging experience.",
+    "tips": [
+      "Complete each medical task carefully to progress through the game",
+      "Choose stickers that match Mia's personality for extra fun",
+      "Pay attention to the game's instructions for each medical task",
+      "Experiment with different stickers to create unique looks"
+    ],
+    "faqs": [
+      {
+        "q": "Is Funny Nose Surgery free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of gameplay can I expect from Funny Nose Surgery?",
+        "a": "Light-hearted medical tasks and creative play"
+      },
+      {
+        "q": "Is Funny Nose Surgery suitable for all ages?",
+        "a": "Yes"
+      }
+    ],
+    "controls": "Typical controls for this genre include mouse clicks or touchscreen interactions to perform tasks and select stickers."
+  },
+  "tall-and-rush": {
+    "howToPlay": "In Tall and Rush, players control a character that grows taller as they progress, requiring them to jump and snatch power-ups while avoiding obstacles. The goal is to survive as many rounds as possible against a robot foe by using high-powered kicks effectively. Timing and strategy are key to success in this addictive arcade game.",
+    "tips": [
+      "Time your jumps carefully to catch power-ups and avoid obstacles",
+      "Use your high-powered kicks strategically to defeat the robot foe",
+      "Keep an eye on your character's height and adjust your jumps accordingly",
+      "Stay focused and adapt quickly to changing circumstances in the game"
+    ],
+    "faqs": [
+      {
+        "q": "Is Tall and Rush free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What is the main objective of the game?",
+        "a": "To survive as many rounds as possible"
+      },
+      {
+        "q": "Can I play Tall and Rush on my browser?",
+        "a": "Yes"
+      }
+    ],
+    "controls": "Typical controls for this arcade game include using the space bar or arrow keys to jump and potentially other keys for special actions like kicking."
+  },
+  "getting-over-it": {
+    "howToPlay": "In Getting Over It, players control a cat in a flower pot as it navigates a challenging world of junk using a hammer. The goal is to climb up as high as possible, requiring precise swings and patience. Every move counts, as a single mistake can send the player tumbling back down.",
+    "tips": [
+      "Master the hammer's swing to maintain momentum and balance",
+      "Take time to observe the environment and plan the next move carefully",
+      "Practice makes perfect, so don't get discouraged by setbacks",
+      "Look for the most stable paths and use them to your advantage"
+    ],
+    "faqs": [
+      {
+        "q": "Is Getting Over It free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of game is Getting Over It?",
+        "a": "Strategy"
+      },
+      {
+        "q": "Do I need to download anything to play Getting Over It?",
+        "a": "No, it can be played directly in your browser"
+      }
+    ],
+    "controls": "Typical controls for this game involve using the mouse or keyboard to control the hammer's swing and the cat's movement."
+  },
+  "multi-surgery-hospital-games": {
+    "howToPlay": "In Multi Surgery Hospital Games, you'll take on the role of a surgeon, completing intricate surgical puzzles to heal patients. Your goal is to master each step of the surgical process, using precision and skill to succeed. As you progress, you'll face new challenges and increasingly complex procedures.",
+    "tips": [
+      "Take your time to carefully examine each patient's condition",
+      "Follow the instructions and guidelines provided for each surgery",
+      "Practice makes perfect, so don't be discouraged by initial failures",
+      "Stay focused and concentrated to achieve the best results"
+    ],
+    "faqs": [
+      {
+        "q": "Is Multi Surgery Hospital Games free to play?",
+        "a": "Yes, it is"
+      },
+      {
+        "q": "Are there time limits for each surgery?",
+        "a": "No, you can take as much time as you need"
+      },
+      {
+        "q": "Do I need to have medical knowledge to play?",
+        "a": "No, the game is designed to be accessible to everyone"
+      }
+    ],
+    "controls": "Typical controls include using your mouse to navigate and interact with the game environment, such as selecting surgical tools and performing actions."
+  },
+  "collect-the-gift": {
+    "howToPlay": "In Collect the Gift, players guide presents to Santa's bag by solving puzzles in a magical workshop. This involves using various tools like cutting ropes, launching slingshots, and triggering switches to ensure the packages reach their destination. By solving these festive puzzles, players progress through the game.",
+    "tips": [
+      "Plan ahead to ensure all packages reach Santa's bag",
+      "Use each tool wisely as they have different effects",
+      "Timing is crucial, especially when triggering switches",
+      "Experiment with different methods to solve puzzles"
+    ],
+    "faqs": [
+      {
+        "q": "Is Collect the Gift free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Collect the Gift?",
+        "a": "Puzzle"
+      },
+      {
+        "q": "Is the game suitable for all ages?",
+        "a": "Yes"
+      }
+    ],
+    "controls": "Typical controls involve using the mouse to interact with the game environment, such as cutting ropes or launching slingshots."
+  },
+  "coins-rush-run": {
+    "howToPlay": "In Coins Rush Run, you guide coins along a dynamic track, collecting as many as possible while navigating barriers to maximize their value. The goal is to reach the finale, where you can earn massive multipliers. Quick reflexes and strategic thinking are key to achieving a high score.",
+    "tips": [
+      "Focus on collecting as many coins as possible in the early stages",
+      "Use barriers to your advantage by directing coins towards multipliers",
+      "Time your movements carefully to avoid losing coins",
+      "Aim for the highest multipliers in the finale to maximize your score"
+    ],
+    "faqs": [
+      {
+        "q": "Is Coins Rush Run free to play?",
+        "a": "Yes, it is"
+      },
+      {
+        "q": "What type of game is Coins Rush Run?",
+        "a": "A Pachinko-style 3D adventure game"
+      },
+      {
+        "q": "Do I need to install anything to play Coins Rush Run?",
+        "a": "No, it can be played directly in your browser"
+      }
+    ],
+    "controls": "Typical controls for this genre include using the mouse or keyboard arrows to navigate and interact with the game environment"
+  },
+  "arsenal-online": {
+    "howToPlay": "In Arsenal Online, players engage in fast-paced 2D shooter action across various game modes, requiring precision and speed to succeed. To master the game, players can experiment with different unlockable weapons and practice their skills at the firing range. As players progress, they can participate in solo and cooperative multiplayer battles to test their abilities.",
+    "tips": [
+      "Mastering the firing range can significantly improve your gameplay",
+      "Experiment with different weapons to find the best fit for your playstyle",
+      "Communicate with your team in cooperative multiplayer to achieve victory",
+      "Stay alert and adapt quickly to the fast-paced action"
+    ],
+    "faqs": [
+      {
+        "q": "Is Arsenal Online free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "Can I play Arsenal Online with friends?",
+        "a": "Yes, the game features cooperative multiplayer"
+      },
+      {
+        "q": "Are there different game modes in Arsenal Online?",
+        "a": "Yes, the game offers diverse game modes to play"
+      }
+    ],
+    "controls": "Typical controls for Arsenal Online include using the keyboard to move your character and aim, and the mouse to shoot and interact with the game environment."
+  },
+  "get-10": {
+    "howToPlay": "Get 10 is played on a 5x5 grid where you combine matching numbered boxes to grow your tiles, with the goal of reaching the number 10. You'll need to think strategically and plan your moves carefully to succeed. Each turn requires logic and math skills to make the right combinations.",
+    "tips": [
+      "Start by combining low-numbered tiles to build a strong foundation",
+      "Plan ahead to create opportunities for higher-numbered tile combinations",
+      "Use your grid space efficiently to maximize your tile growth",
+      "Think about the potential outcomes of each move before making it"
+    ],
+    "faqs": [
+      {
+        "q": "Is Get 10 free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of skills are required to play Get 10?",
+        "a": "Logic and math skills are required"
+      },
+      {
+        "q": "Is Get 10 suitable for all ages?",
+        "a": "Yes, it is suitable for all ages"
+      }
+    ],
+    "controls": "Typical controls for this genre include using your mouse to select and combine tiles on the grid"
+  },
+  "archers-io-1": {
+    "howToPlay": "In Archers.io, players start as a single archer and recruit allies to build a strong team, then compete against other teams in immersive battlefields. The goal is to outmaneuver and defeat opponents using strategy and skill. Players can employ powerful shots and engage in PvP duels to dominate the game.",
+    "tips": [
+      "Recruit allies quickly to build a strong team",
+      "Use devastating power shots to take down tough opponents",
+      "Navigate the battlefield carefully to avoid taking damage",
+      "Engage in PvP duels to earn rewards and climb the ranks"
+    ],
+    "faqs": [
+      {
+        "q": "Is Archers.io free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "Can I play Archers.io with friends?",
+        "a": "Yes, the game features multiplayer mode"
+      },
+      {
+        "q": "What type of devices can I play Archers.io on?",
+        "a": "You can play on any device with a web browser"
+      }
+    ],
+    "controls": "Typical controls for Archers.io include using the mouse to aim and shoot, and keyboard keys to move and perform actions"
+  },
+  "intergalactic-battleship": {
+    "howToPlay": "Intergalactic Battleship is played by strategically locating and destroying enemy ships in a cosmic showdown. Players take turns guessing the locations of their opponent's ships, with the goal of sinking all of them before their own fleet is destroyed. The game requires a mix of luck and strategy to outsmart the alien forces and save Earth.",
+    "tips": [
+      "Start by guessing the center of the board to increase your chances of hitting a ship",
+      "Use a process of elimination to narrow down the possible locations of enemy ships",
+      "Try to sink enemy ships quickly to reduce their ability to attack you",
+      "Pay attention to the game's feedback to adjust your strategy"
+    ],
+    "faqs": [
+      {
+        "q": "Is Intergalactic Battleship free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "Can I play Intergalactic Battleship on any device?",
+        "a": "Yes, it is accessible on any device"
+      },
+      {
+        "q": "Is Intergalactic Battleship a multiplayer game?",
+        "a": "It can be played against the computer or potentially against other players"
+      }
+    ],
+    "controls": "The game is typically controlled using mouse clicks to select grid locations and make guesses"
+  },
+  "skibidi-laboratory": {
+    "howToPlay": "In Skibidi Laboratory, players navigate through intricate mazes, solving puzzles and collecting crystals while avoiding obstacles and enemies. The goal is to progress through the laboratory, overcoming challenges and outsmarting foes. As players advance, the puzzles and mazes become increasingly complex, requiring quick thinking and strategy.",
+    "tips": [
+      "Use your surroundings to your advantage, as the environment can often help you solve puzzles or evade enemies.",
+      "Collect as many crystals as possible to aid in your progress.",
+      "Keep an eye out for hidden paths and secret areas.",
+      "Timing and precision are key when avoiding obstacles and cameramen."
+    ],
+    "faqs": [
+      {
+        "q": "Is Skibidi Laboratory free to play?",
+        "a": "Yes, it is free to play."
+      },
+      {
+        "q": "What type of game is Skibidi Laboratory?",
+        "a": "It is a platformer with puzzle elements."
+      },
+      {
+        "q": "Do I need to register to play Skibidi Laboratory?",
+        "a": "No registration is required to play the game."
+      }
+    ],
+    "controls": "The game typically uses standard platformer controls, such as the arrow keys or WASD keys for movement, and possibly the space bar for jumping or interacting with objects."
+  },
+  "cool-escape-obby-man": {
+    "howToPlay": "In Cool Escape Obby Man, players navigate through a series of challenging obstacles and puzzles to escape a treacherous prison. The goal is to outsmart guards, avoid deadly traps, and solve clever riddles to progress through the levels. By utilizing makeshift tools and uncovering hidden clues, players can carve their path to freedom.",
+    "tips": [
+      "Stay alert and observant to spot hidden dangers and clues",
+      "Use your problem-solving skills to overcome obstacles and puzzles",
+      "Explore your surroundings carefully to find useful items and tools",
+      "Plan your moves carefully to avoid taking unnecessary risks"
+    ],
+    "faqs": [
+      {
+        "q": "Is Cool Escape Obby Man free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What type of game is Cool Escape Obby Man?",
+        "a": "An escape game with puzzle and platform elements"
+      },
+      {
+        "q": "Do I need to register to play Cool Escape Obby Man?",
+        "a": "No registration is required to play"
+      }
+    ],
+    "controls": "Typical controls for this game include using the arrow keys or WASD keys to move, jump, and interact with objects"
+  },
+  "dunk-up": {
+    "howToPlay": "In Dunk Up Basketball, players launch a ball using trampoline nets to score by hitting hoops, with the goal of ascending a towering wall. Seamless shots are crucial to climb higher and score big. One miss, however, sends the player tumbling back.",
+    "tips": [
+      "Aim carefully to ensure accurate shots",
+      "Use the trampoline nets effectively to control the ball's trajectory",
+      "Focus on making consecutive shots to maximize scoring",
+      "Be prepared to adapt to increasing difficulty as you climb higher"
+    ],
+    "faqs": [
+      {
+        "q": "Is Dunk Up Basketball free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What happens if I miss a shot?",
+        "a": "You will tumble back"
+      },
+      {
+        "q": "How do I score points in the game?",
+        "a": "By hitting hoops with the ball"
+      }
+    ],
+    "controls": "Typical controls involve using the mouse or touchscreen to aim and launch the ball."
+  },
+  "baboe-gun-game": {
+    "howToPlay": "In Baboe, players navigate through levels by running, jumping, and avoiding obstacles to reach the end. The goal is to complete each level as quickly and safely as possible. As players progress, the game may introduce new challenges and power-ups to aid in their journey.",
+    "tips": [
+      "Time your jumps carefully to avoid falling off platforms",
+      "Explore each level to find hidden paths or secret areas",
+      "Use power-ups strategically to overcome difficult sections",
+      "Practice makes perfect, so don't be discouraged by failures"
+    ],
+    "faqs": [
+      {
+        "q": "Is Baboe free to play?",
+        "a": "Yes, it is"
+      },
+      {
+        "q": "What type of game is Baboe?",
+        "a": "A platformer game"
+      },
+      {
+        "q": "Can I play Baboe on my browser?",
+        "a": "Yes, you can"
+      }
+    ],
+    "controls": "Typical controls for Baboe include using the arrow keys or space bar to move and jump, though specific controls may vary"
+  },
+  "sustainable": {
+    "howToPlay": "In Sustainable, you'll patrol galleries to identify and stop eco-terrorists from vandalizing art. Use your tonfa to apprehend suspects and participate in tense interrogations to unravel the mystery. Your goal is to protect priceless masterpieces and catch the culprit before it's too late.",
+    "tips": [
+      "Stay alert and keep an eye out for suspicious activity in the galleries",
+      "Use your tonfa wisely to stop suspects without causing harm to the art",
+      "Pay attention to details during interrogations to uncover clues",
+      "Manage your time effectively to ensure you're always one step ahead of the vandals"
+    ],
+    "faqs": [
+      {
+        "q": "Is Sustainable free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What is the main objective of the game?",
+        "a": "To protect priceless masterpieces from eco-terrorists"
+      },
+      {
+        "q": "Do I need to register to play Sustainable?",
+        "a": "No, you can play for free without registration"
+      }
+    ],
+    "controls": "Typical fighting game controls apply, with movement and action buttons used to patrol galleries, wield your tonfa, and interact with suspects"
+  },
+  "grimace-shake-hidden-skibidi-toilet": {
+    "howToPlay": "In Grimace Shake Hidden Skibidi Toilet, players search for hidden objects and solve puzzles to progress through levels. The game involves examining scenes carefully to find the enigmatic skibidi toilet and other quirky artifacts. Each level presents new challenges and surprises to keep the gameplay engaging.",
+    "tips": [
+      "Examine each scene carefully to find all hidden objects",
+      "Use hints when stuck to avoid missing important items",
+      "Solve puzzles in the correct order to unlock new areas",
+      "Keep an eye on the time limit to complete levels efficiently"
+    ],
+    "faqs": [
+      {
+        "q": "Is Grimace Shake Hidden Skibidi Toilet free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Grimace Shake Hidden Skibidi Toilet?",
+        "a": "Hidden-object puzzle game"
+      },
+      {
+        "q": "Are there multiple levels in Grimace Shake Hidden Skibidi Toilet?",
+        "a": "Yes"
+      }
+    ],
+    "controls": "Typical controls involve using a mouse to click on objects, navigate through scenes, and interact with puzzles."
+  },
+  "break-the-candy": {
+    "howToPlay": "In Break the Candy, players aim and shoot to create chain reactions and shatter sugary obstacles, scoring points with limited shots. The goal is to achieve sweet success by mastering tactics across diverse levels. Strategic precision is key to winning the game.",
+    "tips": [
+      "Aim carefully to maximize chain reactions",
+      "Use the fewest shots possible to increase your score",
+      "Plan ahead to take advantage of level layouts",
+      "Experiment with different strategies to improve your skills"
+    ],
+    "faqs": [
+      {
+        "q": "Is Break the Candy free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "Can I play Break the Candy with friends?",
+        "a": "Yes, you can compete with friends across levels"
+      },
+      {
+        "q": "Are there different levels in Break the Candy?",
+        "a": "Yes, there are diverse levels to challenge yourself"
+      }
+    ],
+    "controls": "Typical controls for this arcade game include using your mouse to aim and click to shoot."
+  },
+  "hungry-rabbit": {
+    "howToPlay": "In Hungry Rabbit, players help the rabbits leap and dash through various mini-games to collect carrots, requiring agility and timing to succeed. The goal is to navigate through levels while avoiding obstacles and gathering as many carrots as possible. By progressing through the game, players experience increasingly challenging and exciting levels.",
+    "tips": [
+      "Timing is crucial, so practice your jumps and dashes to improve your skills.",
+      "Keep an eye on your surroundings to anticipate obstacles and plan your moves.",
+      "Focus on collecting carrots while maintaining speed and control.",
+      "As you progress, learn from your mistakes to improve your performance in later levels."
+    ],
+    "faqs": [
+      {
+        "q": "Is Hungry Rabbit free to play?",
+        "a": "Yes, it is free to play."
+      },
+      {
+        "q": "What kind of skills do I need to play Hungry Rabbit?",
+        "a": "You need good timing and agility to play successfully."
+      },
+      {
+        "q": "Is Hungry Rabbit suitable for all ages?",
+        "a": "Yes, it is suitable for players of all ages due to its charming visuals and addictively fast-paced gameplay."
+      }
+    ],
+    "controls": "Typical controls for this genre include using the keyboard's arrow keys or space bar to jump and dash, with some games possibly incorporating mouse clicks for additional actions."
+  },
+  "bushman-bamboo": {
+    "howToPlay": "In Bushman Bamboo, players use precision and timing to stretch bamboo sticks across gaps, with intuitive controls guiding them through increasingly challenging levels. The goal is to successfully bridge the gaps with the bamboo sticks. As players progress, the game demands more skill and strategy.",
+    "tips": [
+      "Focus on timing to accurately place the bamboo sticks",
+      "Start with slower speeds to get a feel for the controls",
+      "Observe the gap distances to plan your stick placements",
+      "Practice makes perfect, so keep trying to improve your skills"
+    ],
+    "faqs": [
+      {
+        "q": "Is Bushman Bamboo free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Bushman Bamboo?",
+        "a": "Arcade game"
+      },
+      {
+        "q": "Can I play Bushman Bamboo in short sessions?",
+        "a": "Yes, it's suitable for both quick sessions and extended play"
+      }
+    ],
+    "controls": "Typical controls for this arcade game involve using the mouse or touchscreen to intuitively guide the placement of the bamboo sticks."
+  },
+  "targetter-game": {
+    "howToPlay": "In Targetter Game, players navigate through levels by aiming and launching objects at targets, inspired by sports like golf and archery. The goal is to score higher by fine-tuning accuracy while dodging obstacles. Simple controls make it easy for all players to join in on the fun.",
+    "tips": [
+      "Start with slower speeds to get a feel for the game",
+      "Use obstacles to your advantage by bouncing off them",
+      "Practice makes perfect, so keep trying to improve your aim",
+      "Pay attention to the level design to anticipate challenges"
+    ],
+    "faqs": [
+      {
+        "q": "Is Targetter Game free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Targetter Game?",
+        "a": "A ball game with elements of sports like golf and archery"
+      },
+      {
+        "q": "Are the controls easy to learn?",
+        "a": "Yes, the controls are simple and intuitive"
+      }
+    ],
+    "controls": "Typical controls involve using the mouse to aim and launch objects at targets"
+  },
+  "epic-race-game": {
+    "howToPlay": "Players compete in high-speed races on challenging tracks, using driving skills and strategy to outmaneuver opponents and reach the finish line first. Mastering sharp turns, avoiding hazards, and finding shortcuts are key to success. As players progress, they can customize and upgrade their vehicles to tackle tougher challenges.",
+    "tips": [
+      "Start with slower vehicles to get used to the tracks and controls",
+      "Look for hidden shortcuts to gain an edge over opponents",
+      "Upgrade your vehicle's speed and handling to improve performance",
+      "Practice sharp turns and braking to maintain speed and control"
+    ],
+    "faqs": [
+      {
+        "q": "Is Epic Race Game free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "Can I customize my vehicle in Epic Race Game?",
+        "a": "Yes, you can customize and upgrade your vehicle"
+      },
+      {
+        "q": "Are there different tracks in Epic Race Game?",
+        "a": "Yes, there are multiple tracks with varying challenges and obstacles"
+      }
+    ],
+    "controls": "Typical controls include using the arrow keys or WASD keys to steer, accelerate, and brake, with optional additional controls for actions like boosting or drifting."
+  },
+  "red-ball-rolling-2": {
+    "howToPlay": "In Red Ball Rolling 2, players control a red ball as it rolls through various levels, using strategic jumps and new abilities to overcome obstacles. The goal is to reach the end of each level while collecting hidden secrets. Timing and precision are key to success in this platformer game.",
+    "tips": [
+      "Master the art of precise jumping to navigate complex obstacles",
+      "Use your companion to help overcome challenges",
+      "Explore each level carefully to uncover hidden secrets",
+      "Practice makes perfect, so don't be afraid to retry levels"
+    ],
+    "faqs": [
+      {
+        "q": "Is Red Ball Rolling 2 free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Red Ball Rolling 2?",
+        "a": "Platformer"
+      },
+      {
+        "q": "Are there multiple levels in Red Ball Rolling 2?",
+        "a": "Yes"
+      }
+    ],
+    "controls": "Typical platformer controls apply, such as using the arrow keys or space bar to jump and navigate"
+  },
+  "little-pumpkin-online-game": {
+    "howToPlay": "In Little Pumpkin Online Game, guide your pumpkin through a candy-collecting adventure by navigating through obstacles and managing resources to achieve high scores. Use intuitive controls to move your pumpkin and collect candies while avoiding challenges. As you progress, you'll need to balance fun and strategy to become a master.",
+    "tips": [
+      "Start by getting familiar with the game's controls and environment",
+      "Focus on collecting candies while avoiding obstacles",
+      "Manage your resources wisely to maximize your score",
+      "Practice regularly to improve your skills and achieve higher scores"
+    ],
+    "faqs": [
+      {
+        "q": "Is Little Pumpkin Online Game free to play?",
+        "a": "Yes, it is free to play"
+      },
+      {
+        "q": "What is the main objective of the game?",
+        "a": "The main objective is to collect candies while navigating through obstacles"
+      },
+      {
+        "q": "Are there any specific skills required to play the game?",
+        "a": "You'll need skill and strategy to balance fun and challenge"
+      }
+    ],
+    "controls": "Typical controls for this genre include using the keyboard arrows or mouse to navigate and interact with the game environment"
+  },
+  "mini-stilts": {
+    "howToPlay": "In Mini Stilts, you guide a green slime through small chambers by using stilts to overcome obstacles, requiring balance and timing. As you navigate, you'll encounter quirky hazards that demand quick reflexes and smart stilt use. Mastering these skills leads to success and offers a fun challenge, especially in speedrun mode.",
+    "tips": [
+      "Start with slower speeds to get used to the stilt controls",
+      "Practice timing your jumps carefully",
+      "Look ahead to anticipate obstacles",
+      "Use speedrun mode to challenge yourself and improve your skills"
+    ],
+    "faqs": [
+      {
+        "q": "Is Mini Stilts free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What is the main goal of the game?",
+        "a": "To navigate through small chambers using stilts"
+      },
+      {
+        "q": "Is there a mode for experienced players?",
+        "a": "Yes, speedrun mode offers an exciting challenge"
+      }
+    ],
+    "controls": "Typical controls involve using keyboard or mouse inputs to move the stilts and navigate the slime through the chambers."
+  },
+  "noobcraft-house-escape": {
+    "howToPlay": "In Noobcraft House Escape, you'll explore a house, find hidden items, and solve puzzles to progress. Your goal is to discover the golden key and coin to unlock a magical portal. As you play, you'll need to use your problem-solving skills to overcome challenges and escape the house.",
+    "tips": [
+      "Explore every room carefully",
+      "Use items you find to solve puzzles",
+      "Pay attention to clues and hidden messages",
+      "Don't be afraid to try different solutions"
+    ],
+    "faqs": [
+      {
+        "q": "Is Noobcraft House Escape free to play?",
+        "a": "Yes"
+      },
+      {
+        "q": "What type of game is Noobcraft House Escape?",
+        "a": "Arcade"
+      },
+      {
+        "q": "Do I need to register to play Noobcraft House Escape?",
+        "a": "No"
+      }
+    ],
+    "controls": "Use your mouse to navigate and interact with objects in the game."
   }
 }

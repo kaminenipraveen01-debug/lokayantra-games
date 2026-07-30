@@ -6,6 +6,7 @@ import CategoryGamesClient from "@/components/CategoryGamesClient";
 import AdBanner from "@/components/AdBanner";
 import NativeBanner from "@/components/NativeBanner";
 import categoryContentData from "@/data/category-content.json";
+import FaqAccordion from "@/components/FaqAccordion";
 
 export const revalidate = 3600;
 
@@ -200,6 +201,15 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         </div>
       </div>
     )}
+  </div>
+)}
+
+{categoryContent?.faqs && categoryContent.faqs.length > 0 && (
+  <div className="mt-6 bg-white/5 backdrop-blur-2xl rounded-[24px] sm:rounded-[32px] border border-white/10 p-6 sm:p-10 shadow-sm">
+    <h3 className="text-lg sm:text-xl font-black text-white uppercase tracking-tight mb-5">
+      Frequently Asked Questions
+    </h3>
+    <FaqAccordion items={categoryContent.faqs} />
   </div>
 )}
 
