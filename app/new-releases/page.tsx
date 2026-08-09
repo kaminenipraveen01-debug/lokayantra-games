@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { fetchGamePixPage } from "@/lib/gamepix";
+import { getHomepageGames } from "@/lib/games-admin";
 
 export const revalidate = 3600;
 
@@ -52,6 +53,21 @@ async function fetchNewReleasesPage(page: number) {
   }
 }
 
+function fairMix<T extends { id: string }>(base: T[], inserts: T[]): T[] {
+  if (inserts.length === 0) return base;
+  const seen = new Set(base.map((g) => g.id));
+  const uniqueInserts = inserts.filter((g) => !seen.has(g.id));
+  if (uniqueInserts.length === 0) return base;
+
+  const result = [...base];
+  const spacing = Math.max(6, Math.floor(result.length / uniqueInserts.length));
+  uniqueInserts.forEach((game, i) => {
+    const pos = Math.min(result.length, (i + 1) * spacing + i);
+    result.splice(pos, 0, game);
+  });
+  return result;
+}
+
 export default async function NewReleasesPage() {
   let games: any[] = [];
   try {
@@ -65,6 +81,23 @@ export default async function NewReleasesPage() {
   } catch {
     games = [];
   }
+
+  let adminGames: any[] = [];
+  try {
+    const fbGames = await getHomepageGames(50);
+    adminGames = fbGames.map((g) => ({
+      id: g.id,
+      title: g.title,
+      category: g.category ?? "",
+      thumbnail: g.thumbnail ?? "",
+      embedUrl: g.embedUrl ?? g.gameUrl ?? "",
+      slug: g.slug ?? g.id,
+    }));
+  } catch (err) {
+    console.error("Failed to fetch admin games for new-releases:", err);
+  }
+
+  games = fairMix(games, adminGames);
 
   return (
     <main className="w-full min-h-screen text-white font-sans pb-12 relative overflow-hidden select-none bg-[#0a0a0d]">
@@ -108,7 +141,6 @@ export default async function NewReleasesPage() {
                   {game.title}
                 </div>
               )}
-              {/* NEW badge */}
               <div className="absolute top-2 left-2 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 text-white text-[7px] font-black shadow-md">
                 <svg className="w-2 h-2" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2L15 9H22L16.5 13.5L18.5 21L12 16.5L5.5 21L7.5 13.5L2 9H9L12 2Z"/>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { fetchGamePixPage } from "@/lib/gamepix";
+import { getHomepageGames } from "@/lib/games-admin";
 import CategoryGamesClient from "@/components/CategoryGamesClient";
 import AdBanner from "@/components/AdBanner";
 import NativeBanner from "@/components/NativeBanner";
@@ -39,6 +40,20 @@ function formatCategoryName(id: string): string {
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
+}
+
+function fairMix<T extends { id: string }>(base: T[], inserts: T[]): T[] {
+  if (inserts.length === 0) return base;
+  const seen = new Set(base.map((g) => g.id));
+  const uniqueInserts = inserts.filter((g) => !seen.has(g.id));
+  if (uniqueInserts.length === 0) return base;
+  const result = [...base];
+  const spacing = Math.max(6, Math.floor(result.length / uniqueInserts.length));
+  uniqueInserts.forEach((game, i) => {
+    const pos = Math.min(result.length, (i + 1) * spacing + i);
+    result.splice(pos, 0, game);
+  });
+  return result;
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
@@ -90,6 +105,23 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   } catch {
     initialGames = [];
   }
+
+  let adminGames: any[] = [];
+try {
+  const fbGames = await getHomepageGames(100);
+  adminGames = fbGames
+    .filter((g) => (g.category || "").toLowerCase() === id.toLowerCase())
+    .map((g) => ({
+      id: g.id,
+      title: g.title,
+      category: g.category ?? "",
+      thumbnail: g.thumbnail ?? "",
+      embedUrl: g.embedUrl ?? g.gameUrl ?? "",
+      slug: g.slug ?? g.id,
+    }));
+} catch {}
+
+initialGames = fairMix(initialGames, adminGames);
 
   if (initialGames.length === 0) notFound();
 
